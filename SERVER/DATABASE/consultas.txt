@@ -1,0 +1,47 @@
+
+// Devuelve el nombre de usuario y el nombre de la planta a los que seguimos.
+getPlantsImFollowing (int myID)
+{
+    select usuarios.nombre, plantas.nombre from plantas join following join usuarios on Follower = 1 and Followed = plantas.idPlanta and plantas.idUsuario = usuarios.idUsuario;
+
+}
+
+// Devuelve el nombre de usuario que nos sigue y el nombre de la planta a la que sigue.
+getUsersWhoFollowAnyOfMyPlants (int myID)
+{
+	select usuarios.nombre, plantas.nombre from plantas join following join usuarios
+ on plantas.idUsuario = 1 and following.Followed = plantas.idPlanta and following.Follower = usuarios.idUsuario; 
+
+}
+
+
+getTopPlants (int numeroDePlantas)
+{
+	select usuarios.nombre, plantas.nombre, plantas.ValoracionMedia from plantas join usuarios on plantas.idUsuario = usuarios.idUsuario order by ValoracionMedia desc limit numeroDePlantas;
+}
+
+getTopPlantsOfType (int numeroDePlantas, int tipoPlanta)
+{
+	select usuarios.nombre, plantas.nombre, plantas.ValoracionMedia from plantas join usuarios on plantas.idUsuario = usuarios.idUsuario and planta.tipo = tipoPlanta order by ValoracionMedia desc limit numeroDePlantas;
+}
+
+getTopPlantsLikeMine (int numeroDePlantas, int myID)
+{
+	select u1.nombre, p1.nombre, p1.tipo, p1.ValoracionMedia from plantas p1 join usuarios u1 join plantas p2 on p1.idUsuario = u1.idUsuario and p2.idUsuario = myID and p2.tipo = p1.tipo order by ValoracionMedia desc limit numeroDePlantas;
+}
+
+// Devuelve planta al azar que no sea nuestra y que no hayamos valorado ya. Faltaría por devolver la foto.
+getRandomPlantToRate(int myID)
+{
+		select * from plantas where not(plantas.idUsuario = 1) and not exists (select 1 from valoraciones where valoraciones.idUsuario = 1 and valoraciones.idPlanta = plantas.idPlanta) order by RAND() limit 1;
+}
+
+getLastPic (int plantID)
+{
+	select foto from fotos where fotos.idPlanta = plantID order by HoraSubida desc limit 1; 
+}
+
+getLastMeasurements(int idPlanta)
+{
+	select Temperatura, Humedad, Luminosidad from mediciones where fotos.idPlanta = plantID order by HoraSubida desc limit 1; 
+}
