@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
         for (Button boton : botones) {
             boton.setOnClickListener(new View.OnClickListener() {
 
+<<<<<<< HEAD:pruebaPHPSQL/app/src/main/java/com/example/pruebaphpsql/MainActivity.java
                                          @Override
                                          public void onClick(View v) {
                                              // TODO Auto-generated method stub
@@ -41,6 +42,20 @@ public class MainActivity extends Activity {
                                      }
             );
         }
+=======
+		boton1.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				new Consulta(1, false, respuesta).execute("datos");
+				Log.d("dos", "dos");
+
+			}
+		}
+				);
+
+>>>>>>> origin/master:pruebaPHPSQL/src/com/example/pruebaphpsql/MainActivity.java
 	}
 
 

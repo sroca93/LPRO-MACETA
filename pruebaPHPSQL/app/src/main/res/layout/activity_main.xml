@@ -26,6 +26,7 @@
         android:text="@string/topPlantas" />
 
     <Button
+<<<<<<< HEAD:pruebaPHPSQL/app/src/main/res/layout/activity_main.xml
         android:id="@+id/followers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +36,9 @@
 
     <Button
         android:id="@+id/followed"
+=======
+        android:id="@+id/consulta3"
+>>>>>>> origin/master:pruebaPHPSQL/res/layout/activity_main.xml
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/topPlantas"
@@ -50,5 +54,13 @@
         android:layout_alignBottom="@+id/followed"
         android:layout_alignLeft="@+id/followers"
         android:text="@string/descubre" />
+
+    <Button
+        android:id="@+id/consulta2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/consulta3"
+        android:layout_toRightOf="@+id/respuesta"
+        android:text="@string/consulta_2" />
 
 </RelativeLayout>
