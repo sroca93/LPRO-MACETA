@@ -1,0 +1,4 @@
+C:\Users\Guillermo\AndroidStudioProjects\pruebaPHPSQL\app\build\intermediates\classes\debug
+C:\Users\Guillermo\AndroidStudioProjects\pruebaPHPSQL\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-2a8b622490940bc62eb812e07939c59627aced4b.jar
+C:\Users\Guillermo\AndroidStudioProjects\pruebaPHPSQL\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-69061a906fea6bd03a87dd36cd2c80a32a82de28.jar
+C:\Users\Guillermo\AndroidStudioProjects\pruebaPHPSQL\app\build\intermediates\pre-dexed\debug\classes-d7b7c85c5b5845c2d355b95cff6d5efc2cb7aee7.jar
