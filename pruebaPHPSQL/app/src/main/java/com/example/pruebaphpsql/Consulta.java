@@ -75,7 +75,7 @@ public class Consulta  extends AsyncTask<String,Void,String>{
                 if (parametros != null)
                     data += "&" + URLEncoder.encode(parametros[0], "UTF-8")
                         + "=" + URLEncoder.encode(parametros[1], "UTF-8");
-            String link = "http://193.146.210.69/guille.php";
+            String link = "http://193.146.210.69/consultas.php";
             URL url = new URL(link);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);
