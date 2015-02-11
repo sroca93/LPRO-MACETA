@@ -8,8 +8,6 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="21" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -25,10 +23,5 @@
             </intent-filter>
         </activity>
     </application>
-<<<<<<< HEAD:pruebaPHPSQL/app/src/main/AndroidManifest.xml
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
-=======
-
-</manifest>
->>>>>>> origin/master:pruebaPHPSQL/bin/AndroidManifest.xml
