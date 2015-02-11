@@ -26,14 +26,6 @@
         android:text="@string/consulta_1" />
 
     <Button
-        android:id="@+id/consulta2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_toRightOf="@+id/respuesta"
-        android:text="@string/consulta_2" />
-
-    <Button
         android:id="@+id/consulta3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,5 +42,13 @@
         android:layout_alignBottom="@+id/consulta3"
         android:layout_alignLeft="@+id/consulta2"
         android:text="@string/consulta_4" />
+
+    <Button
+        android:id="@+id/consulta2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/consulta3"
+        android:layout_toRightOf="@+id/respuesta"
+        android:text="@string/consulta_2" />
 
 </RelativeLayout>
