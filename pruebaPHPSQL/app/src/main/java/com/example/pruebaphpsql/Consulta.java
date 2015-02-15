@@ -28,7 +28,8 @@ public class Consulta  extends AsyncTask<String,Void,String>{
 		this.caso = caso;
 		byGetOrPost = flag;
 		this.respuesta = respuesta;
-	}
+        respuesta = (TextView)findViewById(R.id.respuesta);
+    }
 
 	protected void onPreExecute(){
 
