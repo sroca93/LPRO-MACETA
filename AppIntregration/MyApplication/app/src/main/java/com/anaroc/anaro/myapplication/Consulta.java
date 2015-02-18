@@ -4,23 +4,15 @@ package com.anaroc.anaro.myapplication;
  * Created by Luis on 15/02/2015.
  */
 
+import android.os.AsyncTask;
+import android.widget.TextView;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.TextView;
 
 public class Consulta  extends AsyncTask<String,Void,String>{
 
@@ -49,7 +41,7 @@ public class Consulta  extends AsyncTask<String,Void,String>{
             case 3:
                 return  hacerConsulta("getPlantasQueSigo", new String[]{"myID", "1"});
             case 4:
-                return hacerConsulta("getPlantaAleatoriaParaValorar", new String[]{"myID", "1"});
+                hacerConsulta("getPlantasQueSigo", new String[]{"myID", "1"});
 	     }
         return null;
     }
