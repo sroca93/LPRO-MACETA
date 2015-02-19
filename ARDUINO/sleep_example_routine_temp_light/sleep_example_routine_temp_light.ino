@@ -14,10 +14,10 @@ const int L_PIN = 1;
 // VARIABLES
 
 int var = 0;
-int Tmp = 0;
-int light = 0;
-int t_aux = 0;
-int l_aux =  0;
+float Tmp = 0;
+float light = 0;
+float t_aux = 0;
+float l_aux =  0;
 
 void setup() {
   
@@ -47,8 +47,7 @@ void loop(){
    delay(2000);                   //tiempo de espera
    t_aux=analogRead(T_PIN);       //lectura de T analogica 0-1023 
     
-   Tmp = (125*t_aux)>>8; //10mV -> 1 ºC, con eso escalamos 
-   
+   Tmp = 5*100*t_aux/1024; //10mV -> 1 ºC, con eso escalamos 
   
   //COM: puerto serie de los datos de T 
   Serial.print("Temperature: ");
