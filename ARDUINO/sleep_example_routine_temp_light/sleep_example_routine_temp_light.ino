@@ -47,7 +47,7 @@ void loop(){
    delay(2000);                   //tiempo de espera
    t_aux=analogRead(T_PIN);       //lectura de T analogica 0-1023 
     
-   Tmp = 5*100*t_aux/1024; //10mV -> 1 ºC, con eso escalamos 
+   Tmp = 5*100*t_aux/1023; //10mV -> 1 ºC, con eso escalamos 
   
   //COM: puerto serie de los datos de T 
   Serial.print("Temperature: ");
