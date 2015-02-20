@@ -17,12 +17,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import contenedores.Parametro;
+import contenedores.Planta;
 
 /**
  * Created by Anaro on 10/02/2015.
  */
 public class Top extends Fragment {
-
+    private Planta[] listaPlantas;
     private TextView respuesta;
     ArrayAdapter<String> topListAdapter;
     @Override
@@ -41,13 +42,13 @@ public class Top extends Fragment {
     }
 
 
-    public class ConsultaTop extends AsyncTask<Parametro, Void, String[]>
+    public class ConsultaTop extends AsyncTask<Parametro, Void, Planta[]>
     {
         @Override
-        protected String[] doInBackground(Parametro... params) {
+        protected Planta[] doInBackground(Parametro... params) {
             String respuestaJSON = Consultas.hacerConsulta(params);
 
-            String[] respuestaParseada = parserJSONTop(respuestaJSON);
+            Planta[] respuestaParseada = Consultas.parsearPlantas(respuestaJSON);
 
             return respuestaParseada;
 
@@ -76,11 +77,12 @@ public class Top extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String[] strings) {
-            if (strings != null) {
+        protected void onPostExecute(Planta[] plantas) {
+            listaPlantas = plantas;
+            if (plantas != null) {
                 topListAdapter.clear();
-                for (String string : strings)
-                    topListAdapter.add(string);
+                for (Planta planta : plantas)
+                    topListAdapter.add(planta.toString());
             }
         }
     }

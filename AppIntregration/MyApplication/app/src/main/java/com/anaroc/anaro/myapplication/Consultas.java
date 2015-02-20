@@ -3,6 +3,10 @@ package com.anaroc.anaro.myapplication;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import contenedores.Parametro;
+import contenedores.Planta;
 
 /**
  * Created by Trabajo on 17/02/2015.
@@ -55,7 +60,7 @@ public class Consultas {
         BufferedReader reader = null;
 
         try {
-            Uri.Builder builder = Uri.parse("http://193.146.210.69/guille.php?").buildUpon();
+            Uri.Builder builder = Uri.parse("http://193.146.210.69/consultas.php?").buildUpon();
             if (parametros != null) {
                 for (Parametro parametro : parametros) {
                     builder.appendQueryParameter(parametro.nombreParametro, parametro.valor);
@@ -112,5 +117,14 @@ public class Consultas {
         Log.v(LOG_TAG, respuesta);
 
         return respuesta;
+    }
+
+    public static Planta[] parsearPlantas (String plantasJson){
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonArray array = parser.parse(plantasJson).getAsJsonArray();
+        Planta[] listaPlantas = gson.fromJson(array.toString(), Planta[].class);
+
+        return listaPlantas;
     }
 }

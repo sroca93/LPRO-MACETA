@@ -1,5 +1,7 @@
 package contenedores;
 
+import java.util.Arrays;
+
 /**
  * Created by simon on 2/20/15.
  */
@@ -8,7 +10,27 @@ public class Planta {
     private String Especie;
     // private FotoActual; TODO formato FotoActual ?¿
     private String[] Timeline;
-    private int Dueno;
+    private String Dueno;
+
+    //Pendientes de pactar en el diagrama de clases
+    private String nombrePlanta;
+    private int ValoracionMedia;
+
+    public String getNombrePlanta() {
+        return nombrePlanta;
+    }
+
+    public void setNombrePlanta(String nombrePlanta) {
+        this.nombrePlanta = nombrePlanta;
+    }
+
+    public int getValoracionMedia() {
+        return ValoracionMedia;
+    }
+
+    public void setValoracionMedia(int valoracionMedia) {
+        ValoracionMedia = valoracionMedia;
+    }
 
     public int getID() {
         return ID;
@@ -34,11 +56,20 @@ public class Planta {
         Timeline = timeline;
     }
 
-    public int getDueno() {
+    public String getDueno() {
         return Dueno;
     }
 
-    public void setDueno(int dueno) {
+    public void setDueno(String dueno) {
         Dueno = dueno;
+    }
+
+    @Override
+    public String toString() {
+        return "Planta{" +
+                "ValoracionMedia=" + ValoracionMedia +
+                ", nombrePlanta='" + nombrePlanta + '\'' +
+                ", Dueno='" + Dueno + '\'' +
+                '}';
     }
 }
