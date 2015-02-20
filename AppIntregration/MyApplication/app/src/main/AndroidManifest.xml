@@ -34,6 +34,14 @@
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera" >
         </activity>
+        <activity
+            android:name=".PerfilFromTopActivity"
+            android:label="@string/title_activity_perfil_from_top"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.anaroc.anaro.myapplication.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

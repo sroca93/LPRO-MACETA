@@ -1,11 +1,12 @@
 package contenedores;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * Created by simon on 2/20/15.
  */
-public class Planta {
+public class Planta implements Serializable {
     private int ID;
     private String Especie;
     // private FotoActual; TODO formato FotoActual ?¿
