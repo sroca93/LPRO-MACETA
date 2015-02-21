@@ -19,10 +19,12 @@ public class Consulta  extends AsyncTask<String,Void,String>{
     private int caso;
     private TextView respuesta;
     private boolean byGetOrPost = false;
+
+
     //flag 0 means get and 1 means post.(By default it is get.)
     public Consulta(int caso, boolean flag, TextView respuesta) {
         this.caso = caso;
-        byGetOrPost = flag;
+        this.byGetOrPost = flag;
         this.respuesta = respuesta;
     }
 

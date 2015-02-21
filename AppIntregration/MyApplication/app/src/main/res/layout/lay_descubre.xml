@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo_madera">
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="110dp" />
+        android:id="@+id/ratingBarDescubre"
+        android:rating="2.5"
+        android:layout_below="@+id/imageViewDescubre"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:layout_above="@+id/ratingBar"
+        android:layout_alignParentTop="true" />
+
+    <ImageView
+        android:layout_width="280dp"
+        android:layout_height="320dp"
+        android:id="@+id/imageViewDescubre"
+        android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="158dp" />
+        android:background="#3B240B"
+        android:padding="1dp"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Vota!"
+        android:id="@+id/botonDescubre1"
+        android:layout_below="@+id/ratingBarDescubre"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
