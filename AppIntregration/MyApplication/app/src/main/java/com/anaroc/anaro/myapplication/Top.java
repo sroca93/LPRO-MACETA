@@ -17,7 +17,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import adapters.CustomListViewAdapter;
 import contenedores.Parametro;
 import contenedores.Planta;
 
@@ -27,18 +29,18 @@ import contenedores.Planta;
 public class Top extends Fragment {
     private Planta[] listaPlantas;
     private TextView respuesta;
-    ArrayAdapter<String> topListAdapter;
+    private CustomListViewAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.lay_top, container, false);
 
-        topListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.lay_top_elementos, R.id.lay_top_elementos_textview, new ArrayList());
+        adapter = new CustomListViewAdapter(this.getActivity(),
+                R.layout.lay_top_elementos, new ArrayList<Planta>());
+        new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
 
-        new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "4"));
-
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_top);
-        listView.setAdapter(topListAdapter);
+        ListView listView = (ListView) rootView.findViewById(R.id.list);
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,9 +94,9 @@ public class Top extends Fragment {
         protected void onPostExecute(Planta[] plantas) {
             listaPlantas = plantas;
             if (plantas != null) {
-                topListAdapter.clear();
+                adapter.clear();
                 for (Planta planta : plantas)
-                    topListAdapter.add(planta.toString());
+                    adapter.add(planta);
             }
         }
     }
