@@ -15,17 +15,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_alignParentTop="true" />
+        android:id="@+id/textViewDescubre3"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/botonDescubre1"/>
 
     <ImageView
         android:layout_width="280dp"
         android:layout_height="320dp"
         android:id="@+id/imageViewDescubre"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true"
         android:background="#3B240B"
-        android:padding="1dp"/>
+        android:padding="1dp"
+        android:layout_below="@+id/textViewDescubre3"
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
