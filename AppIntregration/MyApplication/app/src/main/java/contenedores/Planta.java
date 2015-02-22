@@ -16,6 +16,17 @@ public class Planta implements Serializable {
     //Pendientes de pactar en el diagrama de clases
     private String nombrePlanta;
     private int ValoracionMedia;
+    private String Tipo;
+
+    public String getTipo() {
+        return Tipo;
+    }
+
+    public void setTipo(String tipo) {
+        Tipo = tipo;
+    }
+
+
 
     public String getNombrePlanta() {
         return nombrePlanta;
@@ -71,6 +82,7 @@ public class Planta implements Serializable {
                 "ValoracionMedia=" + ValoracionMedia +
                 ", nombrePlanta='" + nombrePlanta + '\'' +
                 ", Dueno='" + Dueno + '\'' +
+                ", Tipo='" + Tipo + '\'' +
                 '}';
     }
 }

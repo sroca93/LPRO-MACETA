@@ -66,7 +66,7 @@ public class Top extends Fragment {
 
         }
 
-        private String[] parserJSONTop(String respuestaJSON) {
+        /*private String[] parserJSONTop(String respuestaJSON) {
             try {
                 JSONArray arrayJSON = new JSONArray(respuestaJSON);
 
@@ -86,7 +86,7 @@ public class Top extends Fragment {
 
         return null;
 
-        }
+        }*/
 
         @Override
         protected void onPostExecute(Planta[] plantas) {
