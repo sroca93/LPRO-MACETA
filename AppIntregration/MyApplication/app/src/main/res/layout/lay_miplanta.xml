@@ -2,13 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_madera">
+    android:background="@drawable/green_texture_al2">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Mi Planta"
-        android:id="@+id/textView"
-        android:layout_gravity="center_horizontal" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_gravity="center_horizontal" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:layout_width="240dp"
+                android:layout_height="280dp"
+                android:id="@+id/imageViewMiPlanta"
+                android:background="#3B240B"
+                android:padding="1dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:id="@+id/graph"
+                android:layout_below="@+id/imageViewMiPlanta"
+                android:layout_alignParentStart="true"
+                android:backgroundTint="@drawable/white_texture_al" />
+
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>
