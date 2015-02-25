@@ -1,6 +1,7 @@
 package com.anaroc.anaro.myapplication;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,15 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import adapters.CustomListViewAdapter;
 import contenedores.Parametro;
 import contenedores.Planta;
 
@@ -27,18 +34,24 @@ import contenedores.Planta;
 public class Top extends Fragment {
     private Planta[] listaPlantas;
     private TextView respuesta;
-    ArrayAdapter<String> topListAdapter;
+    private CustomListViewAdapter adapter;
+    private ProgressDialog progDailog;
+    private RadioGroup radioButtonGroup;
+    private Toast toast;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.lay_top, container, false);
 
-        topListAdapter = new ArrayAdapter<String>(getActivity(), R.layout.lay_top_elementos, R.id.lay_top_elementos_textview, new ArrayList());
+        adapter = new CustomListViewAdapter(this.getActivity(),
+                R.layout.lay_top_elementos, new ArrayList<Planta>());
+        progDailog = new ProgressDialog(this.getActivity());
+        radioButtonGroup = new RadioGroup(this.getActivity());
+        radioButtonGroup = (RadioGroup) rootView.findViewById(R.id.radioGroup);
+        new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
 
-        new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "4"));
-
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_top);
-        listView.setAdapter(topListAdapter);
+        ListView listView = (ListView) rootView.findViewById(R.id.list);
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -49,13 +62,56 @@ public class Top extends Fragment {
                 startActivity(intent);
             }
         });
+         toast = Toast.makeText(this.getActivity(), "", Toast.LENGTH_SHORT);
+        Button refresh = (Button) rootView.findViewById(R.id.button);
+        refresh.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
 
+                int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();
+                View radioButton = radioButtonGroup.findViewById(radioButtonID);
+                //int idx = radioButton.getId();
+
+                adapter.clear();
+
+                switch (radioButtonID) {
+                    case R.id.flowing:
+                        toast.setText("Consulta no implementada :( ");
+                        toast.show();
+                        break;
+                    case R.id.mitipo:
+                        //new ConsultaTop().execute(new Parametro("consulta", "getTopPlantasComoLasMias"), new Parametro("numeroDePlantas", "5"));
+                        toast.setText("Consulta no implementada :( ");
+                        toast.show();
+                        break;
+                    case R.id.todas:
+                        new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
+                        break;
+                    case -1:
+
+                        //toast.show();
+                        break;
+
+                }
+            }
+        });
         return rootView;
     }
 
 
     public class ConsultaTop extends AsyncTask<Parametro, Void, Planta[]>
     {
+
+        protected void onPreExecute() {
+
+
+            progDailog.setMessage("Cargando...");
+            progDailog.setIndeterminate(false);
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();
+        }
+
         @Override
         protected Planta[] doInBackground(Parametro... params) {
             String respuestaJSON = Consultas.hacerConsulta(params);
@@ -92,10 +148,11 @@ public class Top extends Fragment {
         protected void onPostExecute(Planta[] plantas) {
             listaPlantas = plantas;
             if (plantas != null) {
-                topListAdapter.clear();
+                adapter.clear();
                 for (Planta planta : plantas)
-                    topListAdapter.add(planta.toString());
+                    adapter.add(planta);
             }
+            progDailog.dismiss();
         }
     }
 

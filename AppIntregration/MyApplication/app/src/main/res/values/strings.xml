@@ -13,4 +13,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_perfil_from_top">PerfilFromTop</string>
 
+    <!-- Caralladas de la lista Top -->
+    <string name="hello">Hello World, ImageTextListViewActivity!</string>
+    <string name="name">ListViewBaseAdapter</string>
+    <string name="image">Thumbnail</string>
+    <string name="Refresh">Refrescar</string>
 </resources>
