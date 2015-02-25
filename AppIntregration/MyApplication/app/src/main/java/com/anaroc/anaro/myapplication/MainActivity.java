@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity
         switch (position) {
 
             case 0:
-                fragment = new MiPlanta();
+                fragment = new Perfil();
                 break;
             case 1:
                 fragment = new Descubre();
