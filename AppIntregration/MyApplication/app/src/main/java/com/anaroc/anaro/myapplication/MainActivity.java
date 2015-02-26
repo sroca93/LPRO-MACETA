@@ -10,6 +10,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +23,7 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, Top.EntreFragments {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -52,9 +53,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-
         FragmentManager fragmentManager = getFragmentManager();
-
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment fragment = null;
         switch (position) {
 
@@ -67,6 +67,7 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 fragment = new Top();
                 break;
+
 
         }
 
@@ -126,6 +127,33 @@ public class MainActivity extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    public void sendText(String text){
+
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Perfil fragment = new Perfil();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack("A_B_TAG")
+                .commit();
+        fragment.setTitulo(text);
+    }
+
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
     }
 
 }
