@@ -53,9 +53,8 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-
         FragmentManager fragmentManager = getFragmentManager();
-
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment fragment = null;
         switch (position) {
 
@@ -67,7 +66,6 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 2:
                 fragment = new Top();
-                ((Top)fragment).setFlag_back(true);
                 break;
 
 
