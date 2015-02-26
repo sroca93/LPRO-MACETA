@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentValues;
 import android.content.Context;
@@ -20,6 +21,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,7 +45,7 @@ import contenedores.Parametro;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<Cursor> {
 
 
     /**
@@ -109,6 +112,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 if (isOnline()) attemptLogin();
                 else Toast.makeText(getApplicationContext(), "No hay conectividad de red.",Toast.LENGTH_SHORT).show();
             }
+        });
+
+        TextView signUp = (TextView) findViewById(R.id.textViewSignUp);
+        signUp.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isOnline()) setContentView(R.layout.fragment_sign_up);            }
         });
 
         mLoginFormView = findViewById(R.id.login_form);

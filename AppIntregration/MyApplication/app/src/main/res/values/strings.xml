@@ -12,5 +12,12 @@
     <string name="title_activity_camera">CameraActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_perfil_from_top">PerfilFromTop</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="recordar">Recuérdame</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="newAccount">o crea una nueva cuenta</string>
+    <string name="signup">Registrarme</string>
 
 </resources>
