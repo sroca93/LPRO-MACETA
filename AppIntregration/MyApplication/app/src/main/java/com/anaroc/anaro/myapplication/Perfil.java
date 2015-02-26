@@ -2,6 +2,7 @@ package com.anaroc.anaro.myapplication;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import contenedores.Planta;
  * Created by guille on 20/02/15.
  */
 public class Perfil extends Fragment{
+
+    String titulo="Vacio";
 
 
     @Override
@@ -42,7 +45,8 @@ public class Perfil extends Fragment{
 
         ImageView imagenplanta= (ImageView)rootView.findViewById(R.id.imageViewMiPlanta);
         imagenplanta.setImageResource(R.drawable.imagen_planta_uno);
-
+        TextView textview= (TextView)rootView.findViewById(R.id.textoTitulo);
+        textview.setText(this.titulo);
 
         //Planta planta = (Planta) getActivity().getIntent().getSerializableExtra("Planta");
 
@@ -54,5 +58,10 @@ public class Perfil extends Fragment{
         return rootView;
     }
 
+    public void setTitulo(String tituloNuevo){
+        Log.d(">>>>>>>ADebugTag", "Value: " + tituloNuevo);
+        this.titulo=tituloNuevo;
+
+    }
 
 }

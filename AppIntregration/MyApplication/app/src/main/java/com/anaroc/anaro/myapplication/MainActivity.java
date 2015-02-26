@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, Top.EntreFragments {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -126,6 +126,20 @@ public class MainActivity extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    public void sendText(String text){
+
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Perfil fragment = new Perfil();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+        fragment.setTitulo(text);
     }
 
 }

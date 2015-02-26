@@ -1,5 +1,6 @@
 package com.anaroc.anaro.myapplication;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -38,6 +39,9 @@ public class Top extends Fragment {
     private ProgressDialog progDailog;
     private RadioGroup radioButtonGroup;
     private Toast toast;
+    private EntreFragments mCallback;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,8 +62,10 @@ public class Top extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),(String) arrayAdapter.getItem(position),Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(getActivity(),PerfilFromTopActivity.class).putExtra("Planta", listaPlantas[position]);
-                startActivity(intent);
+                //Intent intent = new Intent(getActivity(),PerfilFromTopActivity.class).putExtra("Planta", listaPlantas[position]);
+                //startActivity(intent);
+                mCallback.sendText(listaPlantas[position].getDueno());
+
             }
         });
          toast = Toast.makeText(this.getActivity(), "", Toast.LENGTH_SHORT);
@@ -158,5 +164,21 @@ public class Top extends Fragment {
 
 
 
+    public interface EntreFragments{
+        public void sendText(String text);
+    }
 
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (EntreFragments) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement TextClicked");
+        }
+    }
 }
