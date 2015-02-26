@@ -67,7 +67,9 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 2:
                 fragment = new Top();
+                ((Top)fragment).setFlag_back(true);
                 break;
+
 
         }
 

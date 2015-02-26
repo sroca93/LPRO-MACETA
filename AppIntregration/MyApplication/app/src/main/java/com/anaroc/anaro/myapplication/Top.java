@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,68 +41,107 @@ public class Top extends Fragment {
     private RadioGroup radioButtonGroup;
     private Toast toast;
     private EntreFragments mCallback;
+    public View rootView;
+    public ListView listView;
 
+    public void setFlag_back(boolean flag_back) {
+        this.flag_back = flag_back;
+    }
+
+    public boolean flag_back=true;
+    public Button refresh;
+    private int index;
+    private int top;
+
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.lay_top, container, false);
 
-        adapter = new CustomListViewAdapter(this.getActivity(),
-                R.layout.lay_top_elementos, new ArrayList<Planta>());
-        progDailog = new ProgressDialog(this.getActivity());
-        radioButtonGroup = new RadioGroup(this.getActivity());
-        radioButtonGroup = (RadioGroup) rootView.findViewById(R.id.radioGroup);
-        new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
+        if(flag_back) {
+            rootView = inflater.inflate(R.layout.lay_top, container, false);
+            adapter = new CustomListViewAdapter(this.getActivity(),
+                    R.layout.lay_top_elementos, new ArrayList<Planta>());
+            progDailog = new ProgressDialog(this.getActivity());
+            radioButtonGroup = new RadioGroup(this.getActivity());
+            radioButtonGroup = (RadioGroup) rootView.findViewById(R.id.radioGroup);
 
-        ListView listView = (ListView) rootView.findViewById(R.id.list);
-        listView.setAdapter(adapter);
+            new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
+            listView = (ListView) rootView.findViewById(R.id.list);
+            listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getActivity(),(String) arrayAdapter.getItem(position),Toast.LENGTH_LONG).show();
 
-                //Intent intent = new Intent(getActivity(),PerfilFromTopActivity.class).putExtra("Planta", listaPlantas[position]);
-                //startActivity(intent);
-                mCallback.sendText(listaPlantas[position].getDueno());
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Toast.makeText(getActivity(),(String) arrayAdapter.getItem(position),Toast.LENGTH_LONG).show();
 
-            }
-        });
-         toast = Toast.makeText(this.getActivity(), "", Toast.LENGTH_SHORT);
-        Button refresh = (Button) rootView.findViewById(R.id.button);
-        refresh.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-
-                int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();
-                View radioButton = radioButtonGroup.findViewById(radioButtonID);
-                //int idx = radioButton.getId();
-
-                adapter.clear();
-
-                switch (radioButtonID) {
-                    case R.id.flowing:
-                        toast.setText("Consulta no implementada :( ");
-                        toast.show();
-                        break;
-                    case R.id.mitipo:
-                        //new ConsultaTop().execute(new Parametro("consulta", "getTopPlantasComoLasMias"), new Parametro("numeroDePlantas", "5"));
-                        toast.setText("Consulta no implementada :( ");
-                        toast.show();
-                        break;
-                    case R.id.todas:
-                        new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
-                        break;
-                    case -1:
-
-                        //toast.show();
-                        break;
+                    //Intent intent = new Intent(getActivity(),PerfilFromTopActivity.class).putExtra("Planta", listaPlantas[position]);
+                    //startActivity(intent);
+                    storeState();
+                    mCallback.sendText(listaPlantas[position].getDueno());
 
                 }
-            }
-        });
+            });
+
+            toast = Toast.makeText(this.getActivity(), "", Toast.LENGTH_SHORT);
+            refresh = (Button) rootView.findViewById(R.id.button);
+            refresh.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+
+                    int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();
+                    View radioButton = radioButtonGroup.findViewById(radioButtonID);
+                    //int idx = radioButton.getId();
+
+                    adapter.clear();
+
+                    switch (radioButtonID) {
+                        case R.id.flowing:
+                            toast.setText("Consulta no implementada :( ");
+                            toast.show();
+                            break;
+                        case R.id.mitipo:
+                            //new ConsultaTop().execute(new Parametro("consulta", "getTopPlantasComoLasMias"), new Parametro("numeroDePlantas", "5"));
+                            toast.setText("Consulta no implementada :( ");
+                            toast.show();
+                            break;
+                        case R.id.todas:
+                            new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
+                            break;
+                        case -1:
+
+                            //toast.show();
+                            break;
+
+                    }
+                }
+            });
+        }
+        else{
+            restoreState();
+        }
         return rootView;
+    }
+
+    private void restoreState() {
+        flag_back=true;
+        listView.setAdapter(adapter);
+        listView.setSelectionFromTop(index, top);
+    }
+
+    private void storeState(){
+        flag_back=false;
+        index = listView.getFirstVisiblePosition();
+        View v = listView.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - listView.getPaddingTop());
     }
 
 
@@ -181,4 +221,7 @@ public class Top extends Fragment {
                     + " must implement TextClicked");
         }
     }
+
+
+
 }
