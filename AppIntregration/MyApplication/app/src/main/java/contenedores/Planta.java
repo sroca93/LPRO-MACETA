@@ -18,6 +18,16 @@ public class Planta implements Serializable {
     private int ValoracionMedia;
     private String Tipo;
 
+    public String getThumbnail() {
+        return Thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        Thumbnail = thumbnail;
+    }
+
+    private String Thumbnail;
+
     public String getTipo() {
         return Tipo;
     }
