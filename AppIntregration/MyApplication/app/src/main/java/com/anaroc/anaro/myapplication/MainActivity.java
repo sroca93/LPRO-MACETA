@@ -3,7 +3,9 @@ package com.anaroc.anaro.myapplication;
 import android.app.Fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
@@ -21,6 +23,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import contenedores.Parametro;
+import contenedores.Planta;
+
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, Top.EntreFragments {
@@ -29,6 +34,7 @@ public class MainActivity extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private Planta miPlanta= new Planta();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -39,7 +45,6 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -48,6 +53,8 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
     }
 
     @Override
@@ -60,6 +67,7 @@ public class MainActivity extends ActionBarActivity
 
             case 0:
                 fragment = new Perfil();
+                ((Perfil)fragment).cargarPerfilUsuario();
                 break;
             case 1:
                 fragment = new Descubre();
@@ -132,16 +140,16 @@ public class MainActivity extends ActionBarActivity
 
 
 
-    public void sendText(String text){
+    public void sendPlanta(Planta planta){
 
         FragmentManager fragmentManager = getFragmentManager();
-
         Perfil fragment = new Perfil();
+        fragment.setPlantaPerfil(planta);
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack("A_B_TAG")
                 .commit();
-        fragment.setTitulo(text);
+
     }
 
     @Override
@@ -155,5 +163,7 @@ public class MainActivity extends ActionBarActivity
             super.onBackPressed();
         }
     }
+
+
 
 }

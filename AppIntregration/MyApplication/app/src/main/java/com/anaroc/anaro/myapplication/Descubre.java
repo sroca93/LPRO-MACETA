@@ -1,6 +1,7 @@
 package com.anaroc.anaro.myapplication;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import adapters.images.ImageDownloader;
 import contenedores.Parametro;
 import contenedores.Planta;
 
@@ -31,17 +33,26 @@ public class Descubre extends Fragment {
     public ImageView imagenplanta;
     public Planta plantaAleatoria;
     public TextView texto1;
+    private ProgressDialog progDailog;
+    private final ImageDownloader imageDownloader = new ImageDownloader();
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         plantaAleatoria=null;
+        progDailog = new ProgressDialog(this.getActivity());
         rootView = inflater.inflate(R.layout.lay_descubre, container, false);
         texto1=(TextView) rootView.findViewById(R.id.textViewDescubre3);
         imagenplanta= (ImageView)rootView.findViewById(R.id.imageViewDescubre);
-        imagenplanta.setImageResource(R.drawable.imagen_planta_uno);
+        imagenplanta.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                imagenplanta.setImageResource(R.drawable.imagen_planta_uno);
+            }
+        });
         ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBarDescubre);
+        ponerImagenAleatoria();
 
 
         this.boton1 = (Button) rootView.findViewById(R.id.botonDescubre1);
@@ -64,10 +75,9 @@ public class Descubre extends Fragment {
 
     public void ponerImagenAleatoria(){
 
+        //FALTA PONER ID EN FUNCION DE PERSONA
         new ConsultaDescubre().execute(new Parametro("consulta", "getPlantaAleatoriaParaValorar"),new Parametro("myID", "1"));
         this.ratingBar.setRating(Float.parseFloat("2.5"));
-        imagenplanta.setImageResource(R.drawable.imagen_planta_dos);
-        //Log.d(">>>>>>>ADebugTag", "Value: " + plantaAleatoria);
 
 
     }
@@ -75,6 +85,16 @@ public class Descubre extends Fragment {
 
     public class ConsultaDescubre extends AsyncTask<Parametro, Void, Planta[]>
     {
+
+        protected void onPreExecute() {
+            progDailog.setMessage("Cargando...");
+            progDailog.setIndeterminate(false);
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();
+        }
+
+
         @Override
         protected Planta[] doInBackground(Parametro... params) {
             String respuestaJSON = Consultas.hacerConsulta(params);
@@ -85,36 +105,16 @@ public class Descubre extends Fragment {
 
         }
 
-        /*private String[] parserJSONTop(String respuestaJSON) {
-            try {
-                JSONArray arrayJSON = new JSONArray(respuestaJSON);
-
-                int length = arrayJSON.length();
-                String[] respuestaParseada = new String[length];
-
-                for (int i = 0; i < length; i++) {
-                    JSONObject objetoPlanta = arrayJSON.getJSONObject(i);
-                    respuestaParseada[i] = objetoPlanta.getString("nombreUsuario") + " - " + objetoPlanta.getString("nombrePlanta") +
-                            " - " + objetoPlanta.getString("ValoracionMedia");
-                }
-
-                return respuestaParseada;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-
-        }*/
 
         @Override
         protected void onPostExecute(Planta[] plantas) {
             plantaAleatoria = plantas[0];
             if (plantas != null) {
-                texto1.setText(plantaAleatoria.getTipo());
+                texto1.setText(plantaAleatoria.getTipo()+" de "+plantaAleatoria.getNombrePlanta());
+                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaAleatoria.getThumbnail(), imagenplanta);
 
             }
-
+            progDailog.dismiss();
         }
     }
 

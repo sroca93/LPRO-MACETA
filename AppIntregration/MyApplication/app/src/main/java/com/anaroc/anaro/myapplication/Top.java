@@ -86,7 +86,7 @@ public class Top extends Fragment {
                     //Intent intent = new Intent(getActivity(),PerfilFromTopActivity.class).putExtra("Planta", listaPlantas[position]);
                     //startActivity(intent);
                     storeState();
-                    mCallback.sendText(listaPlantas[position].getDueno());
+                    mCallback.sendPlanta(listaPlantas[position]);
 
                 }
             });
@@ -205,7 +205,7 @@ public class Top extends Fragment {
 
 
     public interface EntreFragments{
-        public void sendText(String text);
+        public void sendPlanta(Planta planta);
     }
 
 

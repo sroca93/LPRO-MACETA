@@ -1,5 +1,6 @@
 package com.anaroc.anaro.myapplication;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -13,6 +14,8 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import adapters.images.ImageDownloader;
+import contenedores.Parametro;
 import contenedores.Planta;
 
 /**
@@ -20,38 +23,45 @@ import contenedores.Planta;
  */
 public class Perfil extends Fragment{
 
-    String titulo="Vacio";
+    private String titulo="Vacio";
+    private Planta plantaPerfil=new Planta();
+    private final ImageDownloader imageDownloader = new ImageDownloader();
+    private ImageView imagenplanta;
+    private TextView textview;
+    private View rootView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
+        rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
+        textview = (TextView) rootView.findViewById(R.id.textoTitulo);
+        imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
+        if(this.plantaPerfil!=null) {
 
-        GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6),
-                new DataPoint(5, 7),
-                new DataPoint(6, 8),
-                new DataPoint(7, 8),
-                new DataPoint(8, 7),
-                new DataPoint(9, 5)
-        });
-        graph.addSeries(series);
+            GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+                    new DataPoint(0, 1),
+                    new DataPoint(1, 5),
+                    new DataPoint(2, 3),
+                    new DataPoint(3, 2),
+                    new DataPoint(4, 6),
+                    new DataPoint(5, 7),
+                    new DataPoint(6, 8),
+                    new DataPoint(7, 8),
+                    new DataPoint(8, 7),
+                    new DataPoint(9, 5)
+            });
+            graph.addSeries(series);
 
-        ImageView imagenplanta= (ImageView)rootView.findViewById(R.id.imageViewMiPlanta);
-        imagenplanta.setImageResource(R.drawable.imagen_planta_uno);
-        TextView textview= (TextView)rootView.findViewById(R.id.textoTitulo);
-        textview.setText(this.titulo);
+            imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
+            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getNombrePlanta());
 
-        //Planta planta = (Planta) getActivity().getIntent().getSerializableExtra("Planta");
-
-        //TextView texto = (TextView) rootView.findViewById(R.id.textoTitulo);
-        //texto.setText(planta.toString());
+        }
+        else
+        {
+            textview.setText("Planta=null");
+        }
 
 
 
@@ -59,9 +69,43 @@ public class Perfil extends Fragment{
     }
 
     public void setTitulo(String tituloNuevo){
-        Log.d(">>>>>>>ADebugTag", "Value: " + tituloNuevo);
         this.titulo=tituloNuevo;
+    }
+
+    public void setPlantaPerfil(Planta planta){
+        this.plantaPerfil=planta;
+    }
+
+
+    public void cargarPerfilUsuario(){
+        new ConsultaPerfil().execute(new Parametro("consulta", "getPlantaAleatoriaParaValorar"), new Parametro("myID", "1"));
 
     }
 
+    public class ConsultaPerfil extends AsyncTask<Parametro, Void, Planta>
+    {
+
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected Planta doInBackground(Parametro... params) {
+
+            String respuestaJSON = Consultas.hacerConsulta(params);
+            Planta[] respuestaParseada = Consultas.parsearPlantas(respuestaJSON);
+            Planta planta = respuestaParseada[0];
+            return planta;
+        }
+
+        @Override
+        protected void onPostExecute(Planta planta) {
+
+            if (planta != null) {
+                plantaPerfil = planta;
+                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
+                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getNombrePlanta());
+            }
+        }
+    }
 }
