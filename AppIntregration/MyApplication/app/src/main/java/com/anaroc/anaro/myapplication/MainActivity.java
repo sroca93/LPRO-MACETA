@@ -28,7 +28,7 @@ import contenedores.Planta;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, Top.EntreFragments {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, EntreFragments {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.

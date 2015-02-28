@@ -34,6 +34,7 @@ import contenedores.Planta;
  * Created by Anaro on 10/02/2015.
  */
 public class Top extends Fragment {
+
     private Planta[] listaPlantas;
     private TextView respuesta;
     private CustomListViewAdapter adapter;
@@ -43,11 +44,6 @@ public class Top extends Fragment {
     private EntreFragments mCallback;
     public View rootView;
     public ListView listView;
-
-    public void setFlag_back(boolean flag_back) {
-        this.flag_back = flag_back;
-    }
-
     public boolean flag_back=true;
     public Button refresh;
     private int index;
@@ -204,9 +200,6 @@ public class Top extends Fragment {
 
 
 
-    public interface EntreFragments{
-        public void sendPlanta(Planta planta);
-    }
 
 
     public void onAttach(Activity activity) {

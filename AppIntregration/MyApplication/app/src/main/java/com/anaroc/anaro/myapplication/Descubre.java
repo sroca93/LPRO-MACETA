@@ -1,5 +1,6 @@
 package com.anaroc.anaro.myapplication;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -35,42 +36,59 @@ public class Descubre extends Fragment {
     public TextView texto1;
     private ProgressDialog progDailog;
     private final ImageDownloader imageDownloader = new ImageDownloader();
+    private EntreFragments mCallback;
+    private boolean flag_back=true;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        plantaAleatoria=null;
-        progDailog = new ProgressDialog(this.getActivity());
-        rootView = inflater.inflate(R.layout.lay_descubre, container, false);
-        texto1=(TextView) rootView.findViewById(R.id.textViewDescubre3);
-        imagenplanta= (ImageView)rootView.findViewById(R.id.imageViewDescubre);
-        imagenplanta.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        if(flag_back) {
+            plantaAleatoria = null;
+            progDailog = new ProgressDialog(this.getActivity());
+            rootView = inflater.inflate(R.layout.lay_descubre, container, false);
+            texto1 = (TextView) rootView.findViewById(R.id.textViewDescubre3);
+            imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewDescubre);
+            imagenplanta.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                imagenplanta.setImageResource(R.drawable.imagen_planta_uno);
-            }
-        });
-        ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBarDescubre);
-        ponerImagenAleatoria();
+                    storeState();
+                    mCallback.sendPlanta(plantaAleatoria);
+                }
+            });
+            ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBarDescubre);
+            ponerImagenAleatoria();
 
 
-        this.boton1 = (Button) rootView.findViewById(R.id.botonDescubre1);
-        boton1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            this.boton1 = (Button) rootView.findViewById(R.id.botonDescubre1);
+            boton1.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-                Toast.makeText(getActivity(),
-                        String.valueOf(ratingBar.getRating()),
-                        Toast.LENGTH_SHORT).show();
-                        ponerImagenAleatoria();
-            }
-        });
+                    Toast.makeText(getActivity(),
+                            String.valueOf(ratingBar.getRating()),
+                            Toast.LENGTH_SHORT).show();
+                    ponerImagenAleatoria();
+                }
+            });
 
-        //respuesta = (TextView)rootView.findViewById(R.id.textView3);
-        //new Consulta(4, true, respuesta).execute("datos");
+            //respuesta = (TextView)rootView.findViewById(R.id.textView3);
+            //new Consulta(4, true, respuesta).execute("datos");
+        }else{
+            restoreState();
+        }
         return rootView;
+
     }
 
+
+
+    private void restoreState() {
+        flag_back=true;
+    }
+
+    private void storeState(){
+        flag_back=false;
+    }
 
 
     public void ponerImagenAleatoria(){
@@ -117,6 +135,19 @@ public class Descubre extends Fragment {
             progDailog.dismiss();
         }
     }
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (EntreFragments) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement TextClicked");
+        }
+    }
+
 
 
 }
