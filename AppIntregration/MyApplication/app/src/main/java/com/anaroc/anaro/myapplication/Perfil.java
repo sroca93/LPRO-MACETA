@@ -55,7 +55,7 @@ public class Perfil extends Fragment{
             graph.addSeries(series);
 
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
-            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getNombrePlanta());
+            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
 
         }
         else

@@ -45,7 +45,6 @@ public class Top extends Fragment {
     public View rootView;
     public ListView listView;
     public boolean flag_back=true;
-    public Button refresh;
     private int index;
     private int top;
 
@@ -68,6 +67,29 @@ public class Top extends Fragment {
             progDailog = new ProgressDialog(this.getActivity());
             radioButtonGroup = new RadioGroup(this.getActivity());
             radioButtonGroup = (RadioGroup) rootView.findViewById(R.id.radioGroup);
+            radioButtonGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+            {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId)
+                {
+                    switch(checkedId)
+                    {
+                        case R.id.flowing:
+                            toast.setText("Consulta no implementada :( ");
+                            toast.show();
+                            break;
+                        case R.id.mitipo:
+                            toast.setText("Consulta no implementada :( ");
+                            toast.show();
+                            break;
+                        case R.id.todas:
+                            new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
+                            break;
+                    }
+                }
+            });
+
+
 
             new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
             listView = (ListView) rootView.findViewById(R.id.list);
@@ -88,38 +110,7 @@ public class Top extends Fragment {
             });
 
             toast = Toast.makeText(this.getActivity(), "", Toast.LENGTH_SHORT);
-            refresh = (Button) rootView.findViewById(R.id.button);
-            refresh.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // Perform action on click
 
-                    int radioButtonID = radioButtonGroup.getCheckedRadioButtonId();
-                    View radioButton = radioButtonGroup.findViewById(radioButtonID);
-                    //int idx = radioButton.getId();
-
-                    adapter.clear();
-
-                    switch (radioButtonID) {
-                        case R.id.flowing:
-                            toast.setText("Consulta no implementada :( ");
-                            toast.show();
-                            break;
-                        case R.id.mitipo:
-                            //new ConsultaTop().execute(new Parametro("consulta", "getTopPlantasComoLasMias"), new Parametro("numeroDePlantas", "5"));
-                            toast.setText("Consulta no implementada :( ");
-                            toast.show();
-                            break;
-                        case R.id.todas:
-                            new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
-                            break;
-                        case -1:
-
-                            //toast.show();
-                            break;
-
-                    }
-                }
-            });
         }
         else{
             restoreState();

@@ -18,9 +18,9 @@
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:id="@+id/radioGroup"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="49dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
@@ -54,13 +54,5 @@
 
 
     </RadioGroup>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Refresh"
-        android:id="@+id/button"
-        android:layout_alignBottom="@+id/radioGroup"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
