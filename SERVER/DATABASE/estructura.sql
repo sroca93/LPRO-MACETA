@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `plantas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plantas` (
-  `idPlanta` int(11) NOT NULL AUTO_INCREMENT,
+  `idPlanta` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `Nombre` varchar(45) DEFAULT NULL,
   `Tipo` varchar(45) DEFAULT NULL,
@@ -98,7 +98,7 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuarios` (
-  `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
+  `idUsuario` int(11) NOT NULL,
   `Nombre` varchar(45) NOT NULL,
   `Password` varchar(45) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
@@ -151,4 +151,4 @@ CREATE TABLE `valoraciones` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-02 12:24:42
+-- Dump completed on 2015-02-26 19:53:00
