@@ -128,7 +128,7 @@ public class Descubre extends Fragment {
         protected void onPostExecute(Planta[] plantas) {
             plantaAleatoria = plantas[0];
             if (plantas != null) {
-                texto1.setText(plantaAleatoria.getTipo()+" de "+plantaAleatoria.getNombrePlanta());
+                texto1.setText(plantaAleatoria.getTipo()+" de "+plantaAleatoria.getDueno());
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaAleatoria.getThumbnail(), imagenplanta);
 
             }

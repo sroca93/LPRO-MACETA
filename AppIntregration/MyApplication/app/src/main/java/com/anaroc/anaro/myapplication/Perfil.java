@@ -104,7 +104,7 @@ public class Perfil extends Fragment{
             if (planta != null) {
                 plantaPerfil = planta;
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
-                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getNombrePlanta());
+                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno());
             }
         }
     }
