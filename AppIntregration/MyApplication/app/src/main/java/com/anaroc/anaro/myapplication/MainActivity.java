@@ -3,13 +3,16 @@ package com.anaroc.anaro.myapplication;
 import android.app.Fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,14 +23,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import contenedores.Parametro;
+import contenedores.Planta;
+
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, EntreFragments {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private Planta miPlanta= new Planta();
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -38,7 +45,6 @@ public class MainActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -47,19 +53,21 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-
         FragmentManager fragmentManager = getFragmentManager();
-
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         Fragment fragment = null;
         switch (position) {
 
             case 0:
-                fragment = new MiPlanta();
+                fragment = new Perfil();
+                ((Perfil)fragment).cargarPerfilUsuario();
                 break;
             case 1:
                 fragment = new Descubre();
@@ -67,6 +75,7 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 fragment = new Top();
                 break;
+
 
         }
 
@@ -127,5 +136,34 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+    public void sendPlanta(Planta planta){
+
+        FragmentManager fragmentManager = getFragmentManager();
+        Perfil fragment = new Perfil();
+        fragment.setPlantaPerfil(planta);
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack("A_B_TAG")
+                .commit();
+
+    }
+
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
+
+
 
 }
