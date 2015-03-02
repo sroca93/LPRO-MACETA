@@ -92,7 +92,7 @@ public class Top extends Fragment {
 
 
             new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
-            listView = (ListView) rootView.findViewById(R.id.list);
+            listView = (ListView) rootView.findViewById(R.id.listview_top);
             listView.setAdapter(adapter);
 
 
