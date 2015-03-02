@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,7 +24,6 @@ import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +45,7 @@ import contenedores.Parametro;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<Cursor>, SignUpFragment.OnFragmentInteractionListener {
+public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<Cursor> {
 
 
     /**
@@ -120,16 +118,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         signUp.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isOnline()) {
-                    findViewById(R.id.login_form).setVisibility(View.GONE);
-                    findViewById(R.id.login_progress).setVisibility(View.GONE);
-                    //setContentView(R.layout.fragment_sign_up);
-                    SignUpFragment fragment = SignUpFragment.newInstance("", "");
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(android.R.id.content, fragment);
-                    ft.commit();
-                }
-            }
+                if (isOnline()) setContentView(R.layout.fragment_sign_up);            }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
@@ -270,11 +259,6 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
 
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -341,12 +325,12 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Parametro... params) {
-            double respuestaJSON = Double.parseDouble(Consultas.hacerConsulta(params));
+            //int respuestaJSON = Integer.parseInt(Consultas.hacerConsulta(params));
+int respuestaJSON = 0;
 
 
             // TODO: register the new account here.
             return respuestaJSON == 0;
-           // return false;
         }
 
         @Override
