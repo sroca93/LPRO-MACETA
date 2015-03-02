@@ -67,7 +67,25 @@ public class SignUpFragment extends Fragment {
         botonReg = (Button) rootView.findViewById(R.id.buttonSignUp);
         user = (EditText) rootView.findViewById(R.id.editTextNewUser);
         pass = (EditText) rootView.findViewById(R.id.editTextNewPass);
-        Log.d("aaa", "aaa");
+        Log.d("hola", "hola");
+
+        user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) user.setHint("");
+                else user.setHint("Usuario");
+
+            }
+        });
+
+        pass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) pass.setHint("");
+                else pass.setHint("Contraseña");
+
+            }
+        });
 
 
         botonReg.setOnClickListener(new View.OnClickListener() {
@@ -130,11 +148,14 @@ public class SignUpFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Parametro... params) {
-            //int respuestaJSON = Integer.parseInt(Consultas.hacerConsulta(params));
-            int respuestaJSON = 0;
-            Log.d("cero", "cero");
+            //int respuestaJSON = Integer.parseInt(String.valueOf(Consultas.hacerConsulta(params)));
+            double respuestaJSON = Double.parseDouble(Consultas.hacerConsulta(params));
+            //System.out.println(Integer.parseInt(respuestaJSON));
+            //int respuestaJSON = 0;
+            //Log.d("cero", respuestaJSON);
 
             return respuestaJSON == 0;
+            //return true;
 
         }
 
