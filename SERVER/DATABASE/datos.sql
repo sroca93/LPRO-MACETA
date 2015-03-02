@@ -49,7 +49,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `plantas` WRITE;
 /*!40000 ALTER TABLE `plantas` DISABLE KEYS */;
-INSERT INTO `plantas` VALUES (1,1,'GuillePlanta1','Rosa',4,2),(2,1,'GuillePlanta2','Petunia',3,5),(3,2,'SimonPlanta1','Baobab',0,17),(4,3,'LuisPlanta1','Nabo',5,69),(5,4,'AlvaroPlanta1','Petunia',5,8);
+INSERT INTO `plantas` VALUES (1,1,'GuillePlanta1','Rosa',4,2,NULL),(2,1,'GuillePlanta2','Petunia',3,5,NULL),(3,2,'SimonPlanta1','Baobab',0,17,NULL),(4,3,'LuisPlanta1','Nabo',5,69,NULL),(5,4,'AlvaroPlanta1','Petunia',5,8,NULL);
 /*!40000 ALTER TABLE `plantas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Guille','never'),(2,'Simon','gonna'),(3,'Luis','give'),(4,'Alvaro','you'),(5,'Sara','up'),(6,'Andres','!');
+INSERT INTO `usuarios` VALUES (1,'Guille','never',NULL),(2,'Simon','gonna',NULL),(3,'Luis','give',NULL),(4,'Alvaro','you',NULL),(5,'Sara','up',NULL),(6,'Andres','!',NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,4 +91,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-10 13:46:42
+-- Dump completed on 2015-02-26 19:52:48

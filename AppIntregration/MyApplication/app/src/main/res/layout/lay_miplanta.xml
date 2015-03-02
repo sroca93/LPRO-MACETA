@@ -28,9 +28,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dip"
                 android:id="@+id/graph"
-                android:layout_below="@+id/imageViewMiPlanta"
-                android:layout_alignParentStart="true"/>
+                android:layout_below="@+id/textoTitulo"
+                android:layout_alignParentStart="true" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textoTitulo"
+                android:layout_below="@+id/imageViewMiPlanta"
+                android:layout_centerHorizontal="true" />
         </RelativeLayout>
     </ScrollView>
 </LinearLayout>

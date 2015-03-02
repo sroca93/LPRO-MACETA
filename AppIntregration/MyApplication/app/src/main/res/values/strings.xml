@@ -19,5 +19,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="newAccount">o crea una nueva cuenta</string>
     <string name="signup">Registrarme</string>
+    <string name="image">thumbnail</string>
 
 </resources>

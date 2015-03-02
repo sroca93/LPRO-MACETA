@@ -42,9 +42,9 @@ DROP TABLE IF EXISTS `fotos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fotos` (
   `idPlanta` int(11) NOT NULL,
-  `HoraSubida` datetime NOT NULL,
-  `Foto` blob,
-  PRIMARY KEY (`idPlanta`,`HoraSubida`),
+  `Timestamp` datetime NOT NULL,
+  `Foto` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`idPlanta`,`Timestamp`),
   KEY `fk_Fotos_Plantas1_idx` (`idPlanta`),
   CONSTRAINT `fk_Fotos_Plantas1` FOREIGN KEY (`idPlanta`) REFERENCES `plantas` (`idPlanta`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -77,16 +77,17 @@ DROP TABLE IF EXISTS `plantas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plantas` (
-  `idPlanta` int(11) NOT NULL,
+  `idPlanta` int(11) NOT NULL AUTO_INCREMENT,
   `idUsuario` int(11) NOT NULL,
   `Nombre` varchar(45) DEFAULT NULL,
   `Tipo` varchar(45) DEFAULT NULL,
   `ValoracionMedia` decimal(5,0) DEFAULT NULL,
   `NValoraciones` int(11) DEFAULT NULL,
+  `Thumbnail` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idPlanta`),
   KEY `fk_Plantas_Usuarios1_idx` (`idUsuario`),
   CONSTRAINT `fk_Plantas_Usuarios1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,11 +98,12 @@ DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuarios` (
-  `idUsuario` int(11) NOT NULL,
-  `Nombre` varchar(45) DEFAULT NULL,
-  `Password` varchar(45) DEFAULT NULL,
+  `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
+  `Nombre` varchar(45) NOT NULL,
+  `Password` varchar(45) NOT NULL,
+  `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,4 +151,4 @@ CREATE TABLE `valoraciones` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-10 13:46:24
+-- Dump completed on 2015-03-02 12:33:24
