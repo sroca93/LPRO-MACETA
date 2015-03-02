@@ -12,7 +12,9 @@
             <EditText android:id="@+id/editTextNewUser" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/user"
                 android:inputType="text" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true" >
+                <requestFocus />
+            </EditText>
 
             <EditText android:id="@+id/editTextNewPass" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/password"
