@@ -366,6 +366,11 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                 b.putString("user", email);
                 b.putString("pass", password);
 
+                //Esta terminado???????? Otra alternativa
+                //PrefUtils.saveToPrefs(LoginActivity.this, "PREFS_LOGIN_USERNAME_KEY", email);
+                //PrefUtils.saveToPrefs(LoginActivity.this, "PREFS_LOGIN_PASSWORD_KEY", password);
+                intent.putExtra("user", email);
+                intent.putExtra("pass", password);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

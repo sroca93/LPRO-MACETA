@@ -35,6 +35,11 @@ public class Perfil extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
+
+
+        String user = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+        String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
+
         textview = (TextView) rootView.findViewById(R.id.textoTitulo);
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
         if(this.plantaPerfil!=null) {
@@ -55,8 +60,9 @@ public class Perfil extends Fragment{
             graph.addSeries(series);
 
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
-            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
-
+            //textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
+            //TEST
+            textview.setText("user: " + user + ", pass: " + pass);
         }
         else
         {
