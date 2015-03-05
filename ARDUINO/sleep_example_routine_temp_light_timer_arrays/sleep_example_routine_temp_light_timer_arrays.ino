@@ -1,5 +1,8 @@
 
  #include <avr/sleep.h>
+ #include <avr/power.h>
+ #include <avr/wdt.h>  
+  
 
  #define tam 3                // TAMAÑO DE LOS ARRAYS DE DATOS A MEDIR
 
@@ -34,7 +37,8 @@
 
 
  void setup() {
-  
+ 
+   
   //PIN DEL LED COMO SALIDA
   pinMode(ledSTUP, OUTPUT);      
   pinMode(ledREAD, OUTPUT);   
@@ -55,8 +59,10 @@
   delay(100);
   digitalWrite(res,HIGH);
   
-  delay(1000);
+  delay(500);
   digitalWrite(ledSTUP,LOW);
+
+  wdt_enable(WDTO_8S); 
 
 }
  
@@ -66,7 +72,7 @@
   //*****************************************************
    digitalWrite(ledREAD,HIGH);    // Comienza la lectura de datos
     
-   delay(2000);                   // tiempo de espera
+   delay(500);                    // tiempo de espera
    t_aux=analogRead(T_PIN);       // lectura de T analogica 0-1023 
     
    Tmp[ind] = 5*100*t_aux/1023;   // 10mV -> 1 ºC, con eso escalamos
@@ -85,6 +91,8 @@
   //*****************************************************
      
   if(ind == tam ){   
+  
+  wdt_reset();  
   //COM: puerto serie de los datos de T 
   Serial.println("\n\nTemperature: ");
   
@@ -115,6 +123,8 @@
     
   // ZONA DE SUEÑO 
   //*****************************************************  
+  
+  wdt_reset();
   digitalWrite(ledSLE,HIGH);
   Serial.println("Entering Sleep mode...");
   
@@ -131,7 +141,14 @@
 
  void wakeUpNow()        //GESTION DE LA INTERRUPCION DESPUES DE DESPERTAR
 {
-  /*AQUI NO VAN A FUNCIONAR TIMESR NI NADA QUE DEPENDA DE RELOJ*/
+  /*AQUI NO VAN A FUNCIONAR TIMERS NI NADA QUE DEPENDA DE RELOJ*/
+  
+ 
+    power_all_enable();
+
+    
+    wdt_enable(WDTO_8S);
+    wdt_reset();
     
     sleep_disable();         // LO PRIMERO AL DESPERTAR, DESACTIVAR EL SUEÑO
                             
@@ -190,6 +207,12 @@
      * In all but the IDLE sleep modes only LOW can be used.
      */
  
+     wdt_disable();
+ 
+     power_all_disable();
+
+	
+	
     attachInterrupt(0,wakeUpNow, LOW); //SE USA INT0(PIN2)  
                                        // wakeUpNow CUANDO PIN2 SE PONE A BAJO NIVEL
  
