@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import adapters.images.ImageDownloader;
 import contenedores.Parametro;
@@ -38,7 +33,7 @@ public class Descubre extends Fragment {
     private final ImageDownloader imageDownloader = new ImageDownloader();
     private EntreFragments mCallback;
     private boolean flag_back=true;
-
+    private float valoracion = 0.0f;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +52,12 @@ public class Descubre extends Fragment {
                 }
             });
             ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBarDescubre);
+            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    valoracion = rating;
+                }
+            });
             ponerImagenAleatoria();
 
 
@@ -67,6 +68,17 @@ public class Descubre extends Fragment {
                     Toast.makeText(getActivity(),
                             String.valueOf(ratingBar.getRating()),
                             Toast.LENGTH_SHORT).show();
+
+
+                    new AsyncTask<Parametro, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Parametro... params) {
+                            Consultas.hacerConsulta(params);
+                            return null;
+                        }
+                    }.execute(new Parametro("consulta", "insertarValoracion"),new Parametro("myID", "1"), new Parametro("plantID",
+                            Integer.toString(plantaAleatoria.getIdPlanta())), new Parametro("valoracion", Float.toString(valoracion)));
+
                     ponerImagenAleatoria();
                 }
             });
@@ -128,7 +140,7 @@ public class Descubre extends Fragment {
         protected void onPostExecute(Planta[] plantas) {
             plantaAleatoria = plantas[0];
             if (plantas != null) {
-                texto1.setText(plantaAleatoria.getTipo()+" de "+plantaAleatoria.getNombrePlanta());
+                texto1.setText(plantaAleatoria.getTipo()+" de "+plantaAleatoria.getDueno());
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaAleatoria.getThumbnail(), imagenplanta);
 
             }

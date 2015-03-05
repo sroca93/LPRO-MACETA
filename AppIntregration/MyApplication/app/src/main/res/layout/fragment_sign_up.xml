@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.anaroc.anaro.myapplication.SignUpFragment" >
+
+    <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout android:id="@+id/signupform" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical">
+
+            <EditText android:id="@+id/editTextNewUser" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="@string/user"
+                android:inputType="text" android:maxLines="1"
+                android:singleLine="true" >
+                <requestFocus />
+            </EditText>
+
+            <EditText android:id="@+id/editTextNewPass" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="@string/password"
+                android:imeActionId="@+id/login"
+                android:imeOptions="actionUnspecified" android:inputType="textPassword"
+                android:maxLines="1" android:singleLine="true" />
+
+            <Button android:id="@+id/buttonSignUp" style="?android:textAppearanceSmall"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" android:text="@string/signup"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

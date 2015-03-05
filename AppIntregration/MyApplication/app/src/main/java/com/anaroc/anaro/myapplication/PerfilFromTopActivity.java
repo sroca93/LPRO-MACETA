@@ -1,6 +1,5 @@
 package com.anaroc.anaro.myapplication;
 
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -32,7 +31,6 @@ public class PerfilFromTopActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_perfil_from_top, menu);
-        restoreActionBar();
         return true;
     }
 
@@ -54,13 +52,4 @@ public class PerfilFromTopActivity extends ActionBarActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.color_verde));
-
-        actionBar.setTitle("Perfil");
-    }
 }
