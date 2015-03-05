@@ -334,27 +334,27 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Parametro, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Parametro, Void, Integer> {
 
 
 
 
         @Override
-        protected Boolean doInBackground(Parametro... params) {
-            double respuestaJSON = Double.parseDouble(Consultas.hacerConsulta(params));
-
+        protected Integer doInBackground(Parametro... params) {
+            Double respuestaJSON = Double.parseDouble(Consultas.hacerConsulta(params));
+            int respuesta = respuestaJSON.intValue();
 
             // TODO: register the new account here.
-            return respuestaJSON == 0;
+            return respuesta;
            // return false;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(Integer success) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
+            if (success>0) {
 
                 if (checkBox.isChecked()) {
                     remember(email, password);
@@ -362,10 +362,10 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                 else forget();
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("user", email);
-                b.putString("pass", password);
 
+                intent.putExtra("user", email);
+                intent.putExtra("pass", password);
+                intent.putExtra("id", Integer.toString(success));
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

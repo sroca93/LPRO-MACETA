@@ -1,5 +1,6 @@
 package com.anaroc.anaro.myapplication;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -78,7 +79,9 @@ public class Perfil extends Fragment{
 
 
     public void cargarPerfilUsuario(){
-        new ConsultaPerfil().execute(new Parametro("consulta", "getPlantaAleatoriaParaValorar"), new Parametro("myID", "1"));
+        Intent intent = this.getActivity().getIntent();
+        String myId = intent.getStringExtra("myId");
+        new ConsultaPerfil().execute(new Parametro("consulta", "getMisPlantas"), new Parametro("myID", myId));
 
     }
 
