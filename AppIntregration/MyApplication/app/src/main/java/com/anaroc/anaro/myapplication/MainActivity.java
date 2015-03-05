@@ -49,11 +49,21 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+
+        //Coge las credenciales y guardalas
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("user");
+        String password = intent.getStringExtra("pass");
+        String myId = intent.getStringExtra("myId");
+
+        PrefUtils.saveToPrefs(this, "PREFS_LOGIN_USERNAME_KEY", myId);
+        PrefUtils.saveToPrefs(this, "PREFS_LOGIN_PASSWORD_KEY", password);
+        //PrefUtils.saveToPrefs(this, "PREFS_LOGIN_ID_KEY", myId);
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
 
     }
 
