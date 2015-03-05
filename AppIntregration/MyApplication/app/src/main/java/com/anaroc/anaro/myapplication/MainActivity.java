@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Planta miPlanta= new Planta();
-
+    String myId;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -54,11 +54,10 @@ public class MainActivity extends ActionBarActivity
         Intent intent = getIntent();
         String email = intent.getStringExtra("user");
         String password = intent.getStringExtra("pass");
-        String myId = intent.getStringExtra("myId");
+        myId = intent.getStringExtra("id");
 
         PrefUtils.saveToPrefs(this, "PREFS_LOGIN_USERNAME_KEY", myId);
         PrefUtils.saveToPrefs(this, "PREFS_LOGIN_PASSWORD_KEY", password);
-        //PrefUtils.saveToPrefs(this, "PREFS_LOGIN_ID_KEY", myId);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -77,7 +76,9 @@ public class MainActivity extends ActionBarActivity
 
             case 0:
                 fragment = new Perfil();
-                ((Perfil)fragment).cargarPerfilUsuario();
+                Intent intent = getIntent();
+                String myId = intent.getStringExtra("id");
+                ((Perfil)fragment).cargarPerfilUsuario(myId);
                 break;
             case 1:
                 fragment = new Descubre();

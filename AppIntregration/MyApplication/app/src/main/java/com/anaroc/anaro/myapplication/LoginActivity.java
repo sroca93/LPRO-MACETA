@@ -334,15 +334,15 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Parametro, Void, Integer> {
+    public class UserLoginTask extends AsyncTask<Parametro, Void, String> {
 
 
 
 
         @Override
-        protected Integer doInBackground(Parametro... params) {
-            Double respuestaJSON = Double.parseDouble(Consultas.hacerConsulta(params));
-            int respuesta = respuestaJSON.intValue();
+        protected String doInBackground(Parametro... params) {
+            String respuestaJSON = (Consultas.hacerConsulta(params));
+            String respuesta = respuestaJSON;
 
             // TODO: register the new account here.
             return respuesta;
@@ -350,11 +350,11 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected void onPostExecute(Integer success) {
+        protected void onPostExecute(String success) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success>0) {
+            if (Integer.parseInt(success.replaceAll("\n",""))>0) {
 
                 if (checkBox.isChecked()) {
                     remember(email, password);
@@ -362,14 +362,10 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                 else forget();
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
-
-                //Esta terminado???????? Otra alternativa
-                //PrefUtils.saveToPrefs(LoginActivity.this, "PREFS_LOGIN_USERNAME_KEY", email);
-                //PrefUtils.saveToPrefs(LoginActivity.this, "PREFS_LOGIN_PASSWORD_KEY", password);
                 intent.putExtra("user", email);
                 intent.putExtra("pass", password);
-                intent.putExtra("id", Integer.toString(success));
+                intent.putExtra("id", success);
+
 
                 startActivity(intent);
             } else {

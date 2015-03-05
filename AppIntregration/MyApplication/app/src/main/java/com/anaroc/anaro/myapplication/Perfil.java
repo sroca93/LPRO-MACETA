@@ -30,7 +30,7 @@ public class Perfil extends Fragment{
     private ImageView imagenplanta;
     private TextView textview;
     private View rootView;
-    private String myId;
+    private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
 
 
     @Override
@@ -38,10 +38,10 @@ public class Perfil extends Fragment{
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
 
+        myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
 
-        String user = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
-        String myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_ID_KEY", "");
+        //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         textview = (TextView) rootView.findViewById(R.id.textoTitulo);
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
         if(this.plantaPerfil!=null) {
@@ -64,7 +64,7 @@ public class Perfil extends Fragment{
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
             //textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
             //TEST
-            textview.setText("user: " + user + ", pass: " + pass);
+            textview.setText("user: " + myId + ", pass: " + pass);
         }
         else
         {
@@ -85,8 +85,7 @@ public class Perfil extends Fragment{
     }
 
 
-    public void cargarPerfilUsuario(){
-
+    public void cargarPerfilUsuario(String myId){
         new ConsultaPerfil().execute(new Parametro("consulta", "getMisPlantas"), new Parametro("myID", myId));
 
     }

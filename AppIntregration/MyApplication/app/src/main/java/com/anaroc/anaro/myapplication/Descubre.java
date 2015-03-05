@@ -76,7 +76,7 @@ public class Descubre extends Fragment {
                             Consultas.hacerConsulta(params);
                             return null;
                         }
-                    }.execute(new Parametro("consulta", "insertarValoracion"),new Parametro("myID", "1"), new Parametro("plantID",
+                    }.execute(new Parametro("consulta", "insertarValoracion"),new Parametro("myID", PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","")), new Parametro("plantID",
                             Integer.toString(plantaAleatoria.getIdPlanta())), new Parametro("valoracion", Float.toString(valoracion)));
 
                     ponerImagenAleatoria();
@@ -105,8 +105,8 @@ public class Descubre extends Fragment {
 
     public void ponerImagenAleatoria(){
 
-        //FALTA PONER ID EN FUNCION DE PERSONA
-        new ConsultaDescubre().execute(new Parametro("consulta", "getPlantaAleatoriaParaValorar"),new Parametro("myID", "1"));
+        String myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+        new ConsultaDescubre().execute(new Parametro("consulta", "getPlantaAleatoriaParaValorar"),new Parametro("myID", myId));
         this.ratingBar.setRating(Float.parseFloat("2.5"));
 
 
