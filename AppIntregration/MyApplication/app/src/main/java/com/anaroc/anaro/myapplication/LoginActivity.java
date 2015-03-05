@@ -61,8 +61,8 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private String email, password;
-    private CheckBox checkBox;
-
+    private CheckBox checkBox, checkBoxAutoLogIn;
+    private boolean auto = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
 
         mPasswordView = (EditText) findViewById(R.id.password);
         checkBox = (CheckBox) findViewById(R.id.checkBoxRecordar);
+        checkBoxAutoLogIn = (CheckBox) findViewById(R.id.checkBoxAutoLogin);
 
         SQLite sqlu = new SQLite(this, "BDUsuarios", null, 1);
         SQLiteDatabase db = sqlu.getReadableDatabase();
@@ -89,11 +90,17 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             if (c.moveToFirst()) {
                 mEmailView.setText(c.getString(0));
                 mPasswordView.setText(c.getString(1));
+                if (c.getInt(2) == 1) auto = true;
                 checkBox.setChecked(true);
             }
             c.close();
         }
         db.close();
+
+        if (auto) {
+            if (isOnline()) attemptLogin();
+            else Toast.makeText(getApplicationContext(), "No hay conectividad de red.",Toast.LENGTH_SHORT).show();
+        }
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -302,7 +309,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         return netInfo != null && netInfo.isConnected();
     }
 
-    private void remember(String user, String pass) {
+    private void remember(String user, String pass, int flag) {
 
         SQLite sqlu = new SQLite(this, "BDUsuarios", null, 1);
         SQLiteDatabase db = sqlu.getWritableDatabase();
@@ -314,6 +321,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         ContentValues nuevoRegistro = new ContentValues();
         nuevoRegistro.put("user", user);
         nuevoRegistro.put("pass", pass);
+        nuevoRegistro.put("flag", flag);
 
         //Insertamos el registro en la base de datos
         db.insert("Usuarios", null, nuevoRegistro);
@@ -357,8 +365,9 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
 
             if (Integer.parseInt(success.replaceAll("\n",""))>0) {
 
-                if (checkBox.isChecked()) {
-                    remember(email, password);
+                if (checkBox.isChecked() || checkBoxAutoLogIn.isChecked()) {
+                    if (checkBox.isChecked()) remember(email, password, 0);
+                    if (checkBoxAutoLogIn.isChecked()) remember(email, password, 1);
                 }
                 else forget();
 

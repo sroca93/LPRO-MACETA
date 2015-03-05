@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import contenedores.Parametro;
 
 
 public class CameraActivity extends Activity {
@@ -63,6 +66,31 @@ public class CameraActivity extends Activity {
                 }
 
                 try {
+                    /*
+                    String imagepath = pictureFile.getAbsolutePath();
+
+                    BitmapFactory.Options options0 = new BitmapFactory.Options();
+                    options0.inSampleSize = 2;
+                    // options.inJustDecodeBounds = true;
+                    options0.inScaled = false;
+                    options0.inDither = false;
+                    options0.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+                    Bitmap bmp = BitmapFactory.decodeFile(imagepath);
+
+                    ByteArrayOutputStream baos0 = new ByteArrayOutputStream();
+
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos0);
+                    byte[] imageBytes0 = baos0.toByteArray();
+
+                    ImageView image = null;
+                    image.setImageBitmap(bmp);
+
+                    String encodedImage = Base64.encodeToString(imageBytes0, Base64.DEFAULT);
+
+                    new SendPhotoTask().execute(new Parametro("image", encodedImage), new Parametro("idPlanta", "3"));
+
+                     */
                     FileOutputStream fos = new FileOutputStream(pictureFile);
                     fos.write(data);
                     fos.close();
@@ -173,6 +201,16 @@ public class CameraActivity extends Activity {
             mPreview.getHolder().removeCallback(mPreview);
             mCamera.release();
             mCamera = null;
+        }
+    }
+
+    public class SendPhotoTask extends AsyncTask<Parametro, Void, Boolean> {
+
+
+        @Override
+        protected Boolean doInBackground(Parametro... params) {
+            double respuestaJSON = Double.parseDouble(Consultas.hacerConsulta(params));
+            return respuestaJSON == 0;
         }
     }
 

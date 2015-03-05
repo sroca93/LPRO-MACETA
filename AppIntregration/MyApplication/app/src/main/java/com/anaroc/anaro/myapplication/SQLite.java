@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Luis on 24/02/2015.
  */
 public class SQLite extends SQLiteOpenHelper {
-    String sqlOnCreate = "create table Usuarios (ID integer primary key, user text, pass text)";
+    String sqlOnCreate = "create table Usuarios (ID integer primary key, user text, pass text, integer flag)";
 
     public SQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
