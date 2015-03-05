@@ -1,44 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/green_texture_al2">
+    android:layout_height="match_parent">
 
-    <ScrollView
+
+
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="533dp"
+        android:background="@drawable/white_texture_al"
+        android:weightSum="1"
+        android:layout_above="@+id/linear_layout_botones">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+
+                    <RelativeLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/menu_perfil"
+                        android:background="#ff00e275">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:id="@+id/imageViewMiPlanta"
+                            android:background="#3B240B"
+                            android:padding="1dp"
+                            android:layout_gravity="left"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentStart="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="NombrePersona"
+                            android:id="@+id/textViewMenuPersonaNombre"
+                            android:textStyle="bold|italic"
+                            android:layout_alignParentTop="true"
+                            android:layout_toEndOf="@+id/imageViewMiPlanta" />
+
+
+                    </RelativeLayout>
+
+                <ListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/listViewPerfil"
+                    android:layout_below="@+id/menu_perfil"
+                    android:layout_alignParentStart="true" />
+
+            </RelativeLayout>
+        </ScrollView>
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout_botones"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollView"
-        android:layout_gravity="center_horizontal" >
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:background="#ff653400"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="bottom">
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+        <ImageButton
+            android:layout_width="75dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton"
+            android:background="@drawable/boton_estadisticas" />
 
-            <ImageView
-                android:layout_width="240dp"
-                android:layout_height="280dp"
-                android:id="@+id/imageViewMiPlanta"
-                android:background="#3B240B"
-                android:padding="1dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+        <ImageButton
+            android:layout_width="75dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton2"
+            android:background="@drawable/boton_timelapse" />
 
-            <com.jjoe64.graphview.GraphView
-                android:layout_width="match_parent"
-                android:layout_height="200dip"
-                android:id="@+id/graph"
-                android:layout_below="@+id/textoTitulo"
-                android:layout_alignParentStart="true" />
+        <ImageButton
+            android:layout_width="75dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton3"
+            android:background="@drawable/boton_photo" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/textoTitulo"
-                android:layout_below="@+id/imageViewMiPlanta"
-                android:layout_centerHorizontal="true" />
+        <ImageButton
+            android:layout_width="75dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageButton4"
+            android:background="@drawable/boton_make_flower" />
+    </LinearLayout>
 
-        </RelativeLayout>
-    </ScrollView>
-</LinearLayout>
+</RelativeLayout>

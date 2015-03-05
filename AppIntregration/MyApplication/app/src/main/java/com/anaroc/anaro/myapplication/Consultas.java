@@ -125,7 +125,7 @@ public class Consultas {
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(plantasJson).getAsJsonArray();
         Planta[] listaPlantas = gson.fromJson(array.toString(), Planta[].class);
-        Log.d(">>>>>>>ADebugTag", "ValuePostJson: " + listaPlantas[0]);
+        //Log.d(">>>>>>>ADebugTag", "ValuePostJson: " + listaPlantas[0]);
         return listaPlantas;
     }
 }

@@ -22,7 +22,7 @@ public class MiPlanta extends Fragment {
         View rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
 
 
-        GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
+        /*GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
@@ -30,7 +30,7 @@ public class MiPlanta extends Fragment {
                 new DataPoint(3, 2),
                 new DataPoint(4, 6)
         });
-        graph.addSeries(series);
+        graph.addSeries(series);*/
 
         ImageView imagenplanta= (ImageView)rootView.findViewById(R.id.imageViewMiPlanta);
         imagenplanta.setImageResource(R.drawable.imagen_planta_uno);
