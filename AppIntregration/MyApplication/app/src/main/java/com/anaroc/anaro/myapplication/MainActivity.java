@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Planta miPlanta= new Planta();
-
+    String myId;
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -49,11 +49,20 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+
+        //Coge las credenciales y guardalas
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("user");
+        String password = intent.getStringExtra("pass");
+        myId = intent.getStringExtra("id");
+
+        PrefUtils.saveToPrefs(this, "PREFS_LOGIN_USERNAME_KEY", myId);
+        PrefUtils.saveToPrefs(this, "PREFS_LOGIN_PASSWORD_KEY", password);
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
 
     }
 
@@ -67,13 +76,18 @@ public class MainActivity extends ActionBarActivity
 
             case 0:
                 fragment = new Perfil();
-                ((Perfil)fragment).cargarPerfilUsuario();
+                Intent intent = getIntent();
+                String myId = intent.getStringExtra("id");
+                ((Perfil)fragment).cargarPerfilUsuario(myId);
                 break;
             case 1:
                 fragment = new Descubre();
                 break;
             case 2:
                 fragment = new Top();
+                break;
+            case 3:
+                fragment = new Followed();
                 break;
 
 
@@ -96,7 +110,9 @@ public class MainActivity extends ActionBarActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
-
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
 

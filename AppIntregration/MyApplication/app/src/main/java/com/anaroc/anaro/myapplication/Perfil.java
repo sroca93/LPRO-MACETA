@@ -1,6 +1,8 @@
 package com.anaroc.anaro.myapplication;
 
+
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -39,6 +41,8 @@ public class Perfil extends Fragment{
     private ProgressDialog progDailog;
     private CustomListViewAdapter adapter;
     public ListView listView;
+    private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+
 
 
     @Override
@@ -46,6 +50,13 @@ public class Perfil extends Fragment{
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
         textview = (TextView) rootView.findViewById(R.id.textViewMenuPersonaNombre);
+
+
+        myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+
+        String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
+        //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+        //textview = (TextView) rootView.findViewById(R.id.textoTitulo);
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
         progDailog= new ProgressDialog(this.getActivity());
         if(this.plantaPerfil!=null) {
@@ -97,6 +108,8 @@ public class Perfil extends Fragment{
             listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
             listView.setAdapter(adapter);*/
 
+            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
+
         }
         else
         {
@@ -117,8 +130,8 @@ public class Perfil extends Fragment{
     }
 
 
-    public void cargarPerfilUsuario(){
-        new ConsultaPerfil().execute(new Parametro("consulta", "getPlantaAleatoriaParaValorar"), new Parametro("myID", "1"));
+    public void cargarPerfilUsuario(String myId){
+        new ConsultaPerfil().execute(new Parametro("consulta", "getMisPlantas"), new Parametro("myID", myId));
 
 
     }
