@@ -75,6 +75,9 @@ public class MainActivity extends ActionBarActivity
             case 2:
                 fragment = new Top();
                 break;
+            case 3:
+                fragment = new Followed();
+                break;
 
 
         }
@@ -96,7 +99,9 @@ public class MainActivity extends ActionBarActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
-
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
         }
     }
 
