@@ -5,25 +5,6 @@
 
 
 
-
-    <RelativeLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="533dp"
-        android:background="@drawable/white_texture_al"
-        android:weightSum="1"
-        android:layout_above="@+id/linear_layout_botones">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollView">
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-
                     <RelativeLayout
                         android:orientation="horizontal"
                         android:layout_width="fill_parent"
@@ -56,16 +37,13 @@
 
                 <ListView
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="200dp"
                     android:id="@+id/listViewPerfil"
                     android:layout_below="@+id/menu_perfil"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_weight="0.82"
+                    android:layout_above="@+id/linear_layout_botones" />
 
-            </RelativeLayout>
-        </ScrollView>
-
-
-    </RelativeLayout>
 
 
     <LinearLayout

@@ -345,7 +345,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
 
 
             // TODO: register the new account here.
-            return respuestaJSON == 0;
+            return respuestaJSON > -1;
            // return false;
         }
 
