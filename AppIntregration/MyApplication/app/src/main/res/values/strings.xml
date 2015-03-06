@@ -21,5 +21,7 @@
     <string name="newAccount">o crea una nueva cuenta</string>
     <string name="signup">Registrarme</string>
     <string name="image">thumbnail</string>
+    <string name="autoLogIn">Iniciar sesión automáticamente</string>
+    <string name="logout">Logout</string>
 
 </resources>

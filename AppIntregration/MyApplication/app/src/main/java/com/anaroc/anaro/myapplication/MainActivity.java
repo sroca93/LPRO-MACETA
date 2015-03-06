@@ -4,7 +4,9 @@ import android.app.Fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -148,6 +150,18 @@ public class MainActivity extends ActionBarActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == R.id.logout) {
+            SQLite sqlu = new SQLite(this, "BDUsuarios", null, 1);
+            SQLiteDatabase db = sqlu.getWritableDatabase();
+            ContentValues valores = new ContentValues();
+            valores.put("flag",0);
+            db.update("Usuarios", valores, "ID > 0", null);
+            db.close();
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

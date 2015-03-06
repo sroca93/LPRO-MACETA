@@ -3,6 +3,7 @@ package com.anaroc.anaro.myapplication;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,12 @@ public class MiPlanta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
-
+Log.d("uno", "uno");
         ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButton3);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("hola", "hola");
                 Intent intent = new Intent(getActivity(), CameraActivity.class);
 
 

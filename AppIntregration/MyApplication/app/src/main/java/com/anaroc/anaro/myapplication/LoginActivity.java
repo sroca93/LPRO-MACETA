@@ -85,22 +85,19 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         {
 			/*Si hay un usuario recordado, se introducen sus credenciales
 			en los campos de texto correspondientes*/
-            String[] columns = {"user", "pass"};
+            String[] columns = {"user", "pass", "flag"};
             Cursor c = db.query("Usuarios", columns, null, null, null, null, null, null);
             if (c.moveToFirst()) {
                 mEmailView.setText(c.getString(0));
                 mPasswordView.setText(c.getString(1));
                 if (c.getInt(2) == 1) auto = true;
+                Log.d("aaa", String.valueOf(c.getInt(2)));
                 checkBox.setChecked(true);
             }
             c.close();
         }
         db.close();
 
-        if (auto) {
-            if (isOnline()) attemptLogin();
-            else Toast.makeText(getApplicationContext(), "No hay conectividad de red.",Toast.LENGTH_SHORT).show();
-        }
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -141,6 +138,11 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        if (auto) {
+            if (isOnline()) attemptLogin();
+            else Toast.makeText(getApplicationContext(), "No hay conectividad de red.",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void populateAutoComplete() {
@@ -366,8 +368,16 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             if (Integer.parseInt(success.replaceAll("\n",""))>0) {
 
                 if (checkBox.isChecked() || checkBoxAutoLogIn.isChecked()) {
-                    if (checkBox.isChecked()) remember(email, password, 0);
-                    if (checkBoxAutoLogIn.isChecked()) remember(email, password, 1);
+                    if (checkBox.isChecked()) {
+                        remember(email, password, 0);
+                        Log.d("uno", "uno");
+
+                    }
+                    if (checkBoxAutoLogIn.isChecked()){
+                        remember(email, password, 1);
+                        Log.d("dos", "dos");
+
+                    }
                 }
                 else forget();
 

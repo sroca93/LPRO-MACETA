@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -57,6 +58,19 @@ public class Perfil extends Fragment{
         String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
         //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         //textview = (TextView) rootView.findViewById(R.id.textoTitulo);
+
+        ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButton3);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("hola", "hola");
+                Intent intent = new Intent(getActivity(), CameraActivity.class);
+
+
+                getActivity().startActivity(intent);
+            }
+        });
+
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
         progDailog= new ProgressDialog(this.getActivity());
         if(this.plantaPerfil!=null) {
