@@ -1,13 +1,12 @@
 package contenedores;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * Created by simon on 2/20/15.
  */
 public class Planta implements Serializable {
-    private int ID;
+    private int idPlanta;
     private String Especie;
     // private FotoActual; TODO formato FotoActual ?¿
     private String[] Timeline;
@@ -15,8 +14,18 @@ public class Planta implements Serializable {
 
     //Pendientes de pactar en el diagrama de clases
     private String nombrePlanta;
-    private int ValoracionMedia;
+    private float ValoracionMedia;
     private String Tipo;
+
+    public String getThumbnail() {
+        return Thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        Thumbnail = thumbnail;
+    }
+
+    private String Thumbnail;
 
     public String getTipo() {
         return Tipo;
@@ -36,7 +45,7 @@ public class Planta implements Serializable {
         this.nombrePlanta = nombrePlanta;
     }
 
-    public int getValoracionMedia() {
+    public float getValoracionMedia() {
         return ValoracionMedia;
     }
 
@@ -44,12 +53,12 @@ public class Planta implements Serializable {
         ValoracionMedia = valoracionMedia;
     }
 
-    public int getID() {
-        return ID;
+    public int getIdPlanta() {
+        return idPlanta;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setIdPlanta(int idPlanta) {
+        this.idPlanta = idPlanta;
     }
 
     public String getEspecie() {

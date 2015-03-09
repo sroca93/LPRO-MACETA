@@ -1,6 +1,8 @@
 package adapters;
 
 import java.util.List;
+
+import adapters.images.ImageDownloader;
 import contenedores.Planta;
 
 import android.app.Activity;
@@ -18,7 +20,7 @@ import com.anaroc.anaro.myapplication.Top;
 public class CustomListViewAdapter extends ArrayAdapter<Planta> {
 
     Context context;
-
+    private final ImageDownloader imageDownloader = new ImageDownloader();
     public CustomListViewAdapter(Context context, int resourceId,
                                  List<Planta> items) {
         super(context, resourceId, items);
@@ -50,8 +52,10 @@ public class CustomListViewAdapter extends ArrayAdapter<Planta> {
 
         holder.txtDesc.setText("Media: " + rowItem.getValoracionMedia());
         holder.txtTitle.setText( (position+1) + ". " + rowItem.getNombrePlanta());
-        holder.imageView.setImageResource(R.drawable.imagen_planta_uno);//rowItem.getImageId());
-
+        //holder.imageView.setImageResource(R.drawable.imagen_planta_uno);//rowItem.getImageId());
+        //LINEA EN LA QUE SE LLAMA A LA FUNCION QUE DESCARGA LOS THUMBNAIL
+        imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+rowItem.getThumbnail(), holder.imageView);
+        //FIN DE ESA LINEA, DE NADA
         return convertView;
     }
 }
