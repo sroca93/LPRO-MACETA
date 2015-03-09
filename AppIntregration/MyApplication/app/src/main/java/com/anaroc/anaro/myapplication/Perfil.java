@@ -1,6 +1,7 @@
 package com.anaroc.anaro.myapplication;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,9 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -41,6 +45,12 @@ public class Perfil extends Fragment{
     private ProgressDialog progDailog;
     private CustomListViewAdapter adapter;
     public ListView listView;
+    public boolean flag_back;
+    public int ID_planta_seleccionada;
+    public EntreFragments mCallback;
+    public ImageButton botonEstadisticas;
+    public ImageButton botonVideo;
+    public ImageButton botonAmigo;
     private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
 
 
@@ -50,7 +60,15 @@ public class Perfil extends Fragment{
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
         textview = (TextView) rootView.findViewById(R.id.textViewMenuPersonaNombre);
+        this.botonEstadisticas = (ImageButton) rootView.findViewById(R.id.imageButtonEstadisticas);
+        botonEstadisticas.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
+                storeState();
+                mCallback.sendID_estdisticas(ID_planta_seleccionada);
+
+            }
+        });
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
 
@@ -61,21 +79,7 @@ public class Perfil extends Fragment{
         progDailog= new ProgressDialog(this.getActivity());
         if(this.plantaPerfil!=null) {
 
-            /*GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
 
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 1),
-                    new DataPoint(1, 5),
-                    new DataPoint(2, 3),
-                    new DataPoint(3, 2),
-                    new DataPoint(4, 6),
-                    new DataPoint(5, 7),
-                    new DataPoint(6, 8),
-                    new DataPoint(7, 8),
-                    new DataPoint(8, 7),
-                    new DataPoint(9, 5)
-            });
-            graph.addSeries(series);*/
 
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
             textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
@@ -137,6 +141,13 @@ public class Perfil extends Fragment{
     }
 
 
+    private void restoreState() {
+        flag_back=true;
+    }
+
+    private void storeState(){
+        flag_back=false;
+    }
 
     public class ConsultaPerfil extends AsyncTask<Parametro, Void, Planta>
     {
@@ -170,4 +181,17 @@ public class Perfil extends Fragment{
             //progDailog.dismiss();
         }
     }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (EntreFragments) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString());
+        }
+    }
+
 }

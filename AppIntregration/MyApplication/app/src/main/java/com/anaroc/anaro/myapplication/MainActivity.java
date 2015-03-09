@@ -154,7 +154,14 @@ public class MainActivity extends ActionBarActivity
     }
 
 
-
+    public void sendID_estdisticas(int IDplanta){
+        FragmentManager fragmentManager = getFragmentManager();
+        Estadisticas fragment = new Estadisticas();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack("A_B_TAG")
+                .commit();
+    }
 
     public void sendPlanta(Planta planta){
 

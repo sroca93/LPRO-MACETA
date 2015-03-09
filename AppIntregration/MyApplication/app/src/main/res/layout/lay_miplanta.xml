@@ -60,25 +60,25 @@
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="60dp"
-            android:id="@+id/imageButton"
+            android:id="@+id/imageButtonEstadisticas"
             android:background="@drawable/boton_estadisticas" />
 
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="60dp"
-            android:id="@+id/imageButton2"
+            android:id="@+id/imageButtonVideo"
             android:background="@drawable/boton_timelapse" />
 
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="60dp"
-            android:id="@+id/imageButton3"
+            android:id="@+id/imageButtonCamara"
             android:background="@drawable/boton_photo" />
 
         <ImageButton
             android:layout_width="75dp"
             android:layout_height="60dp"
-            android:id="@+id/imageButton4"
+            android:id="@+id/imageButtonFlower"
             android:background="@drawable/boton_make_flower" />
     </LinearLayout>
 

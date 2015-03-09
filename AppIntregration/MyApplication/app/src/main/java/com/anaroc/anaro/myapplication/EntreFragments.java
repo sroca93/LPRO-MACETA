@@ -8,4 +8,7 @@ import contenedores.Planta;
 public interface EntreFragments {
 
     public void sendPlanta(Planta planta);
+
+    public void sendID_estdisticas(int IDplanta);
+
 }
