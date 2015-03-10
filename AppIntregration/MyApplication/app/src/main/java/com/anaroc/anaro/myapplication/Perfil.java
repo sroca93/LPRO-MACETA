@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class Perfil extends Fragment{
     public ListView listView;
     public boolean flag_back;
     public int ID_planta_seleccionada;
+    private RatingBar ratingBarPerfil;
     public EntreFragments mCallback;
     public ImageButton botonEstadisticas;
     public ImageButton botonVideo;
@@ -62,6 +64,8 @@ public class Perfil extends Fragment{
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
         textview = (TextView) rootView.findViewById(R.id.textViewMenuPersonaNombre);
+        ratingBarPerfil= (RatingBar) rootView.findViewById(R.id.ratingBarPerfil);
+
         this.botonEstadisticas = (ImageButton) rootView.findViewById(R.id.imageButtonEstadisticas);
         this.botonEstadisticas.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -90,10 +94,7 @@ public class Perfil extends Fragment{
         });
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
-
         String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
-        //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
-        //textview = (TextView) rootView.findViewById(R.id.textoTitulo);
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
         progDailog= new ProgressDialog(this.getActivity());
         if(this.plantaPerfil!=null) {
@@ -108,19 +109,19 @@ public class Perfil extends Fragment{
             final TimelineObject[] items = new TimelineObject[10];
 
             for (int i = 0; i < items.length; i++) {
-                if (i == 4) {
-                    items[i] = new TimelineObject(0,"coment","blablablabla","");
-                } else if (i == 9) {
-                    items[i] = new TimelineObject(1,"imagen","blablablabla","");
-                } else if (i % 2 == 0) {
-                    items[i] = new TimelineObject(0,"coment","blablablabla","");
+                if (i == 1) {
+                    items[i] = new TimelineObject(0,"Teneis weed?","Simon","SimonPlanta1.jpg");
+                } else if (i == 0) {
+                    items[i] = new TimelineObject(1,"imagen","Has subido una foto hace 20m","");
+                } else if (i == 2) {
+                    items[i] = new TimelineObject(0,"Jejeje","Tinki Winki","SimonPlanta1.jpg");
                 } else {
-                    items[i] = new TimelineObject(1,"coment","blablablabla","");
+                    items[i] = new TimelineObject(1,"Nueva foto para TimeLapse","","");
                 }
             }
 
+
             CustomListViewAdapterTimeline customAdapter = new CustomListViewAdapterTimeline(this.getActivity(), R.layout.lay_perfil_elemento_comentario, items);
-            Log.i("jeje2: ",customAdapter.toString());
             listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
             listView.setAdapter(customAdapter);
 
@@ -196,6 +197,7 @@ public class Perfil extends Fragment{
                 plantaPerfil = planta;
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
                 textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno());
+                ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
             }
             //progDailog.dismiss();
         }

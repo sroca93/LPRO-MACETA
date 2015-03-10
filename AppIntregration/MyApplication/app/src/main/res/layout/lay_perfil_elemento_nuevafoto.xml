@@ -10,6 +10,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Nueva imagen subida"
         android:id="@+id/textViewNuevaFoto"
+        android:maxWidth="170dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
@@ -17,6 +18,7 @@
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:id="@+id/imageViewNuevaFoto"
-        android:layout_below="@+id/textViewNuevaFoto"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:maxWidth="150dp" />
 </RelativeLayout>

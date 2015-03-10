@@ -10,27 +10,46 @@
                         android:layout_width="fill_parent"
                         android:layout_height="100dp"
                         android:id="@+id/menu_perfil"
-                        android:background="#ff00e275">
+                        android:background="@drawable/layout_bg">
+
+                    <RelativeLayout
+                        android:id="@+id/RelLayImage"
+                        android:layout_width="95dp"
+                        android:layout_height="95dp"
+                        android:gravity="center"
+                        android:layout_marginLeft="6dp">
 
                         <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                            android:layout_width="95dp"
+                            android:layout_height="95dp"
                             android:id="@+id/imageViewMiPlanta"
-                            android:background="#3B240B"
-                            android:padding="1dp"
-                            android:layout_gravity="left"
+                            android:padding="4dp"
+                            android:layout_gravity="center_vertical"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentStart="true" />
+
+                    </RelativeLayout>
+                        <!--android:background="#3B240B"-->
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="NombrePersona"
+                            android:text="Nombre"
                             android:id="@+id/textViewMenuPersonaNombre"
-                            android:textStyle="bold|italic"
                             android:layout_alignParentTop="true"
-                            android:layout_toEndOf="@+id/imageViewMiPlanta" />
+                            android:layout_toEndOf="@+id/RelLayImage"
+                            android:layout_marginLeft="5dp"
+                            android:textStyle="italic" />
+
+                        <RatingBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ratingBarPerfil"
+                            android:layout_alignBottom="@+id/RelLayImage"
+                            android:layout_alignStart="@+id/textViewMenuPersonaNombre"
+                            android:rating="3"
+                            style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small" />
 
 
                     </RelativeLayout>
@@ -41,7 +60,6 @@
                     android:id="@+id/listViewPerfil"
                     android:layout_below="@+id/menu_perfil"
                     android:layout_alignParentStart="true"
-                    android:layout_weight="0.82"
                     android:layout_above="@+id/linear_layout_botones" />
 
 
@@ -58,26 +76,26 @@
         android:layout_gravity="bottom">
 
         <ImageButton
-            android:layout_width="75dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
             android:id="@+id/imageButtonEstadisticas"
             android:background="@drawable/boton_estadisticas" />
 
         <ImageButton
-            android:layout_width="75dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
             android:id="@+id/imageButtonVideo"
             android:background="@drawable/boton_timelapse" />
 
         <ImageButton
-            android:layout_width="75dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
             android:id="@+id/imageButtonCamara"
             android:background="@drawable/boton_photo" />
 
         <ImageButton
-            android:layout_width="75dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
             android:id="@+id/imageButtonFlower"
             android:background="@drawable/boton_make_flower" />
     </LinearLayout>

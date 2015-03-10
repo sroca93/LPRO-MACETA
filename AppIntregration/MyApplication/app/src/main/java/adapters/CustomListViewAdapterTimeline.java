@@ -24,6 +24,7 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
     //public static final int TYPE_WHITE = 2;
     //public static final int TYPE_BLACK = 3;
     private TimelineObject[] objects;
+    private final ImageDownloader imageDownloader = new ImageDownloader();
 
 
     public class ViewHolder {
@@ -64,6 +65,7 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 viewHolder.texto=(TextView) convertView.findViewById(R.id.textViewTextoComent);
                 viewHolder.titulo=(TextView) convertView.findViewById(R.id.textViewTituloComent);
                 viewHolder.Img=(ImageView) convertView.findViewById(R.id.imageViewComent);
+                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+listViewItem.getThumbnail(), viewHolder.Img);
 
                 viewHolder.texto.setText("Mensaje: " + listViewItem.getTexto());
                 viewHolder.titulo.setText(listViewItem.getTitulo());
