@@ -44,6 +44,8 @@ public class CameraActivity extends Activity {
     RequestParams params = new RequestParams();
     String imgPath, fileName;
     Bitmap bitmap;
+
+    int idPlanta;
     private static int RESULT_LOAD_IMG = 1;
 
     @Override
@@ -51,6 +53,8 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         context = getApplicationContext();
+
+        idPlanta = getIntent().getIntExtra("idPlanta", 0);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -114,11 +118,7 @@ public class CameraActivity extends Activity {
                                 }
                             });
                             imgPath = pictureFile.getAbsolutePath();
-                            fileName = pictureFile.getName();
                             Log.d("imgPath", imgPath);
-                            Log.d("fileName", fileName);
-
-                            params.put("filename", fileName);
                             uploadImage();
                             //uploadFile(pictureFile.getAbsolutePath());
 
@@ -184,6 +184,9 @@ public class CameraActivity extends Activity {
                 //prgDialog.setMessage("Calling Upload");
                 // Put converted Image string into Async Http Post param
                 params.put("image", encodedString);
+                params.put("plantID", Integer.toString(idPlanta));
+
+                Log.d("idPlanta", Integer.toString(idPlanta));
                 // Trigger Image upload
                 triggerImageUpload();
             }

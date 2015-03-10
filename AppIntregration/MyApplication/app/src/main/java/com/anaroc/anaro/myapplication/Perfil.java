@@ -65,7 +65,7 @@ public class Perfil extends Fragment{
             public void onClick(View v) {
                 Log.d("hola", "hola");
                 Intent intent = new Intent(getActivity(), CameraActivity.class);
-
+                intent.putExtra("idPlanta", plantaPerfil.getIdPlanta());
 
                 getActivity().startActivity(intent);
             }
@@ -98,6 +98,8 @@ public class Perfil extends Fragment{
 
             final TimelineObject[] items = new TimelineObject[10];
 
+
+            // Dafuq.
             for (int i = 0; i < items.length; i++) {
                 if (i == 4) {
                     items[i] = new TimelineObject(0,"coment","blablablabla","");
