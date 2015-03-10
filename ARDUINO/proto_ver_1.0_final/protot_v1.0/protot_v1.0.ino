@@ -26,10 +26,11 @@
  // LED PINS
  #define ledSTUP 13              // SETUP LED PIN
  #define ledREAD 12              // READ SENSORS LED PIN
- #define ledTX   11              //TRANSMISION LED PIN
+ #define ledTX   11              // TRANSMISION LED PIN
  
  // BLUETOOTH
- #define BT_tx 9                 //BLUETOOTH SOFTWARE COM PINOUT
+ #define pow 7                   // BLUETOOTH POWER SUPPLY PIN
+ #define BT_tx 9                 // BLUETOOTH SOFTWARE COM PINOUT
  #define BT_rx 10
  #define DevNo 0001              // DEFINE THE DEVICE NUMBER
  #define BLUETOOTH_SPEED 57600   // BLUETOOTH DEVICE BAUDRATE
@@ -285,6 +286,9 @@
  //*****************************************************************************
  void BTconn()
  {
+   
+  pinMode(pow,OUTPUT);
+  digitalWrite(pow,HIGH); 
   while(1)                  // WILL LAST FOREVER
   {                
     while(BT.available())     // IF THERE'S SERIAL DATA TO READ
