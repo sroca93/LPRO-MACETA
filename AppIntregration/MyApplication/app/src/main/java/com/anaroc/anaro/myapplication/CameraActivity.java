@@ -13,8 +13,10 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,7 +58,7 @@ public class CameraActivity extends Activity {
 
         idPlanta = getIntent().getIntExtra("idPlanta", 0);
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mCamera = getCameraInstance();
 
@@ -151,7 +153,7 @@ public class CameraActivity extends Activity {
     public void uploadImage() {
         // When Image is selected from Gallery
 
-            encodeImagetoString();
+        encodeImagetoString();
 
     }
 
@@ -170,9 +172,17 @@ public class CameraActivity extends Activity {
                 bitmap = BitmapFactory.decodeFile(imgPath,
                         options);
                 if (bitmap == null) Log.d("bitmap", "null");
+                Matrix matrix = new Matrix();
+                //Log.d("orientattion", String.valueOf(getImageOrientation(imgPath)));
+                //Log.d("orientattion", String.valueOf(getImageOrientation()));
+
+                matrix.postRotate(90);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                        bitmap.getHeight(), matrix, true);
+
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Must compress the Image to reduce image size to make upload easy
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                 byte[] byte_arr = stream.toByteArray();
                 // Encode Image to String
                 encodedString = Base64.encodeToString(byte_arr, 0);
@@ -335,6 +345,31 @@ public class CameraActivity extends Activity {
         }
     }
 
+   /* public static int getImageOrientation(String imagePath){
+        int rotate = 0;
+        try {
 
+            File imageFile = new File(imagePath);
+            ExifInterface exif = new ExifInterface(imageFile.getPath());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            Log.d("orientacion", String.valueOf(orientation));
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return rotate;
+    }*/
 
 }

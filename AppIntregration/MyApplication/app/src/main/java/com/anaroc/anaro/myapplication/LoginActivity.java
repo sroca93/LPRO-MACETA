@@ -90,7 +90,10 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             if (c.moveToFirst()) {
                 mEmailView.setText(c.getString(0));
                 mPasswordView.setText(c.getString(1));
-                if (c.getInt(2) == 1) auto = true;
+                if (c.getInt(2) == 1) {
+                    auto = true;
+                    checkBoxAutoLogIn.setChecked(true);
+                }
                 Log.d("aaa", String.valueOf(c.getInt(2)));
                 checkBox.setChecked(true);
             }
