@@ -250,7 +250,7 @@
       BT.print(HI[ii]);              // HEAT INDEX
       BT.print(";");
       BT.print(L[ii]);               // LIGHT LEVEL 
-      BT.println(";");  
+      BT.println("");  
    }
     
     Serial.print("\nPack number: ");
