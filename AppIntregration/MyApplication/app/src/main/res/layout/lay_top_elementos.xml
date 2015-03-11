@@ -22,17 +22,18 @@
         android:text="test"
         android:textAlignment="textStart"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/desc"
+        android:layout_alignEnd="@+id/ratingBarTop"
         android:layout_marginTop="10dp" />
 
-    <TextView
-        android:id="@+id/desc"
+
+    <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/ratingBarTop"
+        android:layout_below="@id/title"
         android:paddingLeft="10dp"
-        android:textColor="#3399FF"
-        android:textSize="14dp"
-        android:text="test"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true" />
+        android:rating="3"
+        android:layout_centerHorizontal="true"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small" />
+
 </RelativeLayout>

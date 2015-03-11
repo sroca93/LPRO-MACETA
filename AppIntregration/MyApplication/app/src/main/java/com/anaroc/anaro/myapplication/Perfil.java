@@ -99,7 +99,7 @@ public class Perfil extends Fragment{
         //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         //textview = (TextView) rootView.findViewById(R.id.textoTitulo);
 
-        ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButton3);
+        ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

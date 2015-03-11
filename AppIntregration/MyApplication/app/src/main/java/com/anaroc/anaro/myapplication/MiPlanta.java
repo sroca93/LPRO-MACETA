@@ -20,6 +20,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
  */
 public class MiPlanta extends Fragment {
 
+
+ /*   /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,11 +48,12 @@ Log.d("uno", "uno");
                 new DataPoint(3, 2),
                 new DataPoint(4, 6)
         });
-        graph.addSeries(series);*/
+        graph.addSeries(series);
 
         ImageView imagenplanta= (ImageView)rootView.findViewById(R.id.imageViewMiPlanta);
         imagenplanta.setImageResource(R.drawable.imagen_planta_uno);
 
         return rootView;
     }
+*/
 }

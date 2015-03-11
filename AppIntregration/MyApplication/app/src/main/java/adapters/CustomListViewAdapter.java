@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.anaroc.anaro.myapplication.R;
@@ -31,7 +32,7 @@ public class CustomListViewAdapter extends ArrayAdapter<Planta> {
     private class ViewHolder {
         ImageView imageView;
         TextView txtTitle;
-        TextView txtDesc;
+        RatingBar txtDesc;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,14 +44,14 @@ public class CustomListViewAdapter extends ArrayAdapter<Planta> {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.lay_top_elementos, null);
             holder = new ViewHolder();
-            holder.txtDesc = (TextView) convertView.findViewById(R.id.desc);
+            holder.txtDesc = (RatingBar) convertView.findViewById(R.id.ratingBarTop);
             holder.txtTitle = (TextView) convertView.findViewById(R.id.title);
             holder.imageView = (ImageView) convertView.findViewById(R.id.icon);
             convertView.setTag(holder);
         } else
             holder = (ViewHolder) convertView.getTag();
 
-        holder.txtDesc.setText("Media: " + rowItem.getValoracionMedia());
+        holder.txtDesc.setRating(rowItem.getValoracionMedia());
         holder.txtTitle.setText( (position+1) + ". " + rowItem.getNombrePlanta());
         //holder.imageView.setImageResource(R.drawable.imagen_planta_uno);//rowItem.getImageId());
         //LINEA EN LA QUE SE LLAMA A LA FUNCION QUE DESCARGA LOS THUMBNAIL
