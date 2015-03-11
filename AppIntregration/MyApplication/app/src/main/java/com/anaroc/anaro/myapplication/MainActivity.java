@@ -99,21 +99,22 @@ public class MainActivity extends ActionBarActivity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+        this.onSectionAttached(position);
     }
 
     public void onSectionAttached(int number) {
         switch (number) {
+            case 0:
+                mTitle = "Perfil";
+                break;
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = "Descubre";
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = "Top";
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
+                mTitle = "Flowers";
                 break;
         }
     }
@@ -168,7 +169,14 @@ public class MainActivity extends ActionBarActivity
     }
 
 
-
+    public void sendID_estdisticas(int IDplanta){
+        FragmentManager fragmentManager = getFragmentManager();
+        Estadisticas fragment = new Estadisticas();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack("A_B_TAG")
+                .commit();
+    }
 
     public void sendPlanta(Planta planta){
 
