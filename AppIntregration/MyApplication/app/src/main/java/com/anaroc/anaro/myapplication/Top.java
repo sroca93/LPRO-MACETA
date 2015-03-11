@@ -102,7 +102,7 @@ public class Top extends Fragment {
                     //Toast.makeText(getActivity(),(String) arrayAdapter.getItem(position),Toast.LENGTH_LONG).show();
 
                     //Intent intent = new Intent(getActivity(),PerfilFromTopActivity.class).putExtra("Planta", listaPlantas[position]);
-                    //startActivity(intent);
+                    //start++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++Acçtivity(intent);
                     storeState();
                     mCallback.sendPlanta(listaPlantas[position]);
 

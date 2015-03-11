@@ -126,4 +126,6 @@ public class Consultas {
         Planta[] listaPlantas = gson.fromJson(array.toString(), Planta[].class);
         return listaPlantas;
     }
+
+
 }

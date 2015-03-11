@@ -88,7 +88,7 @@ public class Perfil extends Fragment{
             public void onClick(View v) {
 
                 storeState();
-                mCallback.sendID_estdisticas(ID_planta_seleccionada);
+                mCallback.sendID_estdisticas(plantaPerfil.getIdPlanta());
 
             }
         });

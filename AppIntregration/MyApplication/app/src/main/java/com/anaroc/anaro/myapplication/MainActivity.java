@@ -2,30 +2,18 @@ package com.anaroc.anaro.myapplication;
 
 import android.app.Fragment;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-import contenedores.Parametro;
 import contenedores.Planta;
 
 
@@ -171,7 +159,8 @@ public class MainActivity extends ActionBarActivity
 
     public void sendID_estdisticas(int IDplanta){
         FragmentManager fragmentManager = getFragmentManager();
-        Estadisticas fragment = new Estadisticas();
+        EstadisticasFragment fragment = new EstadisticasFragment();
+        fragment.setIDPlanta(IDplanta);
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .addToBackStack("A_B_TAG")
