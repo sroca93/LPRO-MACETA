@@ -31,8 +31,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/ratingBarTop"
         android:layout_below="@id/title"
-        android:paddingLeft="10dp"
         android:rating="3"
+        android:numStars = "5"
         android:layout_centerHorizontal="true"
         style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small" />
 
