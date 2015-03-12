@@ -10,6 +10,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -58,7 +60,7 @@ public class CameraActivity extends Activity {
 
         idPlanta = getIntent().getIntExtra("idPlanta", 0);
 
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mCamera = getCameraInstance();
 
@@ -127,7 +129,6 @@ public class CameraActivity extends Activity {
                         }
                     }).start();
 
-
                     onBackPressed();
 
                 } catch (FileNotFoundException e) {
@@ -138,7 +139,8 @@ public class CameraActivity extends Activity {
                 recreate();
             }
         };
-        Button captureButton = (Button) findViewById(R.id.button_capture);
+        ImageButton captureButton = (ImageButton) findViewById(R.id.button_capture);
+        captureButton.bringToFront();
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
