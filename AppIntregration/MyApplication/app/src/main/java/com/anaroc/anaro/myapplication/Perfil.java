@@ -205,8 +205,13 @@ public class Perfil extends Fragment{
 
             String respuestaJSON = Consultas.hacerConsulta(params);
             Planta[] respuestaParseada = Consultas.parsearPlantas(respuestaJSON);
-            Planta planta = respuestaParseada[0];
-            return planta;
+            if(respuestaParseada.length>0) {
+                return respuestaParseada[0];
+
+            }
+            else{
+                return null;
+            }
         }
 
         @Override
@@ -217,7 +222,12 @@ public class Perfil extends Fragment{
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
                 textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno());
                 ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+            }else{
+                textview.setText("No hay plantas disponibles.");
+                imagenplanta.setVisibility(View.GONE);
+                ratingBarPerfil.setVisibility(View.GONE);
             }
+
             //progDailog.dismiss();
         }
     }

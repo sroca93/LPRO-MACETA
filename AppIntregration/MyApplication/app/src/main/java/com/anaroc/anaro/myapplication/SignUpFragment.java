@@ -165,9 +165,10 @@ public class SignUpFragment extends Fragment {
                 Toast.makeText(getActivity(), "Registro realizado", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("user", usuario);
-                b.putString("pass", contra);
+                intent.putExtra("user", usuario);
+                intent.putExtra("pass", contra);
+                intent.putExtra("id", "-1"); //MALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL TODO 
+
 
                 startActivity(intent);
             }
