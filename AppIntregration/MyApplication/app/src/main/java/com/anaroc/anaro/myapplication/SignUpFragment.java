@@ -143,32 +143,27 @@ public class SignUpFragment extends Fragment {
     }
 
 
-    public class Registro extends AsyncTask<Parametro, Void, Boolean>
+    public class Registro extends AsyncTask<Parametro, Void, String>
     {
 
         @Override
-        protected Boolean doInBackground(Parametro... params) {
+        protected String doInBackground(Parametro... params) {
             //int respuestaJSON = Integer.parseInt(String.valueOf(Consultas.hacerConsulta(params)));
-            double respuestaJSON = Double.parseDouble(Consultas.hacerConsulta(params));
-            //System.out.println(Integer.parseInt(respuestaJSON));
-            //int respuestaJSON = 0;
-            //Log.d("cero", respuestaJSON);
+            return (Consultas.hacerConsulta(params));
 
-            return respuestaJSON == 0;
-            //return true;
 
         }
 
-        protected void onPostExecute(final Boolean success) {
-            if (success) {
+        protected void onPostExecute(String success) {
+            if (Integer.parseInt(success.replaceAll("\n",""))>0) {
                 Log.d("uno", "uno");
                 Toast.makeText(getActivity(), "Registro realizado", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.putExtra("user", usuario);
                 intent.putExtra("pass", contra);
-                intent.putExtra("id", "-1"); //MALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL TODO 
-
+                intent.putExtra("id", success);
+                Log.d("MONDEBUG ", success);
 
                 startActivity(intent);
             }
