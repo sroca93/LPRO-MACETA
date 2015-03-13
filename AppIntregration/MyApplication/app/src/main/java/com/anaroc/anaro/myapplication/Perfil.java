@@ -48,6 +48,7 @@ public class Perfil extends Fragment{
     private ProgressDialog progDailog;
     private CustomListViewAdapter adapter;
     private ImageButton botonSeguir;
+    private int lastBotonSeguir;
     public ListView listView;
     public boolean flag_back;
     public int ID_planta_seleccionada;
@@ -140,7 +141,7 @@ public class Perfil extends Fragment{
                 botonSeguir.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
 
-                        switch(botonSeguir.getId()){
+                        switch(lastBotonSeguir){
                             case R.drawable.seguir:
                                 new consultaFollow().execute(new Parametro("consulta", "followPlant"), new Parametro("myID", myId), new Parametro("plantID", (new Integer(plantaPerfil.getIdPlanta()).toString() )));
                                 break;
@@ -303,11 +304,13 @@ public class Perfil extends Fragment{
                 //isFollowing!
 
                     botonSeguir.setImageResource(R.drawable.yaseguido);
+                lastBotonSeguir = R.drawable.yaseguido;
                 botonSeguir.setVisibility(View.VISIBLE);
 
             } else {
                    //is not following!
                 botonSeguir.setImageResource(R.drawable.seguir);
+                lastBotonSeguir = R.drawable.seguir;
                 botonSeguir.setVisibility(View.VISIBLE);
             }
         }
@@ -332,6 +335,7 @@ public class Perfil extends Fragment{
                 //isFollowing!
 
                 botonSeguir.setImageResource(R.drawable.yaseguido);
+                lastBotonSeguir = R.drawable.yaseguido;
                 //botonSeguir.setVisibility(View.VISIBLE);
 
             }
@@ -357,6 +361,7 @@ public class Perfil extends Fragment{
                 //isFollowing!
 
                 botonSeguir.setImageResource(R.drawable.seguir);
+                lastBotonSeguir = R.drawable.yaseguido;
                 //botonSeguir.setVisibility(View.VISIBLE);
 
             }
