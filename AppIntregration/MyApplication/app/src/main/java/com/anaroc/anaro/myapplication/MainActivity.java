@@ -48,6 +48,7 @@ public class MainActivity extends ActionBarActivity
 
         PrefUtils.saveToPrefs(this, "PREFS_LOGIN_USERNAME_KEY", myId);
         PrefUtils.saveToPrefs(this, "PREFS_LOGIN_PASSWORD_KEY", password);
+        PrefUtils.saveToPrefs(this, "ACTUAL_USERNAME", email);
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
