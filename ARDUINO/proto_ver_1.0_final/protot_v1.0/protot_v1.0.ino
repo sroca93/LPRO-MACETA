@@ -25,9 +25,7 @@
 
  // LED PINS
  #define ledSTUP 13              // SETUP LED PIN
- #define ledREAD 12              // READ SENSORS LED PIN
- #define ledTX   11              // TRANSMISION LED PIN
- 
+
  // BLUETOOTH
  #define pow 7                   // BLUETOOTH POWER SUPPLY PIN
  #define BT_tx 9                 // BLUETOOTH SOFTWARE COM PINOUT
@@ -39,6 +37,7 @@
  #define DHTTYPE DHT22           // DHT 22  (AM2302) TYPE
  #define  DHTPIN 6               // PINS DE LOS SENSORES
  #define  L_PIN 0                // LDR PIN
+ #define  SH_PIN 1               // SOIL HUMIDITY PIN
 //*****************************************************************************
 
 
@@ -82,10 +81,12 @@
  float H[tam] = {};          // HUMIDITY
  float F[tam] = {};          // TEMPERATURE (F)
  float HI[tam] = {};         // HEAT INDEX 
- float L[tam] = {};          //LIGHT LEVEL
+ float L[tam] = {};          // LIGHT LEVEL
+ float SH[tam] = {};         // SOIL HUMIDITY 
  
  // AUX
  float l_aux =  0;
+ float SH_aux = 0;
  int ind = 0 ;
 //*****************************************************************************
 //*****************************************************************************
@@ -95,10 +96,7 @@
  
   // PIN MODES
   pinMode(ledSTUP, OUTPUT);      
-  pinMode(ledREAD, OUTPUT);   
-  pinMode(ledTX, OUTPUT);   
   pinMode(trig,OUTPUT);
-
   
   // INTERRUPT PIN MODE
   pinMode(wakePin, INPUT);     
@@ -133,8 +131,7 @@
  //                         SENSORS ADQUISITION ZONE
  //*****************************************************************************
  
-  digitalWrite(ledREAD,HIGH);                // START OF THE ADQ TIME
-    
+  
   delay(500);                                // WAITS 0.5 S
   
   H[ind] = dht.readHumidity();   
@@ -151,7 +148,10 @@
   } 
      
   l_aux=analogRead(L_PIN);                   // READ LIGHT LEVEL FROM THE ANALOG LDR
-  L[ind] = map(l_aux,0,1023,0,100);          // MAPS THE PERCENTAGE
+  L[ind] = map(l_aux,1023,0,0,100);          // MAPS THE PERCENTAGE
+  
+  SH_aux=analogRead(SH_PIN);                   // READ LIGHT LEVEL FROM THE ANALOG LDR
+  SH[ind] = map(SH_aux,0,1023,0,100);          // MAPS THE PERCENTAGE
   
   delay(100);           
   
@@ -159,7 +159,6 @@
   mea++;                                     // MEASURE COUNT   
   wdt_reset();                               // RESET THE WDT 
 
-  digitalWrite(ledREAD,LOW);                 // END OF THE ADQ ZONE
  //*****************************************************************************
  //***************************************************************************** 
   
@@ -172,8 +171,6 @@
     wdt_reset();                               // RESET THE WDT
     pck++;                                     // PACK COUNTER
   
-    digitalWrite(ledTX,HIGH);
-  
    //*****************************************************************************
    //                          COM: SERIAL PORT DEBUG
    //*****************************************************************************
@@ -183,6 +180,16 @@
     for(int ii=0;ii<tam;ii++)
     {
       Serial.print(H[ii]);
+      Serial.println(" %");
+    }
+ 
+    delay(100);
+    
+    Serial.println("\n\nSoil Humidity: ");
+  
+    for(int ii=0;ii<tam;ii++)
+    {
+      Serial.print(SH[ii]);
       Serial.println(" %");
     }
  
@@ -227,7 +234,7 @@
     
      //*****************************************************************************
      // BT PORT FRAME:
-     //              (DEVICE_No;FRME_No;SBF_No;MEA_No;HUM;TMP_C;TMP_F;HI;L)
+     //              (DEVICE_No;FRME_No;SBF_No;MEA_No;HUM;SOIL_HUM;TMP_C;TMP_F;HI;L)
      //*****************************************************************************
     
     wdt_reset();
@@ -242,6 +249,8 @@
       BT.print(mea-ind+ii);          // MEASURE NUMBER
       BT.print(";");
       BT.print(H[ii]);               // HUMIDITY LEVEL
+      BT.print(";");    
+      BT.print(SH[ii]);               // SOIL HUMIDITY LEVEL
       BT.print(";");       
       BT.print(T[ii]);               // TEMPERATURE (CELSIUS)
       BT.print(";");              
@@ -259,8 +268,6 @@
     ind=0;                           // RESETS THE BUFFER
   }
   
-  delay(100);
-  digitalWrite(ledTX,LOW);
  //*****************************************************************************
  //*****************************************************************************
   
