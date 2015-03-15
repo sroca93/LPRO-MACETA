@@ -96,6 +96,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             }
             c.close();
         }
+        assert db != null;
         db.close();
 
 

@@ -47,6 +47,7 @@ public class MainActivity extends ActionBarActivity
         myId = intent.getStringExtra("id");
 
         PrefUtils.saveToPrefs(this, "PREFS_LOGIN_USERNAME_KEY", myId);
+        Log.d("MONMON  ", myId);
         PrefUtils.saveToPrefs(this, "PREFS_LOGIN_PASSWORD_KEY", password);
         PrefUtils.saveToPrefs(this, "ACTUAL_USERNAME", email);
 

@@ -19,7 +19,7 @@ public class PrefUtils {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final SharedPreferences.Editor editor = prefs.edit();
         editor.putString(key,value);
-        editor.commit();
+        editor.apply();
     }
 
     /**

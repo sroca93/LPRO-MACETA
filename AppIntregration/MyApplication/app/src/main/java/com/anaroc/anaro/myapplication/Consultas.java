@@ -84,6 +84,7 @@ public class Consultas {
                 // Nothing to do.
                 respuesta = null;
             }
+            assert inputStream != null;
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;

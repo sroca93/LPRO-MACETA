@@ -50,6 +50,7 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder viewHolder = null;
         TimelineObject listViewItem = objects.get(position);
         int listViewItemType = getItemViewType(position);
@@ -85,6 +86,9 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
 
             }
 
+
+            assert convertView != null;
+            convertView.setTag(viewHolder);
 
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
