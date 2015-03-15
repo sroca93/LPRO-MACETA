@@ -160,7 +160,7 @@ public class CameraActivity extends Activity {
 
             protected void onPreExecute() {
 
-            };
+            }
 
             @Override
             protected String doInBackground(Void... params) {

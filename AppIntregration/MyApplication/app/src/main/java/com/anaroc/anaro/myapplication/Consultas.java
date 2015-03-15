@@ -16,6 +16,7 @@ import java.net.URL;
 
 import contenedores.Parametro;
 import contenedores.Planta;
+import contenedores.TimelineObject;
 
 /**
  * Created by Trabajo on 17/02/2015.
@@ -83,6 +84,7 @@ public class Consultas {
                 // Nothing to do.
                 respuesta = null;
             }
+            assert inputStream != null;
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
@@ -125,6 +127,20 @@ public class Consultas {
         JsonArray array = parser.parse(plantasJson).getAsJsonArray();
         Planta[] listaPlantas = gson.fromJson(array.toString(), Planta[].class);
         return listaPlantas;
+    }
+
+    public static TimelineObject[] parsearTLObjects (String TLObjJson){
+        //Log.i(">Respuesta JsonTimeline ",TLObjJson.toString());
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonArray array = parser.parse(TLObjJson).getAsJsonArray();
+        TimelineObject[] listaTLObjects = gson.fromJson(array.toString(), TimelineObject[].class);
+        for(TimelineObject TLO :listaTLObjects)
+        {
+            Log.i("listaTLObj: ", TLO.toString());
+        }
+
+        return listaTLObjects;
     }
 
 

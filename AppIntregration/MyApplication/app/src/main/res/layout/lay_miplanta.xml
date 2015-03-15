@@ -55,8 +55,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/imageButton"
-                            android:layout_marginEnd="51dp"
-                            android:layout_above="@+id/ratingBarPerfil"
+                            android:layout_below="@+id/textViewMenuPersonaNombre"
+                            android:layout_alignStart="@+id/textViewMenuPersonaNombre" />
+
+                        <Button
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comenta"
+                            android:id="@+id/buttonComent"
+                            android:layout_alignParentBottom="true"
                             android:layout_alignParentEnd="true" />
 
 
@@ -66,11 +74,16 @@
                     android:layout_width="fill_parent"
                     android:layout_height="200dp"
                     android:id="@+id/listViewPerfil"
-                    android:layout_below="@+id/menu_perfil"
                     android:layout_alignParentStart="true"
-                    android:layout_above="@+id/linear_layout_botones" />
+                    android:layout_above="@+id/linear_layout_botones"
+                    android:layout_below="@+id/editText" />
 
-
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:id="@+id/editText"
+        android:layout_below="@+id/menu_perfil"
+        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:id="@+id/linear_layout_botones"
