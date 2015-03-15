@@ -55,8 +55,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/imageButton"
-                            android:layout_alignParentTop="true"
-                            android:layout_toEndOf="@+id/ratingBarPerfil" />
+                            android:layout_below="@+id/textViewMenuPersonaNombre"
+                            android:layout_alignStart="@+id/textViewMenuPersonaNombre" />
 
                         <Button
                             style="?android:attr/buttonStyleSmall"
