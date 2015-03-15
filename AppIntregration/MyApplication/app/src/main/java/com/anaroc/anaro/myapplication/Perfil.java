@@ -9,11 +9,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -51,6 +54,10 @@ public class Perfil extends Fragment{
     private int lastBotonSeguir;
     public ListView listView;
     public boolean flag_back;
+    private boolean flag_loading=false;
+    private boolean flag_scroll_end;
+    private boolean flag_first_time=true;
+    private boolean flag_pulsado=false;
     public int ID_planta_seleccionada;
     private RatingBar ratingBarPerfil;
     public EntreFragments mCallback;
@@ -58,6 +65,15 @@ public class Perfil extends Fragment{
     public ImageButton botonVideo;
     public ImageButton botonAmigo;
     private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+    private ArrayList<TimelineObject> items;
+    private ArrayList<TimelineObject> itemsNuevos;
+    private Button botonComent;
+    private EditText editText;
+    private Toast toast;
+    private int top;
+    private int index;
+    private CustomListViewAdapterTimeline customAdapter;
+
 
 
 
@@ -67,6 +83,8 @@ public class Perfil extends Fragment{
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
         textview = (TextView) rootView.findViewById(R.id.textViewMenuPersonaNombre);
         ratingBarPerfil= (RatingBar) rootView.findViewById(R.id.ratingBarPerfil);
+        flag_scroll_end=false;
+        this.editText = (EditText) rootView.findViewById(R.id.editText);
         botonSeguir = (ImageButton) rootView.findViewById(R.id.imageButton);
         botonSeguir.setVisibility(View.GONE);
         this.botonEstadisticas = (ImageButton) rootView.findViewById(R.id.imageButtonEstadisticas);
@@ -153,35 +171,67 @@ public class Perfil extends Fragment{
                     }
                 });
 
+
+
+
             }
 
-            final TimelineObject[] items = new TimelineObject[10];
+            items = new ArrayList<TimelineObject>();
+
+            listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
+            additems();
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 
-            // Dafuq.
-            for (int i = 0; i < items.length; i++) {
-                if (i == 1) {
-                    items[i] = new TimelineObject(0,"Cuánto la riegas?","Simon","SimonPlanta1.jpg");
-                } else if (i == 0) {
-                    items[i] = new TimelineObject(1,"imagen","Has subido una foto hace 20m","");
-                } else if (i == 2) {
-                    items[i] = new TimelineObject(0,"Mola!","Tinki Winki","SimonPlanta1.jpg");
-                } else {
-                    items[i] = new TimelineObject(1,"Nueva foto para TimeLapse","","");
                 }
-            }
 
+                public void onScroll(AbsListView view, int firstVisibleItem,
+                                     int visibleItemCount, int totalItemCount) {
 
-            CustomListViewAdapterTimeline customAdapter = new CustomListViewAdapterTimeline(this.getActivity(), R.layout.lay_perfil_elemento_comentario, items);
-            listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
-            listView.setAdapter(customAdapter);
+                    if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
+                    {
+                        if(flag_loading == false && flag_scroll_end==false)
+                        {
+                            flag_loading = true;
+                            additems();
+                        }
+                    }
+                }
+            });
 
+            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
 
+            botonComent =  (Button) rootView.findViewById(R.id.buttonComent);
+            botonComent.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
 
-            /*adapter = new CustomListViewAdapter(this.getActivity(),
-                    R.layout.lay_perfil_elemento_comentario, new ArrayList<Planta>());
-            listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
-            listView.setAdapter(adapter);*/
+                    if(flag_pulsado==false)
+                    {
+                        float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 70, getResources().getDisplayMetrics());
+                        int dps = Math.round(pixels);
+                        editText.setHeight(dps);
+                        editText.getLayoutParams().height = dps;
+                        botonComent.setText("Enviar");
+                        flag_pulsado=true;
+                    }
+                    else
+                    {
+                        editText.setHeight(0);
+                        editText.getLayoutParams().height = 0;
+                        String textoNuevo=editText.getText().toString();
+                        new ConsultaEnviaComent().execute(new Parametro("consulta","insertarComentario"),new Parametro("myID",myId),new Parametro("plantID",Integer.toString(plantaPerfil.getIdPlanta())),new Parametro("comentario",textoNuevo));
+                        toast.setText("Tu mensaje ha sido enviado correctamente");
+                        toast.show();
+                        editText.setText("");
+                        botonComent.setText("Comenta");
+                        flag_pulsado=false;
+                    }
+
+                }
+            });
+
 
             textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
 
@@ -211,6 +261,16 @@ public class Perfil extends Fragment{
 
     }
 
+    private void additems(){
+
+        View v = listView.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - listView.getPaddingTop());
+        index = listView.getFirstVisiblePosition();
+
+        new ConsultaTimeLine().execute(new Parametro("consulta", "getTimeline"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())), new Parametro("numero", Integer.toString(items.size() + 10)));
+
+
+    }
 
     private void restoreState() {
         flag_back=true;
@@ -285,6 +345,85 @@ public class Perfil extends Fragment{
             //progDailog.dismiss();
         }
     }
+
+    public class ConsultaTimeLine extends AsyncTask<Parametro, Void, TimelineObject[]>
+    {
+
+        protected void onPreExecute() {
+
+            /*progDailog.setMessage("Cargando...");
+            progDailog.setIndeterminate(false);
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();*/
+        }
+
+        @Override
+        protected TimelineObject[] doInBackground(Parametro... params) {
+
+            String respuestaJSON = Consultas.hacerConsulta(params);
+            TimelineObject[] respuestaParseada = Consultas.parsearTLObjects(respuestaJSON);
+            TimelineObject[] TLObject = respuestaParseada;
+            return TLObject;
+        }
+
+        @Override
+        protected void onPostExecute(TimelineObject[] TLObject) {
+
+            itemsNuevos=new ArrayList<TimelineObject>();
+            for(int i=items.size(); i<TLObject.length ; i++)
+            {
+                itemsNuevos.add(TLObject[i]);
+                if(TLObject[i].getTexto()==null){
+                    flag_scroll_end=true;
+                    break;
+                }
+            }
+
+            if(flag_first_time)
+            {
+                customAdapter = new CustomListViewAdapterTimeline(getActivity(), R.layout.lay_perfil_elemento_comentario, itemsNuevos);
+                listView.setAdapter(customAdapter);
+                flag_first_time=false;
+            }
+            else {
+                customAdapter.addAll(itemsNuevos);
+                customAdapter.notifyDataSetChanged();
+                listView.setSelectionFromTop(index, top);
+            }
+            //progDailog.dismiss();
+            items.addAll(itemsNuevos);
+            flag_loading=false;
+
+        }
+    }
+
+    public class ConsultaEnviaComent extends  AsyncTask<Parametro,Void,String>
+    {
+        protected void onPreExecute() {
+
+                /*progDailog.setMessage("Cargando...");
+                progDailog.setIndeterminate(false);
+                progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progDailog.setCancelable(true);
+                progDailog.show();*/
+        }
+
+        @Override
+        protected String doInBackground(Parametro... params) {
+
+            String respuestaJSON = Consultas.hacerConsulta(params);
+            return(respuestaJSON);
+        }
+
+        @Override
+        protected void onPostExecute(String respuestajson) {
+
+            return;
+
+        }
+    }
+
 
     public class consultaIsFollowing extends AsyncTask<Parametro, Void, String> {
 

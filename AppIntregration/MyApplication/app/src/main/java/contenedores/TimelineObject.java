@@ -6,39 +6,49 @@ package contenedores;
 public class TimelineObject {
 
     public String Thumbnail;
-    public String titulo;
-    public String texto;
-    public int tipo;
+    public String Texto2;
+    public String Texto1;
+    public int Tipo;
 
     public TimelineObject(String thumbnail, int tipo, String texto, String titulo) {
         Thumbnail = thumbnail;
-        this.tipo = tipo;
-        this.texto = texto;
-        this.titulo = titulo;
+        this.Tipo = tipo;
+        this.Texto1 = titulo;
+        this.Texto2 = texto;
+    }
+
+    @Override
+    public String toString() {
+        return "TimelineObject{" +
+                "Thumbnail='" + Thumbnail + '\'' +
+                ", Texto2='" + Texto2 + '\'' +
+                ", Texto1='" + Texto1 + '\'' +
+                ", Tipo=" + Tipo +
+                '}';
     }
 
     public TimelineObject(int tipo, String texto, String titulo, String thumbnail) {
-        this.tipo = tipo;
-        this.texto = texto;
-        this.titulo = titulo;
+        this.Tipo = tipo;
+        this.Texto1 = titulo;
+        this.Texto2 = texto;
         Thumbnail = thumbnail;
     }
 
     public int getTipo() {
-        return tipo;
+        return Tipo;
     }
 
     public void setTipo(int tipo) {
-        this.tipo = tipo;
+        this.Tipo = tipo;
     }
 
 
     public String getTitulo() {
-        return titulo;
+        return Texto1;
     }
 
     public void setTitulo(String titulo) {
-        this.titulo = titulo;
+        this.Texto1 = titulo;
     }
 
     public String getThumbnail() {
@@ -50,11 +60,11 @@ public class TimelineObject {
     }
 
     public String getTexto() {
-        return texto;
+        return Texto2;
     }
 
     public void setTexto(String texto) {
-        this.texto = texto;
+        this.Texto2 = texto;
     }
 
 
