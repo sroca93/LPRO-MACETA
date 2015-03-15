@@ -33,6 +33,7 @@ import adapters.images.ImageDownloader;
 import contenedores.Parametro;
 import contenedores.Planta;
 import contenedores.TimelineObject;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by guille on 20/02/15.
@@ -208,7 +209,6 @@ public class Perfil extends Fragment{
     public void cargarPerfilUsuario(String myId){
         new ConsultaPerfil().execute(new Parametro("consulta", "getMisPlantas"), new Parametro("myID", myId));
 
-
     }
 
 
@@ -303,12 +303,12 @@ public class Perfil extends Fragment{
             if (Integer.parseInt(success.replaceAll("\n","")) == 1) {
                 //isFollowing!
 
-                    botonSeguir.setImageResource(R.drawable.yaseguido);
+                botonSeguir.setImageResource(R.drawable.yaseguido);
                 lastBotonSeguir = R.drawable.yaseguido;
                 botonSeguir.setVisibility(View.VISIBLE);
 
             } else {
-                   //is not following!
+                //is not following!
                 botonSeguir.setImageResource(R.drawable.seguir);
                 lastBotonSeguir = R.drawable.seguir;
                 botonSeguir.setVisibility(View.VISIBLE);

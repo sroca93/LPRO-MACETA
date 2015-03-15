@@ -21,7 +21,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import adapters.images.ImageDownloader;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -58,6 +62,9 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private CircleImageView imagenDrawer;
+    private final ImageDownloader imageDownloader = new ImageDownloader();
+
 
     public NavigationDrawerFragment() {
     }
@@ -111,6 +118,17 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section4),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+
+        imagenDrawer = (CircleImageView) drawerView.findViewById(R.id.imagenDrawer);
+        imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID="+PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "").trim(), imagenDrawer);
+
+        TextView textViewDrawer = (TextView)  drawerView.findViewById(R.id.textViewDrawer);
+
+        String nombreUsuario = PrefUtils.getFromPrefs(this.getActivity(), "ACTUAL_USERNAME","");
+        textViewDrawer.setText(Character.toUpperCase(nombreUsuario.charAt(0)) + nombreUsuario.substring(1));
+
+
         return drawerView;
     }
 
