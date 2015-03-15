@@ -106,12 +106,13 @@ public class ImageDownloader {
 
                 case NO_DOWNLOADED_DRAWABLE:
                     imageView.setMinimumHeight(156);
-                    */ BitmapDownloaderTask task = new BitmapDownloaderTask(imageView); /*
+                    */ BitmapDownloaderTask task; /*
                     task.execute(url);
                     break;
 
                 case CORRECT: */
-                    task = new BitmapDownloaderTask(imageView);
+            new BitmapDownloaderTask(imageView);
+            task = new BitmapDownloaderTask(imageView);
                     DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
                     imageView.setImageDrawable(downloadedDrawable);
                     imageView.setMinimumHeight(156);
@@ -265,14 +266,12 @@ public class ImageDownloader {
 
             addBitmapToCache(url, bitmap);
 
-            if (imageViewReference != null) {
-                ImageView imageView = imageViewReference.get();
-                BitmapDownloaderTask bitmapDownloaderTask = getBitmapDownloaderTask(imageView);
-                // Change bitmap only if this process is still associated with it
-                // Or if we don't use any bitmap to task association (NO_DOWNLOADED_DRAWABLE mode)
-                if ((this == bitmapDownloaderTask) || (mode != Mode.CORRECT)) {
-                    imageView.setImageBitmap(bitmap);
-                }
+            ImageView imageView = imageViewReference.get();
+            BitmapDownloaderTask bitmapDownloaderTask = getBitmapDownloaderTask(imageView);
+            // Change bitmap only if this process is still associated with it
+            // Or if we don't use any bitmap to task association (NO_DOWNLOADED_DRAWABLE mode)
+            if ((this == bitmapDownloaderTask) || (mode != Mode.CORRECT)) {
+                imageView.setImageBitmap(bitmap);
             }
         }
     }

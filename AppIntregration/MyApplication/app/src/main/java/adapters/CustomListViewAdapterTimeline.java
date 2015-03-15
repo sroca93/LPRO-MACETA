@@ -53,7 +53,7 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         TimelineObject listViewItem = objects[position];
         int listViewItemType = getItemViewType(position);
         if (convertView == null) {
@@ -84,6 +84,7 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.type_black, null);
             }*/
 
+            assert convertView != null;
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

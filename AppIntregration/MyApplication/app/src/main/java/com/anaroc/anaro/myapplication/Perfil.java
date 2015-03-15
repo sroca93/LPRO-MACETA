@@ -99,6 +99,7 @@ public class Perfil extends Fragment{
 
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+        Log.d("MONMON  ", myId);
         String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
 
         //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
@@ -136,17 +137,19 @@ public class Perfil extends Fragment{
 
                     Log.d("MONDEBUG>>>", currentUserID + ", p " + ((plantaPerfil.getIdPlanta())));
                     Log.d("MONDEBUG>>>", plantaPerfil.toString());
-                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", currentUserID), new Parametro("plantID", (new Integer(this.plantaPerfil.getIdPlanta()).toString() )));
+                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId), new Parametro("plantID", (Integer.valueOf(this.plantaPerfil.getIdPlanta()).toString() )));
                 }
                 botonSeguir.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-
+                        Log.d("MONMON  ", myId);
+                        String plantID = (Integer.valueOf(plantaPerfil.getIdPlanta())).toString();
+                        Log.d("MONMON ", plantID);
                         switch(lastBotonSeguir){
                             case R.drawable.seguir:
-                                new consultaFollow().execute(new Parametro("consulta", "followPlant"), new Parametro("myID", myId), new Parametro("plantID", (new Integer(plantaPerfil.getIdPlanta()).toString() )));
+                                new consultaFollow().execute(new Parametro("consulta", "followPlant"), new Parametro("myID", myId), new Parametro("plantID", plantID ));
                                 break;
                             case R.drawable.yaseguido:
-                                new consultaUnfollow().execute(new Parametro("consulta", "unfollowPlant"), new Parametro("myID", myId), new Parametro("plantID", (new Integer(plantaPerfil.getIdPlanta()).toString() )));
+                                new consultaUnfollow().execute(new Parametro("consulta", "unfollowPlant"), new Parametro("myID", myId), new Parametro("plantID", plantID ));
                                 break;
                         }
 
@@ -272,8 +275,8 @@ public class Perfil extends Fragment{
 
                 }else{
                     //botonSeguir.setVisibility(View.VISIBLE);
-                    Log.d("MONDEBUG>>>", currentUserID + ", p " + (new Integer(planta.getIdPlanta())).toString());
-                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", currentUserID ),  new Parametro("plantID", (new Integer(planta.getIdPlanta())).toString()));
+                    Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(planta.getIdPlanta())).toString());
+                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId ),  new Parametro("plantID", (Integer.valueOf(planta.getIdPlanta())).toString()));
                 }
 
             }else{
@@ -361,7 +364,7 @@ public class Perfil extends Fragment{
                 //isFollowing!
 
                 botonSeguir.setImageResource(R.drawable.seguir);
-                lastBotonSeguir = R.drawable.yaseguido;
+                lastBotonSeguir = R.drawable.seguir;
                 //botonSeguir.setVisibility(View.VISIBLE);
 
             }

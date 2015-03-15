@@ -61,7 +61,7 @@ public class Followed extends Fragment {
                     R.layout.lay_top_elementos, new ArrayList<Planta>());
             progDailog = new ProgressDialog(this.getActivity());
             String myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
-            new ConsultaFollowed().execute(new Parametro("consulta", "getPlantasQueSigo"), new Parametro("myID", (new Integer(myId.replace("\n",""))).toString()));
+            new ConsultaFollowed().execute(new Parametro("consulta", "getPlantasQueSigo"), new Parametro("myID", (Integer.valueOf(myId.replace("\n",""))).toString()));
             listView = (ListView) rootView.findViewById(R.id.listview_followed);
             listView.setAdapter(adapter);
 
