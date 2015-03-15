@@ -51,6 +51,14 @@
                             android:rating="3"
                             style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small" />
 
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/imageButton"
+                            android:layout_marginEnd="51dp"
+                            android:layout_above="@+id/ratingBarPerfil"
+                            android:layout_alignParentEnd="true" />
+
 
                     </RelativeLayout>
 

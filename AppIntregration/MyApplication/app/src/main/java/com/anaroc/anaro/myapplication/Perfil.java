@@ -47,6 +47,8 @@ public class Perfil extends Fragment{
     private View rootView;
     private ProgressDialog progDailog;
     private CustomListViewAdapter adapter;
+    private ImageButton botonSeguir;
+    private int lastBotonSeguir;
     public ListView listView;
     public boolean flag_back;
     public int ID_planta_seleccionada;
@@ -65,7 +67,8 @@ public class Perfil extends Fragment{
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
         textview = (TextView) rootView.findViewById(R.id.textViewMenuPersonaNombre);
         ratingBarPerfil= (RatingBar) rootView.findViewById(R.id.ratingBarPerfil);
-
+        botonSeguir = (ImageButton) rootView.findViewById(R.id.imageButton);
+        botonSeguir.setVisibility(View.GONE);
         this.botonEstadisticas = (ImageButton) rootView.findViewById(R.id.imageButtonEstadisticas);
         this.botonEstadisticas.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -92,6 +95,8 @@ public class Perfil extends Fragment{
 
             }
         });
+
+
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
@@ -120,8 +125,35 @@ public class Perfil extends Fragment{
 
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
             textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
+            String currentUser = PrefUtils.getFromPrefs(getActivity(),"ACTUAL_USERNAME","");
+            String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
+            Log.d("MONDEBUG ", currentUser + " vs "+ this.plantaPerfil.getDueno());
+            if (plantaPerfil.getDueno()!=null){
+                if (this.plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
+                    //nada, es tu planta
 
+                } else {
 
+                    Log.d("MONDEBUG>>>", currentUserID + ", p " + ((plantaPerfil.getIdPlanta())));
+                    Log.d("MONDEBUG>>>", plantaPerfil.toString());
+                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", currentUserID), new Parametro("plantID", (new Integer(this.plantaPerfil.getIdPlanta()).toString() )));
+                }
+                botonSeguir.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+
+                        switch(lastBotonSeguir){
+                            case R.drawable.seguir:
+                                new consultaFollow().execute(new Parametro("consulta", "followPlant"), new Parametro("myID", myId), new Parametro("plantID", (new Integer(plantaPerfil.getIdPlanta()).toString() )));
+                                break;
+                            case R.drawable.yaseguido:
+                                new consultaUnfollow().execute(new Parametro("consulta", "unfollowPlant"), new Parametro("myID", myId), new Parametro("plantID", (new Integer(plantaPerfil.getIdPlanta()).toString() )));
+                                break;
+                        }
+
+                    }
+                });
+
+            }
 
             final TimelineObject[] items = new TimelineObject[10];
 
@@ -205,8 +237,13 @@ public class Perfil extends Fragment{
 
             String respuestaJSON = Consultas.hacerConsulta(params);
             Planta[] respuestaParseada = Consultas.parsearPlantas(respuestaJSON);
-            Planta planta = respuestaParseada[0];
-            return planta;
+            if(respuestaParseada.length>0) {
+                return respuestaParseada[0];
+
+            }
+            else{
+                return null;
+            }
         }
 
         @Override
@@ -217,9 +254,119 @@ public class Perfil extends Fragment{
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
                 textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno());
                 ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+                //
+                //if no es planta mia
+                //checksilasigo
+                //    si la sigo
+                //       boton de dejar de seguir
+                //    si no
+                //       boton de seguir
+                //else
+                //    hide
+                //botonSeguir.setVisibility(View.GONE);
+                String currentUser = PrefUtils.getFromPrefs(getActivity(),"ACTUAL_USERNAME","");
+                String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
+                Log.d("MONDEBUG ", currentUser + " vs "+ planta.getDueno());
+                if(planta.getDueno().equalsIgnoreCase(currentUser)){
+                    //nada, es tu planta
+
+                }else{
+                    //botonSeguir.setVisibility(View.VISIBLE);
+                    Log.d("MONDEBUG>>>", currentUserID + ", p " + (new Integer(planta.getIdPlanta())).toString());
+                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", currentUserID ),  new Parametro("plantID", (new Integer(planta.getIdPlanta())).toString()));
+                }
+
+            }else{
+                textview.setText("No hay plantas disponibles.");
+                imagenplanta.setVisibility(View.GONE);
+                ratingBarPerfil.setVisibility(View.GONE);
             }
+
             //progDailog.dismiss();
         }
+    }
+
+    public class consultaIsFollowing extends AsyncTask<Parametro, Void, String> {
+
+        @Override
+        protected String doInBackground(Parametro... params) {
+            String respuestaJSON = (Consultas.hacerConsulta(params));
+            String respuesta = respuestaJSON;
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String success) {
+
+            //seguir.setVisibility(View.VISIBLE);
+            Log.d("MONDEBUG>>>", success);
+            if (Integer.parseInt(success.replaceAll("\n","")) == 1) {
+                //isFollowing!
+
+                    botonSeguir.setImageResource(R.drawable.yaseguido);
+                lastBotonSeguir = R.drawable.yaseguido;
+                botonSeguir.setVisibility(View.VISIBLE);
+
+            } else {
+                   //is not following!
+                botonSeguir.setImageResource(R.drawable.seguir);
+                lastBotonSeguir = R.drawable.seguir;
+                botonSeguir.setVisibility(View.VISIBLE);
+            }
+        }
+
+    }
+
+    public class consultaFollow extends AsyncTask<Parametro, Void, String> {
+
+        @Override
+        protected String doInBackground(Parametro... params) {
+            String respuestaJSON = (Consultas.hacerConsulta(params));
+            String respuesta = respuestaJSON;
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String success) {
+
+            //seguir.setVisibility(View.VISIBLE);
+            Log.d("MONDEBUG>>>", success);
+            if (Integer.parseInt(success.replaceAll("\n","")) == 0) {
+                //isFollowing!
+
+                botonSeguir.setImageResource(R.drawable.yaseguido);
+                lastBotonSeguir = R.drawable.yaseguido;
+                //botonSeguir.setVisibility(View.VISIBLE);
+
+            }
+        }
+
+    }
+
+    public class consultaUnfollow extends AsyncTask<Parametro, Void, String> {
+
+        @Override
+        protected String doInBackground(Parametro... params) {
+            String respuestaJSON = (Consultas.hacerConsulta(params));
+            String respuesta = respuestaJSON;
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String success) {
+
+            //seguir.setVisibility(View.VISIBLE);
+            Log.d("MONDEBUG>>>", success);
+            if (Integer.parseInt(success.replaceAll("\n","")) == 0) {
+                //isFollowing!
+
+                botonSeguir.setImageResource(R.drawable.seguir);
+                lastBotonSeguir = R.drawable.yaseguido;
+                //botonSeguir.setVisibility(View.VISIBLE);
+
+            }
+        }
+
     }
 
     public void onAttach(Activity activity) {
