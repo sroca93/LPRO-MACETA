@@ -226,8 +226,8 @@ public class Perfil extends Fragment{
                         editText.getLayoutParams().height = 0;
                         String textoNuevo=editText.getText().toString();
                         new ConsultaEnviaComent().execute(new Parametro("consulta","insertarComentario"),new Parametro("myID",myId),new Parametro("plantID",Integer.toString(plantaPerfil.getIdPlanta())),new Parametro("comentario",textoNuevo));
-                        toast.setText("Tu mensaje ha sido enviado correctamente");
-                        toast.show();
+                        //toast.setText("Tu mensaje ha sido enviado correctamente");
+                        //toast.show();
                         editText.setText("");
                         botonComent.setText("Comenta");
                         flag_pulsado=false;
@@ -374,13 +374,13 @@ public class Perfil extends Fragment{
         protected void onPostExecute(TimelineObject[] TLObject) {
 
             itemsNuevos=new ArrayList<TimelineObject>();
+            if(TLObject.length % 10!=0)
+            {
+                flag_scroll_end=true;
+            }
             for(int i=items.size(); i<TLObject.length ; i++)
             {
                 itemsNuevos.add(TLObject[i]);
-                if(TLObject[i].getTexto()==null){
-                    flag_scroll_end=true;
-                    break;
-                }
             }
 
             if(flag_first_time)
