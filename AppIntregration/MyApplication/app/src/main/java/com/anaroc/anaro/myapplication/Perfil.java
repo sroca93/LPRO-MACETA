@@ -33,7 +33,6 @@ import java.util.ArrayList;
 
 import adapters.CustomListViewAdapter;
 import adapters.CustomListViewAdapterTimeline;
-import adapters.SimpleGestureFilter;
 import adapters.images.ImageDownloader;
 import contenedores.Parametro;
 import contenedores.Planta;
@@ -43,9 +42,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by guille on 20/02/15.
  */
-public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestureListener{
+public class Perfil extends Fragment{
 
-    private SimpleGestureFilter detector = new SimpleGestureFilter(getActivity(),this);
     private String titulo="Vacio";
     private Planta plantaPerfil=new Planta();
     private final ImageDownloader imageDownloader = new ImageDownloader();
@@ -79,41 +77,6 @@ public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestur
     private CustomListViewAdapterTimeline customAdapter;
     private Planta[] listaPlantas;
     private int indexPlanta = -1;
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent me){
-        // Call onTouchEvent of SimpleGestureFilter class
-        this.detector.onTouchEvent(me);
-        return getActivity().dispatchTouchEvent(me);
-    }
-    @Override
-    public void onSwipe(int direction) {
-        String str = "";
-        if(indexPlanta>=0) {
-            switch (direction) {
-
-                case SimpleGestureFilter.SWIPE_RIGHT:
-                    str = "Swipe Right";
-                    break;
-                case SimpleGestureFilter.SWIPE_LEFT:
-                    str = "Swipe Left";
-                    break;
-                case SimpleGestureFilter.SWIPE_DOWN:
-                    str = "Swipe Down";
-                    break;
-                case SimpleGestureFilter.SWIPE_UP:
-                    str = "Swipe Up";
-                    break;
-
-            }
-            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onDoubleTap() {
-        Toast.makeText(getActivity(), "Double Tap", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
