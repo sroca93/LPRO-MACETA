@@ -87,17 +87,21 @@ public class CameraUtils {
                 Log.d("idPlanta", Integer.toString(idPlanta));
                 // Trigger Image upload
                 triggerImageUpload();
-                pictureFile.delete();
+                if (medida) pictureFile.delete();
             }
         }.execute(null, null, null);
     }
 
     public void triggerImageUpload() {
+        Log.d("triggerImageUpload", Integer.toString(idPlanta));
+
         makeHTTPCall();
     }
 
 
     public void makeHTTPCall() {
+        Log.d("makeHTTPCall", Integer.toString(idPlanta));
+
         //prgDialog.setMessage("Invoking Php");
         AsyncHttpClient client = new AsyncHttpClient();
         // Don't forget to change the IP address to your LAN address. Port no as well.

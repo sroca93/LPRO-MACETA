@@ -171,9 +171,7 @@ public class GalleryFragment extends Fragment {
             if (c.moveToFirst()) {
                 do {
                     String pathFile = c.getString(1);
-                    File f = new File(pathFile.replaceAll("file://", ""));
-                    if (f.exists()) paths.add(pathFile);
-                    else db.delete("Imagenes", "ID=" + c.getInt(0), null);
+                    paths.add(pathFile);
 
                     Log.d("path:", pathFile);
                 } while (c.moveToNext());

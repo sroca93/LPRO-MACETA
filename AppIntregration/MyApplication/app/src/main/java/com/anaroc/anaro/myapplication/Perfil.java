@@ -127,7 +127,6 @@ public class Perfil extends Fragment{
                 cu = new CameraUtils(context, plantaPerfil.getIdPlanta(),false);
 
                 fileUri = cu.getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-                savePhoto(fileUri);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
 
                 // start the image capture Intent
@@ -313,18 +312,14 @@ public class Perfil extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                // Image captured and saved to fileUri specified in the Intent
-                if (data != null){
-                    Toast.makeText(this.getActivity(), "Image saved to:\n" +
-                            data.getData(), Toast.LENGTH_LONG).show();
-                   cu.uploadImage();
-                }
-            } else if (resultCode == RESULT_CANCELED) {
-                // User cancelled the image capture
-            } else {
-                // Image capture failed, advise user
+
+            File f = new File(String.valueOf(fileUri).replaceAll("file:", ""));
+            if (f.exists()) {
+                savePhoto(fileUri);
+                cu.uploadImage();
             }
+
+
         }
 
     }
