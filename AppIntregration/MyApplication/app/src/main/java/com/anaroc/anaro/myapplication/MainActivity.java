@@ -95,7 +95,12 @@ public class MainActivity extends ActionBarActivity
             case 3:
                 fragment = new Followed();
                 break;
-
+            case 4:
+                fragment = new PlantAcademyFragment();
+                break;
+            case 5:
+                fragment = new GalleryFragment();
+                break;
 
         }
 
@@ -119,6 +124,12 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTitle = "Flowers";
+                break;
+            case 4:
+                mTitle = "PlantAcademy";
+                break;
+            case 5:
+                mTitle = "Galería";
                 break;
         }
     }

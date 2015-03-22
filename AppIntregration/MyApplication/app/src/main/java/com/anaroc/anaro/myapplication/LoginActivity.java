@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -30,6 +31,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -58,16 +60,20 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
     private View mLoginFormView;
     private String email, password;
     private CheckBox checkBox, checkBoxAutoLogIn;
     private boolean auto = false;
+    private ProgressDialog progDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        InputMethodManager imm  = (InputMethodManager)getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.user);
@@ -76,6 +82,9 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         mPasswordView = (EditText) findViewById(R.id.password);
         checkBox = (CheckBox) findViewById(R.id.checkBoxRecordar);
         checkBoxAutoLogIn = (CheckBox) findViewById(R.id.checkBoxAutoLogin);
+
+        mLoginFormView = findViewById(R.id.login_form);
+        progDialog = new ProgressDialog(this);
 
         SQLite sqlu = new SQLite(this, "BDUsuarios", null, 1);
         SQLiteDatabase db = sqlu.getReadableDatabase();
@@ -94,13 +103,17 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                     auto = true;
                     checkBoxAutoLogIn.setChecked(true);
                 }
-                Log.d("aaa", String.valueOf(c.getInt(2)));
                 checkBox.setChecked(true);
             }
             c.close();
         }
         db.close();
 
+        if (auto) {
+
+            if (isOnline()) attemptLogin();
+            else Toast.makeText(getApplicationContext(), "No hay conectividad de red.",Toast.LENGTH_SHORT).show();
+        }
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -129,8 +142,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             public void onClick(View view) {
                 if (isOnline()) {
                     findViewById(R.id.login_form).setVisibility(View.GONE);
-                    findViewById(R.id.login_progress).setVisibility(View.GONE);
-                    //setContentView(R.layout.fragment_sign_up);
+                    //findViewById(R.id.login_progress).setVisibility(View.GONE);
                     SignUpFragment fragment = SignUpFragment.newInstance("", "");
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(android.R.id.content, fragment);
@@ -139,13 +151,8 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
 
-        if (auto) {
-            if (isOnline()) attemptLogin();
-            else Toast.makeText(getApplicationContext(), "No hay conectividad de red.",Toast.LENGTH_SHORT).show();
-        }
+
     }
 
     private void populateAutoComplete() {
@@ -232,18 +239,10 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                 }
             });
 
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
+
         } else {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
@@ -350,7 +349,13 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
     public class UserLoginTask extends AsyncTask<Parametro, Void, String> {
 
 
-
+        protected void onPreExecute() {
+            progDialog.setMessage("Iniciando sesión...");
+            progDialog.setIndeterminate(false);
+            progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDialog.setCancelable(true);
+            progDialog.show();
+        }
 
         @Override
         protected String doInBackground(Parametro... params) {
@@ -360,7 +365,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             // TODO: register the new account here.
 
             return respuesta;
-           // return false;
+            // return false;
         }
 
         @Override
@@ -383,6 +388,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                     }
                 }
                 else forget();
+                progDialog.dismiss();
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("user", email);
