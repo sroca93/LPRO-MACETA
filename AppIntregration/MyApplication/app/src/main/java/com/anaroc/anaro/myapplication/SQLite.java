@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class SQLite extends SQLiteOpenHelper {
     String sqlOnCreate = "create table Usuarios (ID integer primary key, user text, pass text, flag integer)";
-    String sqlOnCreateImages = "create table Imagenes (ID integer primary key, path text)";
-
 
     public SQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -18,18 +16,13 @@ public class SQLite extends SQLiteOpenHelper {
 
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(sqlOnCreate);
-        db.execSQL(sqlOnCreateImages);
-
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists Usuarios");
-        db.execSQL("drop table if exists Imagenes");
-
         db.execSQL(sqlOnCreate);
-        db.execSQL(sqlOnCreateImages);
 
     }
 }

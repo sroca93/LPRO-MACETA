@@ -45,11 +45,9 @@ public class CameraActivity extends Activity {
     private CameraPreview mPreview;
     private static Context context;
     String encodedString;
-    Bitmap bitmap;
-
     RequestParams params = new RequestParams();
     String imgPath, fileName;
-    private File pictureFile;
+    Bitmap bitmap;
 
     int idPlanta;
     private static int RESULT_LOAD_IMG = 1;
@@ -71,17 +69,9 @@ public class CameraActivity extends Activity {
         RelativeLayout preview = (RelativeLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
-        findViewById(R.id.imageView).bringToFront();
-
-        /*android.hardware.Camera.Parameters parameters = mCamera.getParameters();
-        android.hardware.Camera.Size size = parameters.getPictureSize();
-
-        Log.d("cocacola", String.valueOf(size.height));
-        Log.d("cocacola", String.valueOf(size.width));
-
-
-        int height = size.height;
-        int width = size.width;*/
+        findViewById(R.id.imageView1).bringToFront();
+        findViewById(R.id.ImageView01).bringToFront();
+        findViewById(R.id.ImageView02).bringToFront();
 
 
         final PictureCallback mPicture = new PictureCallback() {
@@ -89,9 +79,7 @@ public class CameraActivity extends Activity {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
 
-                final CameraUtils cu = new CameraUtils(getApplicationContext(), idPlanta, true);
-
-                pictureFile = cu.getOutputMediaFile(MEDIA_TYPE_IMAGE);
+                final File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
                 if (pictureFile == null) {
                     Log.d(TAG, "Error creating media file, check storage permissions: ");
                     return;
@@ -135,8 +123,7 @@ public class CameraActivity extends Activity {
                             });
                             imgPath = pictureFile.getAbsolutePath();
                             Log.d("imgPath", imgPath);
-
-                            cu.uploadImage();
+                            uploadImage();
                             //uploadFile(pictureFile.getAbsolutePath());
 
                         }
@@ -165,14 +152,14 @@ public class CameraActivity extends Activity {
         );
     }
 
-    /*public void uploadImage() {
+    public void uploadImage() {
         // When Image is selected from Gallery
 
         encodeImagetoString();
 
-    }*/
+    }
 
-   /* public void encodeImagetoString() {
+    public void encodeImagetoString() {
         new AsyncTask<Void, Void, String>() {
 
             protected void onPreExecute() {
@@ -214,7 +201,6 @@ public class CameraActivity extends Activity {
                 Log.d("idPlanta", Integer.toString(idPlanta));
                 // Trigger Image upload
                 triggerImageUpload();
-                pictureFile.delete();
             }
         }.execute(null, null, null);
     }
@@ -272,7 +258,7 @@ public class CameraActivity extends Activity {
                     }
                 });
     }
-*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -303,7 +289,7 @@ public class CameraActivity extends Activity {
     /**
      * Create a File for saving an image or video
      */
-    /*private static File getOutputMediaFile(int type) {
+    private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -332,7 +318,7 @@ public class CameraActivity extends Activity {
         Toast.makeText(context, "File created: " + mediaFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
         return mediaFile;
-    }*/
+    }
 
     public void onPause() {
         super.onPause();
