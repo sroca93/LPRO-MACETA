@@ -225,6 +225,8 @@ public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestur
             String currentUser = PrefUtils.getFromPrefs(getActivity(),"ACTUAL_USERNAME","");
             String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
             Log.d("MONDEBUG ", currentUser + " vs "+ this.plantaPerfil.getDueno());
+            ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+
             if (plantaPerfil.getDueno()!=null){
                 if (this.plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
                     //nada, es tu planta
