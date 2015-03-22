@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 
 import adapters.CustomListViewAdapter;
 import adapters.CustomListViewAdapterTimeline;
+import adapters.SimpleGestureFilter;
 import adapters.images.ImageDownloader;
 import contenedores.Parametro;
 import contenedores.Planta;
@@ -41,8 +43,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by guille on 20/02/15.
  */
-public class Perfil extends Fragment{
+public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestureListener{
 
+    private SimpleGestureFilter detector = new SimpleGestureFilter(getActivity(),this);
     private String titulo="Vacio";
     private Planta plantaPerfil=new Planta();
     private final ImageDownloader imageDownloader = new ImageDownloader();
@@ -74,9 +77,43 @@ public class Perfil extends Fragment{
     private int top;
     private int index;
     private CustomListViewAdapterTimeline customAdapter;
+    private Planta[] listaPlantas;
+    private int indexPlanta = -1;
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent me){
+        // Call onTouchEvent of SimpleGestureFilter class
+        this.detector.onTouchEvent(me);
+        return getActivity().dispatchTouchEvent(me);
+    }
+    @Override
+    public void onSwipe(int direction) {
+        String str = "";
+        if(indexPlanta>=0) {
+            switch (direction) {
 
+                case SimpleGestureFilter.SWIPE_RIGHT:
+                    str = "Swipe Right";
+                    break;
+                case SimpleGestureFilter.SWIPE_LEFT:
+                    str = "Swipe Left";
+                    break;
+                case SimpleGestureFilter.SWIPE_DOWN:
+                    str = "Swipe Down";
+                    break;
+                case SimpleGestureFilter.SWIPE_UP:
+                    str = "Swipe Up";
+                    break;
 
+            }
+            Toast.makeText(getActivity(), str, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDoubleTap() {
+        Toast.makeText(getActivity(), "Double Tap", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,7 +152,46 @@ public class Perfil extends Fragment{
             }
         });
 
+        final GestureDetector gesture = new GestureDetector(getActivity(),
+                new GestureDetector.SimpleOnGestureListener() {
 
+                    @Override
+                    public boolean onDown(MotionEvent e) {
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                           float velocityY) {
+                        Log.i("MONDEBUG ", "onFling has been called!");
+                        final int SWIPE_MIN_DISTANCE = 120;
+                        final int SWIPE_MAX_OFF_PATH = 250;
+                        final int SWIPE_THRESHOLD_VELOCITY = 200;
+                        try {
+                            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                                return false;
+                            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                                Log.i("MONDEBUG ", "Right to Left");
+                                cambiaPlanta(1);
+                            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                                Log.i("MONDEBUG ", "Left to Right");
+                                cambiaPlanta(-1);
+                            }
+                        } catch (Exception e) {
+                            // nothing
+                        }
+                        return super.onFling(e1, e2, velocityX, velocityY);
+                    }
+                });
+
+        rootView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gesture.onTouchEvent(event);
+            }
+        });
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         Log.d("MONMON  ", myId);
@@ -139,6 +215,7 @@ public class Perfil extends Fragment{
 
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
         progDailog= new ProgressDialog(this.getActivity());
+
         if(this.plantaPerfil!=null) {
 
 
@@ -283,7 +360,41 @@ public class Perfil extends Fragment{
         flag_back=false;
     }
 
-    public class ConsultaPerfil extends AsyncTask<Parametro, Void, Planta>
+    private void cambiaPlanta(int index) {
+        if (listaPlantas.length > 0 && listaPlantas.length > (indexPlanta + index)) {
+
+            indexPlanta += index;
+            plantaPerfil = listaPlantas[indexPlanta];
+            imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
+            textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
+            ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+            //
+            //if no es planta mia
+            //checksilasigo
+            //    si la sigo
+            //       boton de dejar de seguir
+            //    si no
+            //       boton de seguir
+            //else
+            //    hide
+            //botonSeguir.setVisibility(View.GONE);
+            String currentUser = PrefUtils.getFromPrefs(getActivity(), "ACTUAL_USERNAME", "");
+            String currentUserID = PrefUtils.getFromPrefs(getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+            Log.d("MONDEBUG ", currentUser + " vs " + plantaPerfil.getDueno());
+            if (plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
+                //nada, es tu planta
+
+            } else {
+                //botonSeguir.setVisibility(View.VISIBLE);
+                Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(plantaPerfil.getIdPlanta())).toString());
+                new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId), new Parametro("plantID", (Integer.valueOf(plantaPerfil.getIdPlanta())).toString()));
+            }
+
+
+        }
+    }
+
+    public class ConsultaPerfil extends AsyncTask<Parametro, Void, Planta[]>
     {
 
         protected void onPreExecute() {
@@ -296,12 +407,12 @@ public class Perfil extends Fragment{
         }
 
         @Override
-        protected Planta doInBackground(Parametro... params) {
+        protected Planta[] doInBackground(Parametro... params) {
 
             String respuestaJSON = Consultas.hacerConsulta(params);
             Planta[] respuestaParseada = Consultas.parsearPlantas(respuestaJSON);
             if(respuestaParseada.length>0) {
-                return respuestaParseada[0];
+                return respuestaParseada;
 
             }
             else{
@@ -310,12 +421,14 @@ public class Perfil extends Fragment{
         }
 
         @Override
-        protected void onPostExecute(Planta planta) {
+        protected void onPostExecute(Planta[] planta) {
 
-            if (planta != null) {
-                plantaPerfil = planta;
+            if (planta.length>0) {
+                listaPlantas = planta;
+                indexPlanta = 0;
+                plantaPerfil = planta[0];
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
-                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno());
+                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
                 ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
                 //
                 //if no es planta mia
@@ -329,15 +442,16 @@ public class Perfil extends Fragment{
                 //botonSeguir.setVisibility(View.GONE);
                 String currentUser = PrefUtils.getFromPrefs(getActivity(),"ACTUAL_USERNAME","");
                 String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
-                Log.d("MONDEBUG ", currentUser + " vs "+ planta.getDueno());
-                if(planta.getDueno().equalsIgnoreCase(currentUser)){
+                Log.d("MONDEBUG ", currentUser + " vs "+ plantaPerfil.getDueno());
+                if(plantaPerfil.getDueno().equalsIgnoreCase(currentUser)){
                     //nada, es tu planta
 
                 }else{
                     //botonSeguir.setVisibility(View.VISIBLE);
-                    Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(planta.getIdPlanta())).toString());
-                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId ),  new Parametro("plantID", (Integer.valueOf(planta.getIdPlanta())).toString()));
+                    Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(plantaPerfil.getIdPlanta())).toString());
+                    new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId ),  new Parametro("plantID", (Integer.valueOf(plantaPerfil.getIdPlanta())).toString()));
                 }
+
 
             }else{
                 textview.setText("No hay plantas disponibles.");

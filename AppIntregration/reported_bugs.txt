@@ -1,0 +1,8 @@
+-No aparece timeline de "mi planta", nada más entrar (sí aparece si entro a través de top).
+-Aparece el teclado abierto.
+-Foto de perfil, sin terminar?
+-El timeline se queda vibrando si llegas al borde, y luego se queda colgado.
+-La puntuación media no se actualiza en el perfil de una planta. 
+-Al subir una imagen, o un comentario, hay que volver a entrar para que se actualice.
+-...
+
