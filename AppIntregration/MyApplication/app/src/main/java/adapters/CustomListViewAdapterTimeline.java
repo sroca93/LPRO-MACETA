@@ -53,8 +53,9 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
 
         ViewHolder viewHolder = null;
         TimelineObject listViewItem = objects.get(position);
+        //objects.remove(position);
         int listViewItemType = getItemViewType(position);
-        if (convertView == null) {
+        if (true) {
 
             viewHolder = new ViewHolder();
 

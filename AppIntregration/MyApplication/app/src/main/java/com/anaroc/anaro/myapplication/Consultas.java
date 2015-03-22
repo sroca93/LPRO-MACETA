@@ -135,10 +135,10 @@ public class Consultas {
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(TLObjJson).getAsJsonArray();
         TimelineObject[] listaTLObjects = gson.fromJson(array.toString(), TimelineObject[].class);
-        for(TimelineObject TLO :listaTLObjects)
+        /*for(TimelineObject TLO :listaTLObjects)
         {
             Log.i("listaTLObj: ", TLO.toString());
-        }
+        }*/
 
         return listaTLObjects;
     }

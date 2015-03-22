@@ -69,7 +69,7 @@ public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestur
     public ImageButton botonVideo;
     public ImageButton botonAmigo;
     private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
-    private ArrayList<TimelineObject> items;
+    private int numItems;
     private ArrayList<TimelineObject> itemsNuevos;
     private Button botonComent;
     private EditText editText;
@@ -257,9 +257,9 @@ public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestur
 
             }
 
-            items = new ArrayList<TimelineObject>();
 
             listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
+            numItems=0;
             additems();
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -347,7 +347,7 @@ public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestur
         top = (v == null) ? 0 : (v.getTop() - listView.getPaddingTop());
         index = listView.getFirstVisiblePosition();
 
-        new ConsultaTimeLine().execute(new Parametro("consulta", "getTimeline"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())), new Parametro("numero", Integer.toString(items.size() + 10)));
+        new ConsultaTimeLine().execute(new Parametro("consulta", "getTimeline"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())), new Parametro("numero", Integer.toString(numItems + 10)));
 
 
     }
@@ -488,28 +488,33 @@ public class Perfil extends Fragment implements SimpleGestureFilter.SimpleGestur
         protected void onPostExecute(TimelineObject[] TLObject) {
 
             itemsNuevos=new ArrayList<TimelineObject>();
-            if(TLObject.length % 10!=0)
+            if(TLObject.length % 10!=0 || (TLObject.length == numItems))
             {
                 flag_scroll_end=true;
             }
-            for(int i=items.size(); i<TLObject.length ; i++)
-            {
-                itemsNuevos.add(TLObject[i]);
-            }
+            if(TLObject.length != numItems) {
 
-            if(flag_first_time)
-            {
-                customAdapter = new CustomListViewAdapterTimeline(getActivity(), R.layout.lay_perfil_elemento_comentario, itemsNuevos);
-                listView.setAdapter(customAdapter);
-                flag_first_time=false;
+                for (int i = numItems; i < TLObject.length ; i++) {
+                    itemsNuevos.add(TLObject[i]);
+                    Log.i("DEBUG_AL: ",TLObject[i].toString());
+                }
+
+                if (flag_first_time) {
+                    customAdapter = new CustomListViewAdapterTimeline(getActivity(), R.layout.lay_perfil_elemento_comentario, itemsNuevos);
+                    listView.setAdapter(customAdapter);
+                    flag_first_time = false;
+                } else {
+                    /*for (int i=numItems;i<TLObject.length;i++)
+                    {
+                        customAdapter.add(TLObject[i]);
+                    }*/
+                    customAdapter.addAll(itemsNuevos);
+                    customAdapter.notifyDataSetChanged();
+                    listView.setSelectionFromTop(index, top);
+                }
+                //progDailog.dismiss();
+                numItems=TLObject.length;
             }
-            else {
-                customAdapter.addAll(itemsNuevos);
-                customAdapter.notifyDataSetChanged();
-                listView.setSelectionFromTop(index, top);
-            }
-            //progDailog.dismiss();
-            items.addAll(itemsNuevos);
             flag_loading=false;
 
         }
