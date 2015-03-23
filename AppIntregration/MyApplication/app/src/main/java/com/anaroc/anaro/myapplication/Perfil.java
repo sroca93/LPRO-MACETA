@@ -2,12 +2,15 @@ package com.anaroc.anaro.myapplication;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -20,31 +23,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
 import java.util.ArrayList;
-
 import adapters.CustomListViewAdapter;
 import adapters.CustomListViewAdapterTimeline;
 import adapters.images.ImageDownloader;
 import contenedores.Parametro;
 import contenedores.Planta;
 import contenedores.TimelineObject;
-import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by guille on 20/02/15.
- */
 public class Perfil extends Fragment{
 
-    private String titulo="Vacio";
     private Planta plantaPerfil=new Planta();
     private final ImageDownloader imageDownloader = new ImageDownloader();
     private ImageView imagenplanta;
@@ -65,7 +58,7 @@ public class Perfil extends Fragment{
     public EntreFragments mCallback;
     public ImageButton botonEstadisticas;
     public ImageButton botonVideo;
-    public ImageButton botonAmigo;
+    public ImageButton botonNewPlanta;
     private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
     private int numItems;
     private ArrayList<TimelineObject> itemsNuevos;
@@ -88,6 +81,44 @@ public class Perfil extends Fragment{
         this.editText = (EditText) rootView.findViewById(R.id.editText);
         botonSeguir = (ImageButton) rootView.findViewById(R.id.imageButton);
         botonSeguir.setVisibility(View.GONE);
+        botonNewPlanta = (ImageButton) rootView.findViewById(R.id.imageButtonFlower);
+        botonNewPlanta.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle("Nueva planta");
+                alert.setMessage("Crea tu nueva planta");
+
+// Set an EditText view to get user input
+                final EditText nameET = new EditText(getActivity());
+                final EditText typeET = new EditText(getActivity());
+                LinearLayout ll=new LinearLayout(getActivity());
+                ll.setOrientation(LinearLayout.VERTICAL);
+                ll.addView(nameET);
+                ll.addView(typeET);
+                alert.setView(ll);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                       String name = nameET.getText().toString();
+                        String type =typeET.getText().toString();
+                        new ConsultaNewPlant().execute(new Parametro("consulta", "storePlant"), new Parametro("myId", myId), new Parametro("plantName", name.toString()), new Parametro("plantTipo", type.toString()));
+
+                        // Do something with value!
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+
+
+            }
+        });
         this.botonEstadisticas = (ImageButton) rootView.findViewById(R.id.imageButtonEstadisticas);
         this.botonEstadisticas.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -292,10 +323,6 @@ public class Perfil extends Fragment{
         return rootView;
     }
 
-    public void setTitulo(String tituloNuevo){
-        this.titulo=tituloNuevo;
-    }
-
     public void setPlantaPerfil(Planta planta){
         this.plantaPerfil=planta;
     }
@@ -427,6 +454,35 @@ public class Perfil extends Fragment{
             //progDailog.dismiss();
         }
     }
+
+    public class ConsultaNewPlant extends AsyncTask<Parametro, Void, Integer>
+    {
+
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected Integer doInBackground(Parametro... params) {
+
+            String respuestaJSON = Consultas.hacerConsulta(params);
+            return Integer.parseInt(respuestaJSON.trim());
+
+        }
+
+        @Override
+        protected void onPostExecute(Integer id) {
+            if(id>0){
+                Toast.makeText(getActivity(), "Planta creada con éxito",
+                        Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getActivity(), "Error al crear planta",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
 
     public class ConsultaTimeLine extends AsyncTask<Parametro, Void, TimelineObject[]>
     {
