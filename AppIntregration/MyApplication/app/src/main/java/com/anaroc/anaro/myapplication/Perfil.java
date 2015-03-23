@@ -359,6 +359,8 @@ public class Perfil extends Fragment{
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
             textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+            numItems=0;
+            additems();
             //
             //if no es planta mia
             //checksilasigo
@@ -413,7 +415,7 @@ public class Perfil extends Fragment{
 
         @Override
         protected void onPostExecute(Planta[] planta) {
-
+            if (planta==null) return;
             if (planta.length>0) {
                 listaPlantas = planta;
                 indexPlanta = 0;
