@@ -210,7 +210,7 @@ public class Perfil extends Fragment{
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
         progDailog= new ProgressDialog(this.getActivity());
 
-        if(this.plantaPerfil!=null) {
+        if(this.plantaPerfil!=null ) {
 
 
 
@@ -221,7 +221,7 @@ public class Perfil extends Fragment{
             Log.d("MONDEBUG ", currentUser + " vs "+ this.plantaPerfil.getDueno());
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
 
-            if (plantaPerfil.getDueno()!=null){
+            if (plantaPerfil.getDueno()!=null ){
                 if (this.plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
                     //nada, es tu planta
 
@@ -247,12 +247,13 @@ public class Perfil extends Fragment{
 
                     }
                 });
-
-
-
-
             }
 
+        }
+        else
+        {
+            textview.setText("Planta=null");
+        }
 
             listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
             numItems=0;
@@ -312,11 +313,7 @@ public class Perfil extends Fragment{
 
             textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
 
-        }
-        else
-        {
-            textview.setText("Planta=null");
-        }
+
 
 
 
@@ -343,6 +340,8 @@ public class Perfil extends Fragment{
 
 
     }
+
+
 
     private void restoreState() {
         flag_back=true;
@@ -419,7 +418,7 @@ public class Perfil extends Fragment{
                 listaPlantas = planta;
                 indexPlanta = 0;
                 plantaPerfil = planta[0];
-                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
+                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
                 textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
                 ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
                 //
@@ -443,13 +442,15 @@ public class Perfil extends Fragment{
                     Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(plantaPerfil.getIdPlanta())).toString());
                     new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId ),  new Parametro("plantID", (Integer.valueOf(plantaPerfil.getIdPlanta())).toString()));
                 }
-
+                additems();
 
             }else{
                 textview.setText("No hay plantas disponibles.");
                 imagenplanta.setVisibility(View.GONE);
                 ratingBarPerfil.setVisibility(View.GONE);
             }
+
+            Log.i("ALDEBUG",plantaPerfil.toString());
 
             //progDailog.dismiss();
         }

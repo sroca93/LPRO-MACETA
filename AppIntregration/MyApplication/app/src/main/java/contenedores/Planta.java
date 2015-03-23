@@ -1,6 +1,7 @@
 package contenedores;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by simon on 2/20/15.
@@ -85,13 +86,18 @@ public class Planta implements Serializable {
         Dueno = dueno;
     }
 
+
     @Override
     public String toString() {
         return "Planta{" +
-                "ValoracionMedia=" + ValoracionMedia +
-                ", nombrePlanta='" + nombrePlanta + '\'' +
+                "idPlanta=" + idPlanta +
+                ", Especie='" + Especie + '\'' +
+                ", Timeline=" + Arrays.toString(Timeline) +
                 ", Dueno='" + Dueno + '\'' +
+                ", nombrePlanta='" + nombrePlanta + '\'' +
+                ", ValoracionMedia=" + ValoracionMedia +
                 ", Tipo='" + Tipo + '\'' +
+                ", Thumbnail='" + Thumbnail + '\'' +
                 '}';
     }
 }

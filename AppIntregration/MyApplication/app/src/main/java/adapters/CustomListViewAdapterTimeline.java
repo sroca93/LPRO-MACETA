@@ -75,7 +75,7 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 viewHolder.texto=(TextView) convertView.findViewById(R.id.textViewNuevaFoto);
                 viewHolder.Img=(ImageView) convertView.findViewById(R.id.imageViewNuevaFoto);
 
-                viewHolder.texto.setText("Novedad: " + listViewItem.getTexto());
+                viewHolder.texto.setText("Novedad: " + listViewItem.getTitulo());
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+listViewItem.getThumbnail(), viewHolder.Img);
                 convertView.setTag(viewHolder);
 
