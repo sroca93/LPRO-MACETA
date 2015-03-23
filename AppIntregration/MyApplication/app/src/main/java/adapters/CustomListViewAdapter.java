@@ -36,7 +36,7 @@ public class CustomListViewAdapter extends ArrayAdapter<Planta> {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         Planta rowItem = getItem(position);
 
         LayoutInflater mInflater = (LayoutInflater) context

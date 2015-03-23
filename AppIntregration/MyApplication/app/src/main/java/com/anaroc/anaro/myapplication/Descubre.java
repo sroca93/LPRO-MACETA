@@ -61,7 +61,7 @@ public class Descubre extends Fragment {
             ponerImagenAleatoria();
 
 
-            this.boton1 = (Button) rootView.findViewById(R.id.botonDescubre1);
+            boton1 = (Button) rootView.findViewById(R.id.botonDescubre1);
             boton1.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
@@ -138,11 +138,17 @@ public class Descubre extends Fragment {
 
         @Override
         protected void onPostExecute(Planta[] plantas) {
-            plantaAleatoria = plantas[0];
-            if (plantas != null) {
+
+            if (plantas.length > 0) {
+                plantaAleatoria = plantas[0];
                 texto1.setText(plantaAleatoria.getTipo()+" de "+plantaAleatoria.getDueno());
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaAleatoria.getThumbnail(), imagenplanta);
 
+            }else{
+                texto1.setText("No hay plantas disponibles.");
+                ratingBar.setVisibility(View.GONE);
+                boton1.setVisibility(View.GONE);
+                imagenplanta.setVisibility(View.GONE);
             }
             progDailog.dismiss();
         }

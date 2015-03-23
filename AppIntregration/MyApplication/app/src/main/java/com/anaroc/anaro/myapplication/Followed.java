@@ -7,6 +7,7 @@ package com.anaroc.anaro.myapplication;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -59,8 +60,8 @@ public class Followed extends Fragment {
             adapter = new CustomListViewAdapter(this.getActivity(),
                     R.layout.lay_top_elementos, new ArrayList<Planta>());
             progDailog = new ProgressDialog(this.getActivity());
-
-            new ConsultaFollowed().execute(new Parametro("consulta", "getPlantasQueSigo"), new Parametro("myID", "1"));
+            String myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+            new ConsultaFollowed().execute(new Parametro("consulta", "getPlantasQueSigo"), new Parametro("myID", (Integer.valueOf(myId.replace("\n",""))).toString()));
             listView = (ListView) rootView.findViewById(R.id.listview_followed);
             listView.setAdapter(adapter);
 
@@ -127,10 +128,17 @@ public class Followed extends Fragment {
         @Override
         protected void onPostExecute(Planta[] plantas) {
             listaPlantas = plantas;
-            if (plantas != null) {
+            if (plantas.length>0) {
                 adapter.clear();
                 for (Planta planta : plantas)
                     adapter.add(planta);
+            }else{
+                Context context = getActivity();
+                CharSequence text = "No sigues a ninguna planta";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
             progDailog.dismiss();
         }
