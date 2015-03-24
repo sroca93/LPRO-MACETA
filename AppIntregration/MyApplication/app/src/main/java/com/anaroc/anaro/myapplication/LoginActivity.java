@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -90,6 +91,8 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         SQLiteDatabase db = sqlu.getReadableDatabase();
 		/*Se comprueba si hay alguna -una- entrada en la base de datos usada para recordar
 		las credenciales del usuario a nivel local*/
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(getResources().getDrawable(R.color.color_verde));
         if(db != null)
         {
 			/*Si hay un usuario recordado, se introducen sus credenciales
