@@ -355,7 +355,9 @@ public class Perfil extends Fragment{
                         editText.setText("");
                         botonComent.setText("Comenta");
                         numItems=0;
-                        customAdapter.clear();
+                        if(customAdapter!=null) {
+                            customAdapter.clear();
+                        }
                         additems();
                         flag_pulsado=false;
                     }
