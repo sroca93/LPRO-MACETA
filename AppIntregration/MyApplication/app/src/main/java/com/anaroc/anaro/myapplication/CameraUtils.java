@@ -58,17 +58,23 @@ public class CameraUtils {
                 bitmap = BitmapFactory.decodeFile(imgPath,
                         options);
                 if (bitmap == null) Log.d("bitmap", "null");
-                Matrix matrix = new Matrix();
-                //Log.d("orientattion", String.valueOf(getImageOrientation(imgPath)));
-                //Log.d("orientattion", String.valueOf(getImageOrientation()));
-
-                matrix.postRotate(90);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                        bitmap.getHeight(), matrix, true);
-
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                // Must compress the Image to reduce image size to make upload easy
-                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                if (medida) {
+                    Matrix matrix = new Matrix();
+                    //Log.d("orientattion", String.valueOf(getImageOrientation(imgPath)));
+                    //Log.d("orientattion", String.valueOf(getImageOrientation()));
+
+                    matrix.postRotate(90);
+                    Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                            bitmap.getHeight(), matrix, true);
+
+                    // Must compress the Image to reduce image size to make upload easy
+                    rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                }
+                else {
+                    // Must compress the Image to reduce image size to make upload easy
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                }
                 byte[] byte_arr = stream.toByteArray();
                 // Encode Image to String
                 encodedString = Base64.encodeToString(byte_arr, 0);
