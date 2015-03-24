@@ -65,8 +65,8 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 viewHolder.texto=(TextView) convertView.findViewById(R.id.textViewTextoComent);
                 viewHolder.titulo=(TextView) convertView.findViewById(R.id.textViewTituloComent);
                 viewHolder.Img=(ImageView) convertView.findViewById(R.id.imageViewComent);
-                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+listViewItem.getThumbnail(), viewHolder.Img);
-
+                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail(), viewHolder.Img);
+                Log.d("ConsultaFotaza", "http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail());
                 viewHolder.texto.setText("Mensaje: " + listViewItem.getTexto());
                 viewHolder.titulo.setText(listViewItem.getTitulo());
                 convertView.setTag(viewHolder);
@@ -77,8 +77,7 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 viewHolder.Img=(ImageView) convertView.findViewById(R.id.imageViewNuevaFoto);
 
                 viewHolder.texto.setText("Novedad: " + listViewItem.getTitulo());
-                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail(), viewHolder.Img);
-                Log.d("ConsultaFotico", "http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail());
+                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+listViewItem.getThumbnail(), viewHolder.Img);
                 convertView.setTag(viewHolder);
 
             } /*else if (listViewItemType == TYPE_WHITE) {
