@@ -410,6 +410,7 @@ public class Perfil extends Fragment{
             textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
             numItems=0;
+            customAdapter.clear();
             additems();
             //
             //if no es planta mia
