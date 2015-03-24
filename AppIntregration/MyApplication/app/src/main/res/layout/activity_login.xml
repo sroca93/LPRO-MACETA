@@ -5,7 +5,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.anaroc.anaro.myapplication.LoginActivity">
+    tools:context="com.anaroc.anaro.myapplication.LoginActivity"
+    android:background="@drawable/textura_ultima">
 
     <!-- Login progress -->
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
