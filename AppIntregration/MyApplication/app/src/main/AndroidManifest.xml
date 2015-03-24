@@ -49,7 +49,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="MyApplication"
+            android:label="Plantemos"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

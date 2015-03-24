@@ -1,0 +1,46 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.anaroc.anaro.myapplication.PlantAcademyFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="171dp"
+        android:layout_gravity="center_horizontal|top"
+        android:id="@+id/relativeLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextPlanta"
+            android:hint="Nombre de la planta"
+            android:layout_marginTop="80dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/buttonBuscar" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            android:id="@+id/buttonBuscar"
+            android:layout_alignBottom="@+id/editTextPlanta"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="65dp" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="366dp"
+        android:id="@+id/listViewPlantas"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+
+</FrameLayout>

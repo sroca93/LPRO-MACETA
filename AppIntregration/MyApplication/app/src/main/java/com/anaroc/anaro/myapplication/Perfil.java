@@ -2,12 +2,21 @@ package com.anaroc.anaro.myapplication;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.text.Editable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -20,30 +29,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
+import java.util.ArrayList;
 import adapters.CustomListViewAdapter;
 import adapters.CustomListViewAdapterTimeline;
 import adapters.images.ImageDownloader;
 import contenedores.Parametro;
 import contenedores.Planta;
 import contenedores.TimelineObject;
-import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * Created by guille on 20/02/15.
- */
 public class Perfil extends Fragment{
 
+
+    private static final int RESULT_CANCELED = -1;
+    private static final int RESULT_OK = 0;
     private String titulo="Vacio";
     private Planta plantaPerfil=new Planta();
     private final ImageDownloader imageDownloader = new ImageDownloader();
@@ -64,8 +74,16 @@ public class Perfil extends Fragment{
     private RatingBar ratingBarPerfil;
     public EntreFragments mCallback;
     public ImageButton botonEstadisticas;
-    public ImageButton botonVideo;
+    public ImageButton botonFoto;
     public ImageButton botonAmigo;
+    //private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int MEDIA_TYPE_IMAGE = 1;
+    private Uri fileUri;
+    private Context context;
+    private CameraUtils cu;
+    public ImageButton botonVideo;
+    public ImageButton botonNewPlanta;
     private String myId; // = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
     private int numItems;
     private ArrayList<TimelineObject> itemsNuevos;
@@ -84,10 +102,59 @@ public class Perfil extends Fragment{
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
         textview = (TextView) rootView.findViewById(R.id.textViewMenuPersonaNombre);
         ratingBarPerfil= (RatingBar) rootView.findViewById(R.id.ratingBarPerfil);
+        botonFoto = (ImageButton) rootView.findViewById(R.id.imageButtonVideo);
+        context = this.getActivity();
+
+        myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
+        String flag = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_CAMERA_FLAG", "");
+
+        if (flag.equals("1")) {
+            Log.d("compruebo","tarta");
+            new ConsultaPerfil().execute(new Parametro("consulta", "getMisPlantas"), new Parametro("myID", myId));
+            PrefUtils.saveToPrefs(getActivity(), "PREFS_CAMERA_FLAG", "0");
+        }
         flag_scroll_end=false;
         this.editText = (EditText) rootView.findViewById(R.id.editText);
         botonSeguir = (ImageButton) rootView.findViewById(R.id.imageButton);
         botonSeguir.setVisibility(View.GONE);
+        botonNewPlanta = (ImageButton) rootView.findViewById(R.id.imageButtonFlower);
+        botonNewPlanta.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                alert.setTitle("Nueva planta");
+                alert.setMessage("Crea tu nueva planta");
+
+// Set an EditText view to get user input
+                final EditText nameET = new EditText(getActivity());
+                final EditText typeET = new EditText(getActivity());
+                LinearLayout ll=new LinearLayout(getActivity());
+                ll.setOrientation(LinearLayout.VERTICAL);
+                ll.addView(nameET);
+                ll.addView(typeET);
+                alert.setView(ll);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                       String name = nameET.getText().toString();
+                        String type =typeET.getText().toString();
+                        new ConsultaNewPlant().execute(new Parametro("consulta", "storePlant"), new Parametro("myId", myId), new Parametro("plantName", name.toString()), new Parametro("plantTipo", type.toString()));
+
+                        // Do something with value!
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+
+
+            }
+        });
         this.botonEstadisticas = (ImageButton) rootView.findViewById(R.id.imageButtonEstadisticas);
         this.botonEstadisticas.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -112,6 +179,18 @@ public class Perfil extends Fragment{
                 storeState();
                 mCallback.sendID_estdisticas(plantaPerfil.getIdPlanta());
 
+            }
+        });
+        botonFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cu = new CameraUtils(context, plantaPerfil.getIdPlanta(),false);
+                fileUri = cu.getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+
+                // start the image capture Intent
+                startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
             }
         });
 
@@ -158,6 +237,7 @@ public class Perfil extends Fragment{
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         Log.d("MONMON  ", myId);
+
         String pass = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_PASSWORD_KEY", "");
 
         //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
@@ -167,6 +247,7 @@ public class Perfil extends Fragment{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PrefUtils.saveToPrefs(getActivity(), "PREFS_CAMERA_FLAG", "1");
                 Log.d("hola", "hola");
                 Intent intent = new Intent(getActivity(), CameraActivity.class);
                 intent.putExtra("idPlanta", plantaPerfil.getIdPlanta());
@@ -289,10 +370,6 @@ public class Perfil extends Fragment{
         return rootView;
     }
 
-    public void setTitulo(String tituloNuevo){
-        this.titulo=tituloNuevo;
-    }
-
     public void setPlantaPerfil(Planta planta){
         this.plantaPerfil=planta;
     }
@@ -332,6 +409,9 @@ public class Perfil extends Fragment{
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
             textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+            numItems=0;
+            customAdapter.clear();
+            additems();
             //
             //if no es planta mia
             //checksilasigo
@@ -386,7 +466,7 @@ public class Perfil extends Fragment{
 
         @Override
         protected void onPostExecute(Planta[] planta) {
-
+            if (planta==null) return;
             if (planta.length>0) {
                 listaPlantas = planta;
                 indexPlanta = 0;
@@ -428,6 +508,35 @@ public class Perfil extends Fragment{
             //progDailog.dismiss();
         }
     }
+
+    public class ConsultaNewPlant extends AsyncTask<Parametro, Void, Integer>
+    {
+
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected Integer doInBackground(Parametro... params) {
+
+            String respuestaJSON = Consultas.hacerConsulta(params);
+            return Integer.parseInt(respuestaJSON.trim());
+
+        }
+
+        @Override
+        protected void onPostExecute(Integer id) {
+            if(id>0){
+                Toast.makeText(getActivity(), "Planta creada con éxito",
+                        Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getActivity(), "Error al crear planta",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
 
     public class ConsultaTimeLine extends AsyncTask<Parametro, Void, TimelineObject[]>
     {
@@ -606,6 +715,70 @@ public class Perfil extends Fragment{
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString());
         }
+    }
+
+    /*private Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    private File getOutputMediaFile(int type) {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_" + timeStamp + ".jpg");
+        } else {
+            return null;
+        }
+        Toast.makeText(this.getActivity(), "File created: " + mediaFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+
+        return mediaFile;
+    }*/
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+
+            File f = new File(String.valueOf(fileUri).replaceAll("file:", ""));
+            if (f.exists()) {
+                savePhoto(fileUri);
+                cu.uploadImage();
+            }
+
+
+        }
+
+    }
+
+    private void savePhoto (Uri fileUri) {
+        SQLite sqlu = new SQLite(this.getActivity(), "BDImagenes", null, 1);
+        SQLiteDatabase db = sqlu.getWritableDatabase();
+
+        ContentValues nuevoRegistro = new ContentValues();
+        Log.d("fileuri", String.valueOf(fileUri));
+        nuevoRegistro.put("path", String.valueOf(fileUri));
+
+
+        //Insertamos el registro en la base de datos
+        db.insert("Imagenes", null, nuevoRegistro);
+        db.close();
     }
 
 }

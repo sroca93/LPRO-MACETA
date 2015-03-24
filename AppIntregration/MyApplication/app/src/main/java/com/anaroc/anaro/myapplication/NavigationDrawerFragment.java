@@ -1,5 +1,6 @@
 package com.anaroc.anaro.myapplication;
 
+import android.os.Debug;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -11,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -116,13 +118,14 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section2),
                         getString(R.string.title_section3),
                         getString(R.string.title_section4),
+                        "PlantAcademy",
+                        "Galería",
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
 
         imagenDrawer = (CircleImageView) drawerView.findViewById(R.id.imagenDrawer);
-        imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID="+PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "").trim(), imagenDrawer);
-
+        imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID="+PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "").trim() + ".jpg", imagenDrawer);
         TextView textViewDrawer = (TextView)  drawerView.findViewById(R.id.textViewDrawer);
 
         String nombreUsuario = PrefUtils.getFromPrefs(this.getActivity(), "ACTUAL_USERNAME","");

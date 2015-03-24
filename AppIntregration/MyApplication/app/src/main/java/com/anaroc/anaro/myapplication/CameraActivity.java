@@ -10,11 +10,14 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -41,9 +45,11 @@ public class CameraActivity extends Activity {
     private CameraPreview mPreview;
     private static Context context;
     String encodedString;
+    Bitmap bitmap;
+
     RequestParams params = new RequestParams();
     String imgPath, fileName;
-    Bitmap bitmap;
+    private File pictureFile;
 
     int idPlanta;
     private static int RESULT_LOAD_IMG = 1;
@@ -65,9 +71,17 @@ public class CameraActivity extends Activity {
         RelativeLayout preview = (RelativeLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
-        findViewById(R.id.imageView1).bringToFront();
-        findViewById(R.id.ImageView01).bringToFront();
-        findViewById(R.id.ImageView02).bringToFront();
+        findViewById(R.id.imageView).bringToFront();
+
+        /*android.hardware.Camera.Parameters parameters = mCamera.getParameters();
+        android.hardware.Camera.Size size = parameters.getPictureSize();
+
+        Log.d("cocacola", String.valueOf(size.height));
+        Log.d("cocacola", String.valueOf(size.width));
+
+
+        int height = size.height;
+        int width = size.width;*/
 
 
         final PictureCallback mPicture = new PictureCallback() {
@@ -75,7 +89,9 @@ public class CameraActivity extends Activity {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
 
-                final File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+                final CameraUtils cu = new CameraUtils(getApplicationContext(), idPlanta, true);
+
+                pictureFile = cu.getOutputMediaFile(MEDIA_TYPE_IMAGE);
                 if (pictureFile == null) {
                     Log.d(TAG, "Error creating media file, check storage permissions: ");
                     return;
@@ -119,12 +135,12 @@ public class CameraActivity extends Activity {
                             });
                             imgPath = pictureFile.getAbsolutePath();
                             Log.d("imgPath", imgPath);
-                            uploadImage();
+
+                            cu.uploadImage();
                             //uploadFile(pictureFile.getAbsolutePath());
 
                         }
                     }).start();
-
 
                     onBackPressed();
 
@@ -136,7 +152,8 @@ public class CameraActivity extends Activity {
                 recreate();
             }
         };
-        Button captureButton = (Button) findViewById(R.id.button_capture);
+        ImageButton captureButton = (ImageButton) findViewById(R.id.button_capture);
+        captureButton.bringToFront();
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -148,14 +165,14 @@ public class CameraActivity extends Activity {
         );
     }
 
-    public void uploadImage() {
+    /*public void uploadImage() {
         // When Image is selected from Gallery
 
-            encodeImagetoString();
+        encodeImagetoString();
 
-    }
+    }*/
 
-    public void encodeImagetoString() {
+   /* public void encodeImagetoString() {
         new AsyncTask<Void, Void, String>() {
 
             protected void onPreExecute() {
@@ -170,9 +187,17 @@ public class CameraActivity extends Activity {
                 bitmap = BitmapFactory.decodeFile(imgPath,
                         options);
                 if (bitmap == null) Log.d("bitmap", "null");
+                Matrix matrix = new Matrix();
+                //Log.d("orientattion", String.valueOf(getImageOrientation(imgPath)));
+                //Log.d("orientattion", String.valueOf(getImageOrientation()));
+
+                matrix.postRotate(90);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                        bitmap.getHeight(), matrix, true);
+
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Must compress the Image to reduce image size to make upload easy
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                 byte[] byte_arr = stream.toByteArray();
                 // Encode Image to String
                 encodedString = Base64.encodeToString(byte_arr, 0);
@@ -189,6 +214,7 @@ public class CameraActivity extends Activity {
                 Log.d("idPlanta", Integer.toString(idPlanta));
                 // Trigger Image upload
                 triggerImageUpload();
+                pictureFile.delete();
             }
         }.execute(null, null, null);
     }
@@ -246,7 +272,7 @@ public class CameraActivity extends Activity {
                     }
                 });
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -277,7 +303,7 @@ public class CameraActivity extends Activity {
     /**
      * Create a File for saving an image or video
      */
-    private static File getOutputMediaFile(int type) {
+    /*private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -306,7 +332,7 @@ public class CameraActivity extends Activity {
         Toast.makeText(context, "File created: " + mediaFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
         return mediaFile;
-    }
+    }*/
 
     public void onPause() {
         super.onPause();
@@ -335,6 +361,31 @@ public class CameraActivity extends Activity {
         }
     }
 
+   /* public static int getImageOrientation(String imagePath){
+        int rotate = 0;
+        try {
 
+            File imageFile = new File(imagePath);
+            ExifInterface exif = new ExifInterface(imageFile.getPath());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            Log.d("orientacion", String.valueOf(orientation));
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotate = 270;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotate = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotate = 90;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return rotate;
+    }*/
 
 }

@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
@@ -13,7 +15,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
-
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 import contenedores.Planta;
 
 
@@ -26,6 +30,8 @@ public class MainActivity extends ActionBarActivity
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Planta miPlanta= new Planta();
     String myId;
+    private Boolean exit = false;
+
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
@@ -81,7 +87,12 @@ public class MainActivity extends ActionBarActivity
             case 3:
                 fragment = new Followed();
                 break;
-
+            case 4:
+                fragment = new PlantAcademyFragment();
+                break;
+            case 5:
+                fragment = new GalleryFragment();
+                break;
 
         }
 
@@ -105,6 +116,12 @@ public class MainActivity extends ActionBarActivity
                 break;
             case 3:
                 mTitle = "Flowers";
+                break;
+            case 4:
+                mTitle = "PlantAcademy";
+                break;
+            case 5:
+                mTitle = "Galería";
                 break;
         }
     }
@@ -183,13 +200,36 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onBackPressed(){
-        FragmentManager fm = getFragmentManager();
+        /*FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             Log.i("MainActivity", "popping backstack");
             fm.popBackStack();
-        } else {
-            Log.i("MainActivity", "nothing on backstack, calling super");
-            super.onBackPressed();
+            exit = false;
+        } else {*/
+            if (exit) {
+                finish(); // finish activity
+            } else {
+                FragmentManager fm = getFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    Log.i("MainActivity", "popping backstack");
+                    fm.popBackStack();
+                    exit = false;
+                }
+                else {
+                    Toast.makeText(this, "Presiona otra vez para salir.",
+                            Toast.LENGTH_SHORT).show();
+                    exit = true;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            exit = false;
+                        }
+                    }, 3 * 1000);
+                }
+            //}
+
+           /* Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();*/
         }
     }
 
