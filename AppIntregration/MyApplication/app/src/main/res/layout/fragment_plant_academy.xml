@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.anaroc.anaro.myapplication.PlantAcademyFragment">
+    tools:context="com.anaroc.anaro.myapplication.PlantAcademyFragment"
+    android:background="@drawable/textura_ultima">
 
     <!-- TODO: Update blank fragment layout -->
 

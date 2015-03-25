@@ -65,7 +65,7 @@ public class Perfil extends Fragment{
     private ImageButton botonSeguir;
     private int lastBotonSeguir;
     public ListView listView;
-    public boolean flag_back;
+    public boolean flag_back=true;
     private boolean flag_loading=false;
     private boolean flag_scroll_end;
     private boolean flag_first_time=true;
@@ -302,11 +302,12 @@ public class Perfil extends Fragment{
         }
         else
         {
-            textview.setText("Planta=null");
+            textview.setText("No hay plantas");
         }
 
-            listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
-            numItems=0;
+        listView = (ListView) rootView.findViewById(R.id.listViewPerfil);
+        if(flag_back) {
+            numItems = 0;
             additems();
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -318,10 +319,8 @@ public class Perfil extends Fragment{
                 public void onScroll(AbsListView view, int firstVisibleItem,
                                      int visibleItemCount, int totalItemCount) {
 
-                    if(firstVisibleItem+visibleItemCount == totalItemCount && totalItemCount!=0)
-                    {
-                        if(flag_loading == false && flag_scroll_end==false)
-                        {
+                    if (firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0) {
+                        if (flag_loading == false && flag_scroll_end == false) {
                             flag_loading = true;
                             additems();
                         }
@@ -329,7 +328,11 @@ public class Perfil extends Fragment{
                 }
             });
 
-            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
+            textview.setText(this.plantaPerfil.getTipo() + " de " + this.plantaPerfil.getDueno());
+        }
+        else{
+            restoreState();
+        }
 
             botonComent =  (Button) rootView.findViewById(R.id.buttonComent);
             botonComent.setOnClickListener(new View.OnClickListener() {
@@ -399,10 +402,16 @@ public class Perfil extends Fragment{
 
 
     private void restoreState() {
+        listView.setAdapter(customAdapter);
+        customAdapter.notifyDataSetChanged();
+        listView.setSelectionFromTop(index, top);
         flag_back=true;
     }
 
     private void storeState(){
+        View v = listView.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - listView.getPaddingTop());
+        index = listView.getFirstVisiblePosition();
         flag_back=false;
     }
 
@@ -584,10 +593,7 @@ public class Perfil extends Fragment{
                     listView.setAdapter(customAdapter);
                     flag_first_time = false;
                 } else {
-                    /*for (int i=numItems;i<TLObject.length;i++)
-                    {
-                        customAdapter.add(TLObject[i]);
-                    }*/
+
                     customAdapter.addAll(itemsNuevos);
                     customAdapter.notifyDataSetChanged();
                     listView.setSelectionFromTop(index, top);

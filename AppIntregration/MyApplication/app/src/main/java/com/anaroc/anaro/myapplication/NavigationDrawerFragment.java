@@ -129,7 +129,7 @@ public class NavigationDrawerFragment extends Fragment {
         TextView textViewDrawer = (TextView)  drawerView.findViewById(R.id.textViewDrawer);
 
         String nombreUsuario = PrefUtils.getFromPrefs(this.getActivity(), "ACTUAL_USERNAME","");
-        textViewDrawer.setText(Character.toUpperCase(nombreUsuario.charAt(0)) + nombreUsuario.substring(1));
+        //textViewDrawer.setText(Character.toUpperCase(nombreUsuario.charAt(0)) + nombreUsuario.substring(1));
 
 
         return drawerView;

@@ -132,50 +132,7 @@ public class EstadisticasFragment extends Fragment {
             graphHumedad.addSeries(new LineGraphSeries<DataPoint>(datosHumedad.toArray(new DataPoint[]{})));
             graphLuminosidad.addSeries(new LineGraphSeries<DataPoint>(datosLuminosidad.toArray(new DataPoint[]{})));
             graphTemperatura.addSeries(new LineGraphSeries<DataPoint>( datosTemperatura.toArray(new DataPoint[]{})));
-            /*
-            LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 1),
-                    new DataPoint(1, 5),
-                    new DataPoint(2, 3),
-                    new DataPoint(3, 2),
-                    new DataPoint(4, 6),
-                    new DataPoint(5, 7),
-                    new DataPoint(6, 8),
-                    new DataPoint(7, 8),
-                    new DataPoint(8, 7),
-                    new DataPoint(9, 5)
-            });
-            graphHumedad.addSeries(series);
 
-
-            LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 1),
-                    new DataPoint(1, 5),
-                    new DataPoint(2, 3),
-                    new DataPoint(3, 2),
-                    new DataPoint(4, 6),
-                    new DataPoint(5, 7),
-                    new DataPoint(6, 8),
-                    new DataPoint(7, 0),
-                    new DataPoint(8, 7),
-                    new DataPoint(9, 5)
-            });
-            graphLuminosidad.addSeries(series2);
-
-
-            LineGraphSeries<DataPoint> series3 = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    new DataPoint(0, 1),
-                    new DataPoint(1, 5),
-                    new DataPoint(2, 3),
-                    new DataPoint(3, 0),
-                    new DataPoint(4, 6),
-                    new DataPoint(5, 0),
-                    new DataPoint(6, 8),
-                    new DataPoint(7, 8),
-                    new DataPoint(8, 7),
-                    new DataPoint(9, 5)
-            });
-            graphTemperatura.addSeries(series3);*/
 
         }
     }
