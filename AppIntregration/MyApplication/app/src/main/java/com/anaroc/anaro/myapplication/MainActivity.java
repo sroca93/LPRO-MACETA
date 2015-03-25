@@ -4,6 +4,7 @@ import android.app.Fragment;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -45,6 +46,8 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        //Comentar para permitir rotación de pantalla
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         //Coge las credenciales y guardalas
         Intent intent = getIntent();

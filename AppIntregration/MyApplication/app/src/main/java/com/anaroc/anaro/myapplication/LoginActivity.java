@@ -72,10 +72,6 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        InputMethodManager imm  = (InputMethodManager)getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.user);
         populateAutoComplete();
