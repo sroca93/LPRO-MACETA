@@ -133,6 +133,8 @@ public class NavigationDrawerFragment extends Fragment {
         Log.d("nombreUsuario", nombreUsuario);
         //textViewDrawer.setText(Character.toUpperCase(nombreUsuario.charAt(0)) + nombreUsuario.substring(1));
         //textViewDrawer.setText(nombreUsuario.substring(0,1).toUpperCase() + nombreUsuario.substring(1));
+=======
+>>>>>>> origin/master
 
 
         return drawerView;
