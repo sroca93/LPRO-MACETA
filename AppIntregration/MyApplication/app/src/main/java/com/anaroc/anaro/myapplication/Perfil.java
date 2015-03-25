@@ -118,6 +118,23 @@ public class Perfil extends Fragment{
         botonSeguir = (ImageButton) rootView.findViewById(R.id.imageButton);
         botonSeguir.setVisibility(View.GONE);
         botonNewPlanta = (ImageButton) rootView.findViewById(R.id.imageButtonFlower);
+        this.botonNewPlanta.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
         botonNewPlanta.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -179,6 +196,23 @@ public class Perfil extends Fragment{
                 storeState();
                 mCallback.sendID_estdisticas(plantaPerfil.getIdPlanta());
 
+            }
+        });
+        this.botonFoto.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
             }
         });
         botonFoto.setOnClickListener(new View.OnClickListener() {
@@ -265,7 +299,9 @@ public class Perfil extends Fragment{
 
 
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
-            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
+            if(this.plantaPerfil.getTipo()!=null){
+                textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
+            }
             String currentUser = PrefUtils.getFromPrefs(getActivity(),"ACTUAL_USERNAME","");
             String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
             Log.d("MONDEBUG ", currentUser + " vs "+ this.plantaPerfil.getDueno());
@@ -281,6 +317,23 @@ public class Perfil extends Fragment{
                     Log.d("MONDEBUG>>>", plantaPerfil.toString());
                     new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId), new Parametro("plantID", (Integer.valueOf(this.plantaPerfil.getIdPlanta()).toString() )));
                 }
+                this.botonSeguir.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN: {
+                                v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                                v.invalidate();
+                                break;
+                            }
+                            case MotionEvent.ACTION_UP: {
+                                v.getBackground().clearColorFilter();
+                                v.invalidate();
+                                break;
+                            }
+                        }
+                        return false;
+                    }
+                });
                 botonSeguir.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Log.d("MONMON  ", myId);
