@@ -310,8 +310,14 @@ public class Perfil extends Fragment{
             if (plantaPerfil.getDueno()!=null ){
                 if (this.plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
                     //nada, es tu planta
+                    
 
                 } else {
+                    botonEstadisticas.setVisibility(View.GONE);
+                    botonNewPlanta.setVisibility(View.GONE);
+                    botonFoto.setVisibility(View.GONE);
+                    ImageButton butt = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
+                    butt.setVisibility(View.GONE);
 
                     Log.d("MONDEBUG>>>", currentUserID + ", p " + ((plantaPerfil.getIdPlanta())));
                     Log.d("MONDEBUG>>>", plantaPerfil.toString());
@@ -497,10 +503,20 @@ public class Perfil extends Fragment{
 
             } else {
                 //botonSeguir.setVisibility(View.VISIBLE);
+                botonEstadisticas.setVisibility(View.GONE);
+                botonNewPlanta.setVisibility(View.GONE);
+                botonFoto.setVisibility(View.GONE);
+                botonAmigo.setVisibility(View.GONE);
                 Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(plantaPerfil.getIdPlanta())).toString());
                 new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId), new Parametro("plantID", (Integer.valueOf(plantaPerfil.getIdPlanta())).toString()));
             }
 
+
+        }else{
+            textview.setText("No tienes ninguna planta");
+            ratingBarPerfil.setVisibility(View.GONE);
+            imagenplanta.setVisibility(View.GONE);
+            botonComent.setVisibility(View.GONE);
 
         }
     }
@@ -533,7 +549,20 @@ public class Perfil extends Fragment{
 
         @Override
         protected void onPostExecute(Planta[] planta) {
-            if (planta==null) return;
+            if (planta==null){
+                textview.setText("No hay plantas disponibles.");
+                imagenplanta.setVisibility(View.GONE);
+                ratingBarPerfil.setVisibility(View.GONE);
+                botonComent.setVisibility(View.GONE);
+                botonEstadisticas.setVisibility(View.GONE);
+                //botonNewPlanta.setVisibility(View.GONE);
+                botonFoto.setVisibility(View.GONE);
+                ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
+                button.setVisibility(View.GONE);
+                botonSeguir.setVisibility(View.GONE);
+
+                return;
+            }
             if (planta.length>0) {
                 listaPlantas = planta;
                 indexPlanta = 0;
@@ -559,6 +588,12 @@ public class Perfil extends Fragment{
 
                 }else{
                     //botonSeguir.setVisibility(View.VISIBLE);
+                    botonEstadisticas.setVisibility(View.GONE);
+                    botonNewPlanta.setVisibility(View.GONE);
+                    botonFoto.setVisibility(View.GONE);
+                    ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
+                    button.setVisibility(View.GONE);
+
                     Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(plantaPerfil.getIdPlanta())).toString());
                     new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId ),  new Parametro("plantID", (Integer.valueOf(plantaPerfil.getIdPlanta())).toString()));
                 }
