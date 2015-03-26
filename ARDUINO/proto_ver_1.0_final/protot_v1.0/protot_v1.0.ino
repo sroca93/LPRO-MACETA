@@ -27,9 +27,9 @@
  #define ledSTUP 13              // SETUP LED PIN
 
  // BLUETOOTH
- #define pow 7                   // BLUETOOTH POWER SUPPLY PIN
- #define BT_tx 9                 // BLUETOOTH SOFTWARE COM PINOUT
- #define BT_rx 10
+ #define BT_PWR 7                   // BLUETOOTH POWER SUPPLY PIN
+ #define BT_tx 8                 // BLUETOOTH SOFTWARE COM PINOUT
+ #define BT_rx 9
  #define DevNo 0001              // DEFINE THE DEVICE NUMBER
  #define BLUETOOTH_SPEED 57600   // BLUETOOTH DEVICE BAUDRATE
  
@@ -38,6 +38,9 @@
  #define  DHTPIN 6               // PINS DE LOS SENSORES
  #define  L_PIN 0                // LDR PIN
  #define  SH_PIN 1               // SOIL HUMIDITY PIN
+ #define SH_PWR 10
+ #define TH_PWR 11
+ #define LS_PWR 12 
 //*****************************************************************************
 
 
@@ -97,6 +100,10 @@
   // PIN MODES
   pinMode(ledSTUP, OUTPUT);      
   pinMode(trig,OUTPUT);
+  pinMode(BT_PWR,OUTPUT);
+  pinMode(SH_PWR,OUTPUT);
+  pinMode(TH_PWR,OUTPUT);
+  pinMode(LS_PWR,OUTPUT);
   
   // INTERRUPT PIN MODE
   pinMode(wakePin, INPUT);     
@@ -104,7 +111,6 @@
   
   // TX RATES
   Serial.begin(9600);
-  BT.begin(BLUETOOTH_SPEED);
   
    Serial.println("Init.\n");
    digitalWrite(ledSTUP,HIGH);
@@ -131,6 +137,9 @@
  //                         SENSORS ADQUISITION ZONE
  //*****************************************************************************
  
+  digitalWrite(SH_PWR,HIGH);
+  digitalWrite(TH_PWR,HIGH);
+  digitalWrite(LS_PWR,HIGH);
   
   delay(500);                                // WAITS 0.5 S
   
@@ -158,6 +167,11 @@
   ind++;                                     // POINTER TO THE NEXT MEASURE
   mea++;                                     // MEASURE COUNT   
   wdt_reset();                               // RESET THE WDT 
+  
+  digitalWrite(SH_PWR,LOW);
+  digitalWrite(TH_PWR,LOW);
+  digitalWrite(LS_PWR,LOW);
+  
 
  //*****************************************************************************
  //***************************************************************************** 
@@ -293,9 +307,8 @@
  //*****************************************************************************
  void BTconn()
  {
-   
-  pinMode(pow,OUTPUT);
-  digitalWrite(pow,HIGH); 
+  digitalWrite(BT_PWR, HIGH); 
+  BT.begin(BLUETOOTH_SPEED);
   while(1)                  // WILL LAST FOREVER
   {                
     while(BT.available())     // IF THERE'S SERIAL DATA TO READ
