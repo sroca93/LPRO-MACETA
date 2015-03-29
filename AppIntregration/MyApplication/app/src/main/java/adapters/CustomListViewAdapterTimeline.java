@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.anaroc.anaro.myapplication.R;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import adapters.images.ImageDownloader;
 import contenedores.TimelineObject;
@@ -68,7 +70,12 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail(), viewHolder.Img);
                 Log.d("ConsultaFotaza", "http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail());
                 viewHolder.texto.setText("Mensaje: " + listViewItem.getTexto());
-                viewHolder.titulo.setText(listViewItem.getTitulo());
+                String timestamp=listViewItem.getTimestamp();
+                String[] tssp=timestamp.split(" ");
+                String[] sp1=tssp[0].split("-");
+                String[] sp2=tssp[1].split(":");
+                timestamp=sp2[0]+":"+sp2[1]+" "+sp1[2]+"/"+sp1[1]+"/"+sp1[0].substring(2);
+                viewHolder.titulo.setText(listViewItem.getTitulo()+", "+timestamp);
                 convertView.setTag(viewHolder);
 
             } else if (listViewItemType == NUEVAFOTO) {

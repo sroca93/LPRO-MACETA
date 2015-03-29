@@ -6,15 +6,26 @@ package contenedores;
 public class TimelineObject {
 
     public String Thumbnail;
+
+    public String getTimestamp() {
+        return Timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        Timestamp = timestamp;
+    }
+
+    public String Timestamp;
     public String Texto2;
     public String Texto1;
     public int Tipo;
 
-    public TimelineObject(String thumbnail, int tipo, String texto, String titulo) {
+    public TimelineObject(String thumbnail, int tipo, String texto, String titulo, String timestamp) {
         Thumbnail = thumbnail;
         this.Tipo = tipo;
         this.Texto1 = titulo;
         this.Texto2 = texto;
+        this.Timestamp=timestamp;
     }
 
     @Override
