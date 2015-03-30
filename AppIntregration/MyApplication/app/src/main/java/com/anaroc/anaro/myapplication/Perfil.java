@@ -319,6 +319,28 @@ public class Perfil extends Fragment{
 
 
         imagenplanta = (ImageView) rootView.findViewById(R.id.imageViewMiPlanta);
+        imagenplanta.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+
+                final ImageView imV= new ImageView(getActivity());
+                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imV);
+                LinearLayout ll=new LinearLayout(getActivity());
+                ll.setOrientation(LinearLayout.VERTICAL);
+                ll.addView(imV);
+                alert.setView(ll);
+
+                alert.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                    }
+                });
+
+                alert.show();
+
+
+            }
+        });
         progDailog= new ProgressDialog(this.getActivity());
 
         if(this.plantaPerfil!=null ) {
