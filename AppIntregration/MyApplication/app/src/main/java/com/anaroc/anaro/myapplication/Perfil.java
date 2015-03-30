@@ -17,6 +17,7 @@ import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
@@ -115,6 +116,32 @@ public class Perfil extends Fragment{
         }
         flag_scroll_end=false;
         this.editText = (EditText) rootView.findViewById(R.id.editText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(editText.getText().toString().length()>0)
+                {
+                    botonComent.setText("Enviar");
+                }
+                if(editText.getText().toString().length()<=0 && flag_pulsado)
+                {
+                    botonComent.setText("Cancelar");
+                }
+            }
+        });
         botonSeguir = (ImageButton) rootView.findViewById(R.id.imageButton);
         botonSeguir.setVisibility(View.GONE);
         botonNewPlanta = (ImageButton) rootView.findViewById(R.id.imageButtonFlower);
@@ -299,7 +326,7 @@ public class Perfil extends Fragment{
 
 
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+plantaPerfil.getThumbnail(), imagenplanta);
-            if(this.plantaPerfil.getTipo()!=null){
+            if(this.plantaPerfil.getTipo()!=null && this.plantaPerfil.getDueno()!=null && !this.plantaPerfil.getTipo().equals("null")){
                 textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
             }
             String currentUser = PrefUtils.getFromPrefs(getActivity(),"ACTUAL_USERNAME","");
@@ -386,8 +413,9 @@ public class Perfil extends Fragment{
                     }
                 }
             });
-
-            textview.setText(this.plantaPerfil.getTipo() + " de " + this.plantaPerfil.getDueno());
+            if((this.plantaPerfil.getTipo()!=null)) {
+                textview.setText(this.plantaPerfil.getTipo() + " de " + this.plantaPerfil.getDueno());
+            }
         }
         else{
             restoreState();
@@ -403,7 +431,7 @@ public class Perfil extends Fragment{
                         int dps = Math.round(pixels);
                         editText.setHeight(dps);
                         editText.getLayoutParams().height = dps;
-                        botonComent.setText("Enviar");
+                        botonComent.setText("Cancelar");
                         flag_pulsado=true;
                     }
                     else
@@ -411,24 +439,28 @@ public class Perfil extends Fragment{
                         editText.setHeight(0);
                         editText.getLayoutParams().height = 0;
                         String textoNuevo=editText.getText().toString();
-                        new ConsultaEnviaComent().execute(new Parametro("consulta","insertarComentario"),new Parametro("myID",myId),new Parametro("plantID",Integer.toString(plantaPerfil.getIdPlanta())),new Parametro("comentario",textoNuevo));
-                        //toast.setText("Tu mensaje ha sido enviado correctamente");
-                        //toast.show();
-                        editText.setText("");
-                        botonComent.setText("Comenta");
-                        numItems=0;
-                        if(customAdapter!=null) {
-                            customAdapter.clear();
+                        if(!textoNuevo.equals("")) {
+                            new ConsultaEnviaComent().execute(new Parametro("consulta", "insertarComentario"), new Parametro("myID", myId), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())), new Parametro("comentario", textoNuevo));
+                            //toast.setText("Tu mensaje ha sido enviado correctamente");
+                            //toast.show();
+                            numItems = 0;
+                            if (customAdapter != null) {
+                                customAdapter.clear();
+                            }
+                            additems();
                         }
-                        additems();
+                        botonComent.setText("Comenta");
                         flag_pulsado=false;
+                        editText.setText("");
+
                     }
 
                 }
             });
 
-
-            textview.setText(this.plantaPerfil.getTipo() +" de "+this.plantaPerfil.getDueno());
+            if(this.plantaPerfil.getTipo()!=null) {
+                textview.setText(this.plantaPerfil.getTipo() + " de " + this.plantaPerfil.getDueno());
+            }
 
 
 

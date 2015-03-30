@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.app.ProgressDialog;
@@ -22,6 +23,7 @@ import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
@@ -65,6 +67,7 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
     private String email, password;
     private CheckBox checkBox, checkBoxAutoLogIn;
     private boolean auto = false;
+    private boolean exit = false;
     private ProgressDialog progDialog;
 
     @Override
@@ -410,6 +413,27 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             showProgress(false);
         }
     }
+
+    public void onBackPressed(){
+        if (exit) {
+            finish(); // finish activity
+        }
+        else
+        {
+                Toast.makeText(this, "Presiona otra vez para salir.",
+                        Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+        }
+
+    }
+
+
 }
 
 

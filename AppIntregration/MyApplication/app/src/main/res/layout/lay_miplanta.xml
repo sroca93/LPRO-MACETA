@@ -38,7 +38,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Nombre"
+                            android:text=".........."
                             android:id="@+id/textViewMenuPersonaNombre"
                             android:layout_alignParentTop="true"
                             android:layout_toEndOf="@+id/RelLayImage"
@@ -80,7 +80,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_above="@+id/linear_layout_botones"
                     android:layout_below="@+id/editText"
-                    android:background="@drawable/textura_ultima" />
+                    android:background="@drawable/textura_ultima_w" />
 
     <EditText
         android:layout_width="fill_parent"

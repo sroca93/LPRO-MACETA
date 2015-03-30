@@ -173,6 +173,7 @@ public class MainActivity extends ActionBarActivity
 
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);
