@@ -57,7 +57,7 @@ public class EstadisticasFragment extends Fragment {
         textview3.setText("Grafica Temperatura");
 
         new ConsultaEstadistica().execute(new Parametro("consulta", "obtenerMediciones"),
-                new Parametro("plantID", Integer.toString(idPlanta)), new Parametro("numero", Integer.toString(3)));
+                new Parametro("plantID", Integer.toString(idPlanta)), new Parametro("numero", Integer.toString(10)));
 
         return rootView;
     }
