@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -65,6 +66,16 @@ public class CameraActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         mCamera = getCameraInstance();
+        // get Camera parameters
+        Camera.Parameters params = mCamera.getParameters();
+
+        List<String> focusModes = params.getSupportedFocusModes();
+        if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            // Autofocus mode is supported
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+// set Camera parameters
+            mCamera.setParameters(params);
+        }
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
@@ -172,107 +183,107 @@ public class CameraActivity extends Activity {
 
     }*/
 
-   /* public void encodeImagetoString() {
-        new AsyncTask<Void, Void, String>() {
+    /* public void encodeImagetoString() {
+         new AsyncTask<Void, Void, String>() {
 
-            protected void onPreExecute() {
+             protected void onPreExecute() {
 
-            }
+             }
 
-            @Override
-            protected String doInBackground(Void... params) {
-                BitmapFactory.Options options;
-                options = new BitmapFactory.Options();
-                options.inSampleSize = 3;
-                bitmap = BitmapFactory.decodeFile(imgPath,
-                        options);
-                if (bitmap == null) Log.d("bitmap", "null");
-                Matrix matrix = new Matrix();
-                //Log.d("orientattion", String.valueOf(getImageOrientation(imgPath)));
-                //Log.d("orientattion", String.valueOf(getImageOrientation()));
+             @Override
+             protected String doInBackground(Void... params) {
+                 BitmapFactory.Options options;
+                 options = new BitmapFactory.Options();
+                 options.inSampleSize = 3;
+                 bitmap = BitmapFactory.decodeFile(imgPath,
+                         options);
+                 if (bitmap == null) Log.d("bitmap", "null");
+                 Matrix matrix = new Matrix();
+                 //Log.d("orientattion", String.valueOf(getImageOrientation(imgPath)));
+                 //Log.d("orientattion", String.valueOf(getImageOrientation()));
 
-                matrix.postRotate(90);
-                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
-                        bitmap.getHeight(), matrix, true);
+                 matrix.postRotate(90);
+                 Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                         bitmap.getHeight(), matrix, true);
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                // Must compress the Image to reduce image size to make upload easy
-                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                byte[] byte_arr = stream.toByteArray();
-                // Encode Image to String
-                encodedString = Base64.encodeToString(byte_arr, 0);
-                return "";
-            }
+                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                 // Must compress the Image to reduce image size to make upload easy
+                 rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                 byte[] byte_arr = stream.toByteArray();
+                 // Encode Image to String
+                 encodedString = Base64.encodeToString(byte_arr, 0);
+                 return "";
+             }
 
-            @Override
-            protected void onPostExecute(String msg) {
-                //prgDialog.setMessage("Calling Upload");
-                // Put converted Image string into Async Http Post param
-                params.put("image", encodedString);
-                params.put("plantID", Integer.toString(idPlanta));
+             @Override
+             protected void onPostExecute(String msg) {
+                 //prgDialog.setMessage("Calling Upload");
+                 // Put converted Image string into Async Http Post param
+                 params.put("image", encodedString);
+                 params.put("plantID", Integer.toString(idPlanta));
 
-                Log.d("idPlanta", Integer.toString(idPlanta));
-                // Trigger Image upload
-                triggerImageUpload();
-                pictureFile.delete();
-            }
-        }.execute(null, null, null);
-    }
+                 Log.d("idPlanta", Integer.toString(idPlanta));
+                 // Trigger Image upload
+                 triggerImageUpload();
+                 pictureFile.delete();
+             }
+         }.execute(null, null, null);
+     }
 
-    public void triggerImageUpload() {
-        makeHTTPCall();
-    }
+     public void triggerImageUpload() {
+         makeHTTPCall();
+     }
 
-    // Make Http call to upload Image to Php server
-    public void makeHTTPCall() {
-        //prgDialog.setMessage("Invoking Php");
-        AsyncHttpClient client = new AsyncHttpClient();
-        // Don't forget to change the IP address to your LAN address. Port no as well.
+     // Make Http call to upload Image to Php server
+     public void makeHTTPCall() {
+         //prgDialog.setMessage("Invoking Php");
+         AsyncHttpClient client = new AsyncHttpClient();
+         // Don't forget to change the IP address to your LAN address. Port no as well.
 
-        client.post("http://193.146.210.69/uploadImage.php",
-                params, new AsyncHttpResponseHandler() {
-                    // When the response returned by REST has Http
-                    // response code '200'
-                    @Override
-                    public void onSuccess(String response) {
-                        // Hide Progress Dialog
-                        //prgDialog.hide();
-                        Toast.makeText(getApplicationContext(), response,
-                                Toast.LENGTH_LONG).show();
-                    }
+         client.post("http://193.146.210.69/uploadImage.php",
+                 params, new AsyncHttpResponseHandler() {
+                     // When the response returned by REST has Http
+                     // response code '200'
+                     @Override
+                     public void onSuccess(String response) {
+                         // Hide Progress Dialog
+                         //prgDialog.hide();
+                         Toast.makeText(getApplicationContext(), response,
+                                 Toast.LENGTH_LONG).show();
+                     }
 
-                    // When the response returned by REST has Http
-                    // response code other than '200' such as '404',
-                    // '500' or '403' etc
-                    @Override
-                    public void onFailure(int statusCode, Throwable error,
-                                          String content) {
-                        // Hide Progress Dialog
-                        //prgDialog.hide();
-                        // When Http response code is '404'
-                        if (statusCode == 404) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Requested resource not found",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code is '500'
-                        else if (statusCode == 500) {
-                            Toast.makeText(getApplicationContext(),
-                                    "Something went wrong at server end",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code other than 404, 500
-                        else {
-                            Toast.makeText(
-                                    getApplicationContext(),
-                                    "Error Occured \n Most Common Error: \n1. Device not connected to Internet\n2. Web App is not deployed in App server\n3. App server is not running\n HTTP Status code : "
-                                            + statusCode, Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    }
-                });
-    }
-*/
+                     // When the response returned by REST has Http
+                     // response code other than '200' such as '404',
+                     // '500' or '403' etc
+                     @Override
+                     public void onFailure(int statusCode, Throwable error,
+                                           String content) {
+                         // Hide Progress Dialog
+                         //prgDialog.hide();
+                         // When Http response code is '404'
+                         if (statusCode == 404) {
+                             Toast.makeText(getApplicationContext(),
+                                     "Requested resource not found",
+                                     Toast.LENGTH_LONG).show();
+                         }
+                         // When Http response code is '500'
+                         else if (statusCode == 500) {
+                             Toast.makeText(getApplicationContext(),
+                                     "Something went wrong at server end",
+                                     Toast.LENGTH_LONG).show();
+                         }
+                         // When Http response code other than 404, 500
+                         else {
+                             Toast.makeText(
+                                     getApplicationContext(),
+                                     "Error Occured \n Most Common Error: \n1. Device not connected to Internet\n2. Web App is not deployed in App server\n3. App server is not running\n HTTP Status code : "
+                                             + statusCode, Toast.LENGTH_LONG)
+                                     .show();
+                         }
+                     }
+                 });
+     }
+ */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
