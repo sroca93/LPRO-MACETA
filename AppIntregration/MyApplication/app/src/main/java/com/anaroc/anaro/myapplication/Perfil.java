@@ -3,6 +3,7 @@ package com.anaroc.anaro.myapplication;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -103,7 +104,8 @@ public class Perfil extends Fragment{
         rootView = inflater.inflate(R.layout.lay_miplanta, container, false);
         textview = (TextView) rootView.findViewById(R.id.textViewMenuPersonaNombre);
         ratingBarPerfil= (RatingBar) rootView.findViewById(R.id.ratingBarPerfil);
-        botonFoto = (ImageButton) rootView.findViewById(R.id.imageButtonVideo);
+        botonFoto = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
+        botonVideo = (ImageButton) rootView.findViewById(R.id.imageButtonVideo);
         context = this.getActivity();
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
@@ -173,15 +175,15 @@ public class Perfil extends Fragment{
 // Set an EditText view to get user input
                 final EditText nameET = new EditText(getActivity());
                 final EditText typeET = new EditText(getActivity());
-                LinearLayout ll=new LinearLayout(getActivity());
+                LinearLayout ll = new LinearLayout(getActivity());
                 ll.setOrientation(LinearLayout.VERTICAL);
                 ll.addView(nameET);
                 ll.addView(typeET);
                 alert.setView(ll);
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                       String name = nameET.getText().toString();
-                        String type =typeET.getText().toString();
+                        String name = nameET.getText().toString();
+                        String type = typeET.getText().toString();
                         new ConsultaNewPlant().execute(new Parametro("consulta", "storePlant"), new Parametro("myId", myId), new Parametro("plantName", name.toString()), new Parametro("plantTipo", type.toString()));
 
                         // Do something with value!
@@ -197,6 +199,18 @@ public class Perfil extends Fragment{
                 alert.show();
 
 
+            }
+        });
+        botonVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                TimelapseFragment fragment = new TimelapseFragment();
+                fragment.setIdPlanta(plantaPerfil.getIdPlanta());
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
             }
         });
         this.botonEstadisticas = (ImageButton) rootView.findViewById(R.id.imageButtonEstadisticas);
@@ -304,7 +318,7 @@ public class Perfil extends Fragment{
         //myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
         //textview = (TextView) rootView.findViewById(R.id.textoTitulo);
 
-        ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
+        ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButton_metro);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

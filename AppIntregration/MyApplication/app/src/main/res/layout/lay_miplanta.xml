@@ -99,7 +99,8 @@
         android:background="#ff653400"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:weightSum="1">
 
         <ImageButton
             android:layout_width="70dp"
@@ -124,6 +125,12 @@
             android:layout_height="50dp"
             android:id="@+id/imageButtonFlower"
             android:background="@drawable/boton_make_flower" />
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageButton_metro"
+            android:background="@drawable/metro" />
     </LinearLayout>
 
 </RelativeLayout>
