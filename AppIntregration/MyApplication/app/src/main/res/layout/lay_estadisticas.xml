@@ -15,8 +15,7 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#9dc2eeff">
+            android:layout_height="wrap_content">
 
             <NumberPicker
                 android:layout_width="wrap_content"
@@ -36,7 +35,7 @@
                 android:layout_below="@+id/numberPicker" />
 
             <com.jjoe64.graphview.GraphView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="200dip"
                 android:id="@+id/graph1"
                 android:layout_below="@id/textViewPlot1"/>
@@ -51,7 +50,7 @@
                 android:layout_below="@id/graph1"/>
 
             <com.jjoe64.graphview.GraphView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="200dip"
                 android:id="@+id/graph2"
                 android:layout_below="@id/textViewPlot2"/>
@@ -66,11 +65,9 @@
                 android:layout_below="@id/graph2"/>
 
             <com.jjoe64.graphview.GraphView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="200dip"
                 android:id="@+id/graph3"
-                app:seriesColor="#00cc00"
-                app:seriesTitle="Foobar"
                 android:layout_below="@id/textViewPlot3"/>
 
             <TextView

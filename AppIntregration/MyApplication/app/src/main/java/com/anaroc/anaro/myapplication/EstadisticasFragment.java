@@ -1,6 +1,7 @@
 package com.anaroc.anaro.myapplication;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -61,16 +62,19 @@ public class EstadisticasFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.lay_estadisticas, container, false);
         textview1 = (TextView) rootView.findViewById(R.id.textViewPlot1);
-        textview1.setText("Grafica Humedad");
+        textview1.setText("Humedad");
         textview2 = (TextView) rootView.findViewById(R.id.textViewPlot2);
-        textview2.setText("Grafica Luminosidad");
+        textview2.setText("Luminosidad");
         textview3 = (TextView) rootView.findViewById(R.id.textViewPlot3);
-        textview3.setText("Grafica Temperatura");
+        textview3.setText("Temperatura");
         textview4 = (TextView) rootView.findViewById(R.id.textViewExp);
         textview4.setText("Selecciona el numero de muestras que quieres ver. Recuerda que una muestra equivale a X minutos.");
         NumberPicker np=(NumberPicker) rootView.findViewById(R.id.numberPicker);
+        //np.setMaxValue(40);
+        //np.setMinValue(5);
+
         np.setMaxValue(40);
-        np.setMinValue(5);
+        np.setMinValue(10);
         np.setValue(40);
         np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -78,9 +82,18 @@ public class EstadisticasFragment extends Fragment {
                 graphHumedad.removeAllSeries();
                 graphLuminosidad.removeAllSeries();
                 graphTemperatura.removeAllSeries();
-                graphHumedad.addSeries(new BarGraphSeries<DataPoint>(datosHumedad.subList(0,newVal).toArray(new DataPoint[]{})));
-                graphLuminosidad.addSeries(new LineGraphSeries<DataPoint>(datosLuminosidad.subList(0,newVal).toArray(new DataPoint[]{})));
-                graphTemperatura.addSeries(new LineGraphSeries<DataPoint>( datosTemperatura.subList(0,newVal).toArray(new DataPoint[]{})));
+
+                BarGraphSeries<DataPoint> seriesH =new BarGraphSeries<DataPoint>(datosHumedad.subList(0,newVal).toArray(new DataPoint[]{}));
+                LineGraphSeries<DataPoint> seriesL =new LineGraphSeries<DataPoint>(datosLuminosidad.subList(0,newVal).toArray(new DataPoint[]{}));
+                LineGraphSeries<DataPoint> seriesT =new LineGraphSeries<DataPoint>(datosTemperatura.subList(0,newVal).toArray(new DataPoint[]{}));
+
+                seriesH.setColor(Color.parseColor("#ffba0070"));
+                seriesL.setColor(Color.YELLOW);
+                seriesT.setColor(Color.BLUE);
+
+                graphHumedad.addSeries(seriesH);
+                graphLuminosidad.addSeries(seriesL);
+                graphTemperatura.addSeries(seriesT);
             }
         });
 
@@ -157,9 +170,21 @@ public class EstadisticasFragment extends Fragment {
                 datosTemperatura.add(new DataPoint(i, Double.parseDouble(estadisticas[i].getTemperatura())));
             }
 
-            graphHumedad.addSeries(new BarGraphSeries<DataPoint>(datosHumedad.toArray(new DataPoint[]{})));
-            graphLuminosidad.addSeries(new LineGraphSeries<DataPoint>(datosLuminosidad.toArray(new DataPoint[]{})));
-            graphTemperatura.addSeries(new LineGraphSeries<DataPoint>( datosTemperatura.toArray(new DataPoint[]{})));
+            BarGraphSeries<DataPoint> seriesH =new BarGraphSeries<DataPoint>(datosHumedad.toArray(new DataPoint[]{}));
+            LineGraphSeries<DataPoint> seriesL =new LineGraphSeries<DataPoint>(datosLuminosidad.toArray(new DataPoint[]{}));
+            LineGraphSeries<DataPoint> seriesT =new LineGraphSeries<DataPoint>(datosTemperatura.toArray(new DataPoint[]{}));
+            seriesH.setColor(Color.parseColor("#ffba0070"));
+            seriesL.setColor(Color.YELLOW);
+            seriesT.setColor(Color.BLUE);
+
+
+            graphHumedad.addSeries(seriesH);
+            graphLuminosidad.addSeries(seriesL);
+            graphTemperatura.addSeries(seriesT);
+
+            graphHumedad.setMinimumWidth(rootView.getWidth());
+            graphLuminosidad.setMinimumWidth(rootView.getWidth());
+            graphTemperatura.setMinimumWidth(rootView.getWidth());
 
 
         }

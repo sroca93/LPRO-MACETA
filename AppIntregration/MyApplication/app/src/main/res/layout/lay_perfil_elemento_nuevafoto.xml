@@ -11,8 +11,12 @@
         android:text="Nueva imagen subida"
         android:id="@+id/textViewNuevaFoto"
         android:maxWidth="170dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/imageViewNuevaFoto"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/imageViewNuevaFoto"
+        android:layout_alignBottom="@+id/imageViewNuevaFoto"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <ImageView
         android:layout_width="180dp"
