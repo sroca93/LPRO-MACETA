@@ -379,6 +379,10 @@ public class Perfil extends Fragment{
                     botonEstadisticas.setVisibility(View.GONE);
                     botonNewPlanta.setVisibility(View.GONE);
                     botonFoto.setVisibility(View.GONE);
+                    botonVideo.setVisibility(View.GONE);
+                    ImageButton butto = (ImageButton) rootView.findViewById(R.id.imageButton_metro);
+                    butto.setVisibility(View.GONE);
+
                     ImageButton butt = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
                     butt.setVisibility(View.GONE);
 
@@ -575,6 +579,9 @@ public class Perfil extends Fragment{
                 botonNewPlanta.setVisibility(View.GONE);
                 botonFoto.setVisibility(View.GONE);
                 botonAmigo.setVisibility(View.GONE);
+                botonVideo.setVisibility(View.GONE);
+                ImageButton butto = (ImageButton) rootView.findViewById(R.id.imageButton_metro);
+                butto.setVisibility(View.GONE);
                 Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(plantaPerfil.getIdPlanta())).toString());
                 new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId), new Parametro("plantID", (Integer.valueOf(plantaPerfil.getIdPlanta())).toString()));
             }
@@ -585,6 +592,9 @@ public class Perfil extends Fragment{
             ratingBarPerfil.setVisibility(View.GONE);
             imagenplanta.setVisibility(View.GONE);
             botonComent.setVisibility(View.GONE);
+            botonVideo.setVisibility(View.GONE);
+            ImageButton butto = (ImageButton) rootView.findViewById(R.id.imageButton_metro);
+            butto.setVisibility(View.GONE);
 
         }
     }
