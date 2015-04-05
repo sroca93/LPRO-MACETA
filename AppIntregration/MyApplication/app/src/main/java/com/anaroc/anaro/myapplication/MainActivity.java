@@ -118,7 +118,7 @@ public class MainActivity extends ActionBarActivity
                 mTitle = "Top";
                 break;
             case 3:
-                mTitle = "Flowers";
+                mTitle = "Jardín";
                 break;
             case 4:
                 mTitle = "PlantAcademy";
