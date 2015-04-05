@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -39,7 +40,12 @@ import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -387,8 +393,16 @@ public class Perfil extends Fragment{
                     butt.setVisibility(View.GONE);
 
                     Log.d("MONDEBUG>>>", currentUserID + ", p " + ((plantaPerfil.getIdPlanta())));
-                    Log.d("MONDEBUG>>>", plantaPerfil.toString());
+                    Log.d("MONDEBU    G>>>", plantaPerfil.toString());
                     new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId), new Parametro("plantID", (Integer.valueOf(this.plantaPerfil.getIdPlanta()).toString() )));
+
+                    rootView.findViewById(R.id.diffTemperatura).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.diffLuminosidad).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
+
+
+
                 }
                 this.botonSeguir.setOnTouchListener(new View.OnTouchListener() {
                     public boolean onTouch(View v, MotionEvent event) {
@@ -571,8 +585,14 @@ public class Perfil extends Fragment{
             String currentUserID = PrefUtils.getFromPrefs(getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
             Log.d("MONDEBUG ", currentUser + " vs " + plantaPerfil.getDueno());
             if (plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
-                //nada, es tu planta
-
+                if (plantaPerfil.getTipo().trim().equals("Rosa"))
+                    new consultaDiffOptimo().execute(new Parametro("consulta", "sonMisParametrosBuenos"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())));
+                else {
+                    rootView.findViewById(R.id.diffTemperatura).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.diffLuminosidad).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
+                }
             } else {
                 //botonSeguir.setVisibility(View.VISIBLE);
                 botonEstadisticas.setVisibility(View.GONE);
@@ -584,6 +604,12 @@ public class Perfil extends Fragment{
                 butto.setVisibility(View.GONE);
                 Log.d("MONDEBUG>>>", currentUserID + ", p " + (Integer.valueOf(plantaPerfil.getIdPlanta())).toString());
                 new consultaIsFollowing().execute(new Parametro("consulta", "isFollowing"), new Parametro("myID", myId), new Parametro("plantID", (Integer.valueOf(plantaPerfil.getIdPlanta())).toString()));
+
+                rootView.findViewById(R.id.diffTemperatura).setVisibility(View.GONE);
+                rootView.findViewById(R.id.diffLuminosidad).setVisibility(View.GONE);
+                rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
+                rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
+
             }
 
 
@@ -662,8 +688,14 @@ public class Perfil extends Fragment{
                 String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
                 Log.d("MONDEBUG ", currentUser + " vs "+ plantaPerfil.getDueno());
                 if(plantaPerfil.getDueno().equalsIgnoreCase(currentUser)){
-                    //nada, es tu planta
-
+                    if (plantaPerfil.getTipo().trim().equals("Rosa"))
+                        new consultaDiffOptimo().execute(new Parametro("consulta", "sonMisParametrosBuenos"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())));
+                    else {
+                        rootView.findViewById(R.id.diffTemperatura).setVisibility(View.GONE);
+                        rootView.findViewById(R.id.diffLuminosidad).setVisibility(View.GONE);
+                        rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
+                        rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
+                    }
                 }else{
                     //botonSeguir.setVisibility(View.VISIBLE);
                     botonEstadisticas.setVisibility(View.GONE);
@@ -878,6 +910,77 @@ public class Perfil extends Fragment{
                 //botonSeguir.setVisibility(View.VISIBLE);
 
             }
+        }
+
+    }
+
+
+    public class consultaDiffOptimo extends AsyncTask<Parametro, Void, String> {
+
+        @Override
+        protected String doInBackground(Parametro... params) {
+            String respuestaJSON = (Consultas.hacerConsulta(params));
+            String respuesta = respuestaJSON;
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String respuesta) {
+
+
+            TextView textDiffTemp = (TextView) rootView.findViewById(R.id.diffTemperatura);
+            TextView textDiffLum = (TextView) rootView.findViewById(R.id.diffLuminosidad);
+            TextView textDiffHum = (TextView) rootView.findViewById(R.id.diffHumedad);
+            TextView textDiffHumSuelo = (TextView) rootView.findViewById(R.id.diffHumedadSuelo);
+
+            textDiffTemp.setVisibility(View.VISIBLE);
+            textDiffLum.setVisibility(View.VISIBLE);
+            textDiffHum.setVisibility(View.VISIBLE);
+            textDiffHumSuelo.setVisibility(View.VISIBLE);
+
+
+            Log.d(">>> Hinteligencia", respuesta);
+
+            try {
+                JSONObject obj = new JSONObject(respuesta);
+
+                double diffTemp = obj.getDouble("diffTemp");
+                double diffLum = obj.getDouble("diffLum");
+                double diffHum = obj.getDouble("diffHum");
+                double diffHumSuelo = obj.getDouble("diffHumSuelo");
+
+                DecimalFormat myFormatter = new DecimalFormat("##%");
+
+
+                textDiffTemp.setText("T: " + myFormatter.format(diffTemp));
+                textDiffLum.setText("L: " + myFormatter.format(diffLum));
+                textDiffHum.setText("H: " + myFormatter.format(diffHum));
+                textDiffHumSuelo.setText("HS: " + myFormatter.format(diffHumSuelo));
+
+                if (Math.abs(diffTemp) > 1)
+                    textDiffTemp.setTextColor(Color.RED);
+                else
+                    textDiffTemp.setTextColor(Color.GREEN);
+
+                if (Math.abs(diffLum) > 1)
+                    textDiffLum.setTextColor(Color.RED);
+                else
+                    textDiffLum.setTextColor(Color.GREEN);
+
+                if (Math.abs(diffHum) > 1)
+                    textDiffHum.setTextColor(Color.RED);
+                else
+                    textDiffHum.setTextColor(Color.GREEN);
+
+                if (Math.abs(diffHumSuelo) > 1)
+                    textDiffHumSuelo.setTextColor(Color.RED);
+                else
+                    textDiffHumSuelo.setTextColor(Color.GREEN);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
