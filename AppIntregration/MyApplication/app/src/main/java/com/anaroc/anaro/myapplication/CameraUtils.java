@@ -182,7 +182,7 @@ public class CameraUtils {
         } else {
             return null;
         }
-        Toast.makeText(context, "File created: " + mediaFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "File created: " + mediaFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
 
         pictureFile = mediaFile;

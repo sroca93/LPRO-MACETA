@@ -199,16 +199,18 @@ public class TimelapseFragment extends Fragment {
 
             url = respuesta.replaceAll("\\\\", "");
             Log.d(url, url);
-            Uri vidUri = Uri.parse("http://193.146.210.69" + url);
+            Uri vidUri = Uri.parse("http://193.146.210.69" + url.replaceAll("\"", ""));
+            Log.d("uri", String.valueOf(vidUri));
 
             //videoView.setVideoURI(Uri.parse("http://193.146.210.69/video.avi"));
-            videoView.setVideoURI(vidUri);
 
 
             MediaController vidControl = new MediaController(getActivity());
             vidControl.setAnchorView(videoView);
 
             videoView.setMediaController(vidControl);
+            videoView.setVideoURI(vidUri);
+
 
             videoView.start();
             progDialog.dismiss();
