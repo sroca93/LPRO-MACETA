@@ -76,8 +76,10 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Small Text"
                             android:id="@+id/diffHumedad"
-                            android:layout_alignTop="@+id/textViewMenuPersonaNombre"
-                            android:layout_alignLeft="@+id/RelLayImage" />
+                            android:layout_below="@+id/textViewMenuPersonaNombre"
+                            android:layout_toEndOf="@+id/RelLayImage"
+                            android:layout_marginLeft="6dp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -85,8 +87,10 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Small Text"
                             android:id="@+id/diffHumedadSuelo"
-                            android:layout_alignTop="@+id/imageButton"
-                            android:layout_toEndOf="@+id/diffHumedad" />
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/diffHumedad"
+                            android:layout_marginLeft="6dp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -94,8 +98,10 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Small Text"
                             android:id="@+id/diffTemperatura"
-                            android:layout_alignTop="@+id/imageButton"
-                            android:layout_toEndOf="@+id/diffHumedadSuelo" />
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/diffHumedadSuelo"
+                            android:layout_marginLeft="6dp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -103,8 +109,10 @@
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Small Text"
                             android:id="@+id/diffLuminosidad"
-                            android:layout_alignTop="@+id/imageButton"
-                            android:layout_toEndOf="@+id/diffTemperatura" />
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/diffTemperatura"
+                            android:layout_marginLeft="6dp"
+                            android:visibility="gone"/>
 
 
                     </RelativeLayout>
