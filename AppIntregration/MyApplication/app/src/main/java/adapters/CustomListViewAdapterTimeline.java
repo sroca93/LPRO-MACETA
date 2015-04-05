@@ -79,11 +79,16 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 convertView.setTag(viewHolder);
 
             } else if (listViewItemType == NUEVAFOTO) {
+                String timestamp=listViewItem.getTimestamp();
+                String[] tssp=timestamp.split(" ");
+                String[] sp1=tssp[0].split("-");
+                String[] sp2=tssp[1].split(":");
+                timestamp=sp2[0]+":"+sp2[1]+" "+sp1[2]+"/"+sp1[1]+"/"+sp1[0].substring(2);
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.lay_perfil_elemento_nuevafoto, null);
                 viewHolder.texto=(TextView) convertView.findViewById(R.id.textViewNuevaFoto);
                 viewHolder.Img=(ImageView) convertView.findViewById(R.id.imageViewNuevaFoto);
 
-                viewHolder.texto.setText("Novedad: " + listViewItem.getTitulo());
+                viewHolder.texto.setText("Nueva foto subida - " +timestamp);
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+listViewItem.getThumbnail(), viewHolder.Img);
                 convertView.setTag(viewHolder);
 
