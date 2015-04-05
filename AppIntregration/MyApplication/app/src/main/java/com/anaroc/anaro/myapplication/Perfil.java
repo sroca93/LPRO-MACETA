@@ -38,7 +38,12 @@ import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -553,7 +558,8 @@ public class Perfil extends Fragment{
             String currentUserID = PrefUtils.getFromPrefs(getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
             Log.d("MONDEBUG ", currentUser + " vs " + plantaPerfil.getDueno());
             if (plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
-                //nada, es tu planta
+                if (plantaPerfil.getTipo().trim().equals("Rosa"))
+                    new consultaDiffOptimo().execute(new Parametro("consulta", "sonMisParametrosBuenos"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())));
 
             } else {
                 //botonSeguir.setVisibility(View.VISIBLE);
@@ -854,6 +860,51 @@ public class Perfil extends Fragment{
                 //botonSeguir.setVisibility(View.VISIBLE);
 
             }
+        }
+
+    }
+
+
+    public class consultaDiffOptimo extends AsyncTask<Parametro, Void, String> {
+
+        @Override
+        protected String doInBackground(Parametro... params) {
+            String respuestaJSON = (Consultas.hacerConsulta(params));
+            String respuesta = respuestaJSON;
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String respuesta) {
+
+
+            TextView textDiffTemp = (TextView) rootView.findViewById(R.id.diffTemperatura);
+            TextView textDiffLum = (TextView) rootView.findViewById(R.id.diffLuminosidad);
+            TextView textDiffHum = (TextView) rootView.findViewById(R.id.diffLuminosidad);
+            TextView textDiffHumSuelo = (TextView) rootView.findViewById(R.id.diffHumedadSuelo);
+
+            Log.d(">>> Hinteligencia", respuesta);
+
+            try {
+                JSONObject obj = new JSONObject(respuesta);
+
+                double diffTemp = obj.getDouble("diffTemp");
+                double diffLum = obj.getDouble("diffLum");
+                double diffHum = obj.getDouble("diffHum");
+                double diffHumSuelo = obj.getDouble("diffHumSuelo");
+
+                DecimalFormat myFormatter = new DecimalFormat("###,###.##%");
+
+
+                textDiffTemp.setText(myFormatter.format(diffTemp*100));
+                textDiffLum.setText(myFormatter.format(diffLum*100));
+                textDiffHum.setText(myFormatter.format(diffHum*100));
+                textDiffHumSuelo.setText(myFormatter.format(diffHumSuelo*100));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
 
     }
