@@ -68,7 +68,7 @@ public class EstadisticasFragment extends Fragment {
         textview3 = (TextView) rootView.findViewById(R.id.textViewPlot3);
         textview3.setText("Temperatura");
         textview4 = (TextView) rootView.findViewById(R.id.textViewExp);
-        textview4.setText("Selecciona el numero de muestras que quieres ver. Recuerda que una muestra equivale a X minutos.");
+        textview4.setText("Selecciona el numero de muestras que quieres ver. Recuerda que una muestra equivale a medio minuto.");
         NumberPicker np=(NumberPicker) rootView.findViewById(R.id.numberPicker);
         //np.setMaxValue(40);
         //np.setMinValue(5);
