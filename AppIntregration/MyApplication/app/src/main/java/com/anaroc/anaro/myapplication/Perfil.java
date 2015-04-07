@@ -28,6 +28,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.jjoe64.graphview.GraphView;
@@ -181,18 +183,23 @@ public class Perfil extends Fragment{
 // Set an EditText view to get user input
                 final EditText nameET = new EditText(getActivity());
                 final EditText typeET = new EditText(getActivity());
-                final EditText colorET = new EditText(getActivity());
+                //final EditText colorET = new EditText(getActivity());
+                final Spinner colorSP= new Spinner(getActivity());
                 LinearLayout ll = new LinearLayout(getActivity());
+                String[] arraySpinner = new String[] {"ninguno", "rojo", "lila","rosa","amarillo","naranja","azul", "blanco"};
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, arraySpinner);
+                colorSP.setAdapter(spinnerAdapter);
                 ll.setOrientation(LinearLayout.VERTICAL);
                 ll.addView(nameET);
                 ll.addView(typeET);
-                ll.addView(colorET);
+                ll.addView(colorSP);
                 alert.setView(ll);
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String name = nameET.getText().toString();
                         String type = typeET.getText().toString();
-                        String color = colorET.getText().toString();
+                        //String color = colorET.getText().toString();
+                        String color = (String) colorSP.getSelectedItem();
                         new ConsultaNewPlant().execute(new Parametro("consulta", "storePlant"), new Parametro("myId", myId), new Parametro("plantName", name.toString()), new Parametro("plantTipo", type.toString()), new Parametro("plantColor",color.toString()));
 
                         // Do something with value!
