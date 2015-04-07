@@ -176,21 +176,24 @@ public class Perfil extends Fragment{
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
 
                 alert.setTitle("Nueva planta");
-                alert.setMessage("Crea tu nueva planta");
+                alert.setMessage("Introduce su nombre, especie y color:");
 
 // Set an EditText view to get user input
                 final EditText nameET = new EditText(getActivity());
                 final EditText typeET = new EditText(getActivity());
+                final EditText colorET = new EditText(getActivity());
                 LinearLayout ll = new LinearLayout(getActivity());
                 ll.setOrientation(LinearLayout.VERTICAL);
                 ll.addView(nameET);
                 ll.addView(typeET);
+                ll.addView(colorET);
                 alert.setView(ll);
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String name = nameET.getText().toString();
                         String type = typeET.getText().toString();
-                        new ConsultaNewPlant().execute(new Parametro("consulta", "storePlant"), new Parametro("myId", myId), new Parametro("plantName", name.toString()), new Parametro("plantTipo", type.toString()));
+                        String color = colorET.getText().toString();
+                        new ConsultaNewPlant().execute(new Parametro("consulta", "storePlant"), new Parametro("myId", myId), new Parametro("plantName", name.toString()), new Parametro("plantTipo", type.toString()), new Parametro("plantColor",color.toString()));
 
                         // Do something with value!
                     }
@@ -614,13 +617,18 @@ public class Perfil extends Fragment{
 
 
         }else{
-            textview.setText("No tienes ninguna planta");
-            ratingBarPerfil.setVisibility(View.GONE);
-            imagenplanta.setVisibility(View.GONE);
-            botonComent.setVisibility(View.GONE);
-            botonVideo.setVisibility(View.GONE);
-            ImageButton butto = (ImageButton) rootView.findViewById(R.id.imageButton_metro);
-            butto.setVisibility(View.GONE);
+            if (listaPlantas.length <= 0) {
+                textview.setText("No tienes ninguna planta");
+                ratingBarPerfil.setVisibility(View.GONE);
+                imagenplanta.setVisibility(View.GONE);
+                botonComent.setVisibility(View.GONE);
+                botonVideo.setVisibility(View.GONE);
+                ImageButton butto = (ImageButton) rootView.findViewById(R.id.imageButton_metro);
+                butto.setVisibility(View.GONE);
+            }
+            else{
+                //No se hace nada
+            }
 
         }
     }
