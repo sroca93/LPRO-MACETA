@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class SQLite extends SQLiteOpenHelper {
     String sqlOnCreate = "create table Usuarios (ID integer primary key, user text, pass text, flag integer)";
-    String sqlOnCreateImages = "create table Imagenes (ID integer primary key, path text)";
+    String sqlOnCreateImages = "create table Imagenes (ID integer primary key, userID integer, path text)";
 
 
     public SQLite(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

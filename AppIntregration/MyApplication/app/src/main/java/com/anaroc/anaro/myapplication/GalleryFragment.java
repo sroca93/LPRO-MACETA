@@ -38,6 +38,7 @@ public class GalleryFragment extends Fragment {
     ImageView imagenSeleccionada;
     Gallery gallery;
     public EntreFragments mCallback;
+    private String userID;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,6 +76,7 @@ public class GalleryFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.d("GalleryFragment", "entro");
 
+        userID = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
 
         // Inflate the layout for this fragment
 
@@ -167,7 +169,9 @@ public class GalleryFragment extends Fragment {
         if(db != null)
         {
             String[] columns = {"ID", "path"};
-            Cursor c = db.query("Imagenes", columns, null, null, null, null, null, null);
+            String[] args = new String[] {userID};
+
+            Cursor c = db.query("Imagenes", columns, "userID=?", args, null, null, null, null);
             if (c.moveToFirst()) {
                 do {
                     String pathFile = c.getString(1);

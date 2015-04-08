@@ -204,6 +204,13 @@ public class TimelapseFragment extends Fragment {
 
             //videoView.setVideoURI(Uri.parse("http://193.146.210.69/video.avi"));
 
+            videoView.setOnPreparedListener (new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                }
+            });
+
 
             MediaController vidControl = new MediaController(getActivity());
             vidControl.setAnchorView(videoView);
