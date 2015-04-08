@@ -2,9 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/textura_ultima_azul">
 
@@ -15,15 +13,8 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <NumberPicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/numberPicker"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:nestedScrollingEnabled="false" />
+            android:layout_height="wrap_content"
+            android:background="#9dc2eeff">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -31,11 +22,11 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text=""
                 android:id="@+id/textViewPlot1"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/numberPicker" />
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
             <com.jjoe64.graphview.GraphView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="200dip"
                 android:id="@+id/graph1"
                 android:layout_below="@id/textViewPlot1"/>
@@ -50,7 +41,7 @@
                 android:layout_below="@id/graph1"/>
 
             <com.jjoe64.graphview.GraphView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="200dip"
                 android:id="@+id/graph2"
                 android:layout_below="@id/textViewPlot2"/>
@@ -65,24 +56,10 @@
                 android:layout_below="@id/graph2"/>
 
             <com.jjoe64.graphview.GraphView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="200dip"
                 android:id="@+id/graph3"
                 android:layout_below="@id/textViewPlot3"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/textViewExp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignBottom="@+id/numberPicker"
-                android:layout_toStartOf="@+id/numberPicker"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="10dp" />
-
 
         </RelativeLayout>
     </ScrollView>

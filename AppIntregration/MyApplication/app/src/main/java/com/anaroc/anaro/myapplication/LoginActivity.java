@@ -375,6 +375,8 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
         protected void onPostExecute(String success) {
             mAuthTask = null;
             showProgress(false);
+            Log.d(success,success);
+
 
             if (Integer.parseInt(success.replaceAll("\n",""))>0) {
 

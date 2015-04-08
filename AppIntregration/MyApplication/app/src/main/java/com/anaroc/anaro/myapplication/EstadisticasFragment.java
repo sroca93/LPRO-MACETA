@@ -1,7 +1,6 @@
 package com.anaroc.anaro.myapplication;
 
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,14 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -39,19 +36,10 @@ public class EstadisticasFragment extends Fragment {
     private TextView textview1;
     private TextView textview2;
     private TextView textview3;
-    private TextView textview4;
 
     private float humedad;
     private float temperatura;
     private float luminosidad;
-
-    ArrayList<DataPoint> datosHumedad;
-    ArrayList<DataPoint> datosLuminosidad;
-    ArrayList<DataPoint> datosTemperatura;
-
-    GraphView graphHumedad ;
-    GraphView graphLuminosidad;
-    GraphView graphTemperatura;
 
     private int idPlanta;
 
@@ -62,43 +50,14 @@ public class EstadisticasFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.lay_estadisticas, container, false);
         textview1 = (TextView) rootView.findViewById(R.id.textViewPlot1);
-        textview1.setText("Humedad");
+        textview1.setText("Grafica Humedad");
         textview2 = (TextView) rootView.findViewById(R.id.textViewPlot2);
-        textview2.setText("Luminosidad");
+        textview2.setText("Grafica Luminosidad");
         textview3 = (TextView) rootView.findViewById(R.id.textViewPlot3);
-        textview3.setText("Temperatura");
-        textview4 = (TextView) rootView.findViewById(R.id.textViewExp);
-        textview4.setText("Selecciona el numero de muestras que quieres ver. Recuerda que una muestra equivale a medio minuto.");
-        NumberPicker np=(NumberPicker) rootView.findViewById(R.id.numberPicker);
-        //np.setMaxValue(40);
-        //np.setMinValue(5);
-
-        np.setMaxValue(40);
-        np.setMinValue(10);
-        np.setValue(40);
-        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                graphHumedad.removeAllSeries();
-                graphLuminosidad.removeAllSeries();
-                graphTemperatura.removeAllSeries();
-
-                BarGraphSeries<DataPoint> seriesH =new BarGraphSeries<DataPoint>(datosHumedad.subList(0,newVal).toArray(new DataPoint[]{}));
-                LineGraphSeries<DataPoint> seriesL =new LineGraphSeries<DataPoint>(datosLuminosidad.subList(0,newVal).toArray(new DataPoint[]{}));
-                LineGraphSeries<DataPoint> seriesT =new LineGraphSeries<DataPoint>(datosTemperatura.subList(0,newVal).toArray(new DataPoint[]{}));
-
-                seriesH.setColor(Color.parseColor("#ffba0070"));
-                seriesL.setColor(Color.YELLOW);
-                seriesT.setColor(Color.BLUE);
-
-                graphHumedad.addSeries(seriesH);
-                graphLuminosidad.addSeries(seriesL);
-                graphTemperatura.addSeries(seriesT);
-            }
-        });
+        textview3.setText("Grafica Temperatura");
 
         new ConsultaEstadistica().execute(new Parametro("consulta", "obtenerMediciones"),
-                new Parametro("plantID", Integer.toString(idPlanta)), new Parametro("numero", Integer.toString(40)));
+                new Parametro("plantID", Integer.toString(idPlanta)), new Parametro("numero", Integer.toString(3)));
 
         return rootView;
     }
@@ -154,13 +113,13 @@ public class EstadisticasFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Estadistica[] estadisticas) {
-            graphHumedad = (GraphView) rootView.findViewById(R.id.graph1);
-            graphLuminosidad = (GraphView) rootView.findViewById(R.id.graph2);
-            graphTemperatura = (GraphView) rootView.findViewById(R.id.graph3);
+            GraphView graphHumedad = (GraphView) rootView.findViewById(R.id.graph1);
+            GraphView graphLuminosidad = (GraphView) rootView.findViewById(R.id.graph2);
+            GraphView graphTemperatura = (GraphView) rootView.findViewById(R.id.graph3);
 
-            datosHumedad = new ArrayList<DataPoint>();
-            datosLuminosidad = new ArrayList<DataPoint>();
-            datosTemperatura = new ArrayList<DataPoint>();
+            ArrayList<DataPoint> datosHumedad = new ArrayList<DataPoint>();
+            ArrayList<DataPoint> datosLuminosidad = new ArrayList<DataPoint>();
+            ArrayList<DataPoint> datosTemperatura = new ArrayList<DataPoint>();
 
 
             for (int i = 0; i < estadisticas.length; i++) {
@@ -170,21 +129,9 @@ public class EstadisticasFragment extends Fragment {
                 datosTemperatura.add(new DataPoint(i, Double.parseDouble(estadisticas[i].getTemperatura())));
             }
 
-            BarGraphSeries<DataPoint> seriesH =new BarGraphSeries<DataPoint>(datosHumedad.toArray(new DataPoint[]{}));
-            LineGraphSeries<DataPoint> seriesL =new LineGraphSeries<DataPoint>(datosLuminosidad.toArray(new DataPoint[]{}));
-            LineGraphSeries<DataPoint> seriesT =new LineGraphSeries<DataPoint>(datosTemperatura.toArray(new DataPoint[]{}));
-            seriesH.setColor(Color.parseColor("#ffba0070"));
-            seriesL.setColor(Color.YELLOW);
-            seriesT.setColor(Color.BLUE);
-
-
-            graphHumedad.addSeries(seriesH);
-            graphLuminosidad.addSeries(seriesL);
-            graphTemperatura.addSeries(seriesT);
-
-            graphHumedad.setMinimumWidth(rootView.getWidth());
-            graphLuminosidad.setMinimumWidth(rootView.getWidth());
-            graphTemperatura.setMinimumWidth(rootView.getWidth());
+            graphHumedad.addSeries(new LineGraphSeries<DataPoint>(datosHumedad.toArray(new DataPoint[]{})));
+            graphLuminosidad.addSeries(new LineGraphSeries<DataPoint>(datosLuminosidad.toArray(new DataPoint[]{})));
+            graphTemperatura.addSeries(new LineGraphSeries<DataPoint>( datosTemperatura.toArray(new DataPoint[]{})));
 
 
         }

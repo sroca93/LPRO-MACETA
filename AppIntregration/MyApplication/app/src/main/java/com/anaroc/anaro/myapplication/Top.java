@@ -3,12 +3,10 @@ package com.anaroc.anaro.myapplication;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +47,7 @@ public class Top extends Fragment {
     public boolean flag_back=true;
     private int index;
     private int top;
-    private String myId;
+
 
 
     @Override
@@ -64,7 +62,6 @@ public class Top extends Fragment {
 
         if(flag_back) {
             rootView = inflater.inflate(R.layout.lay_top, container, false);
-            myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
             adapter = new CustomListViewAdapter(this.getActivity(),
                     R.layout.lay_top_elementos, new ArrayList<Planta>());
             progDailog = new ProgressDialog(this.getActivity());
@@ -78,13 +75,15 @@ public class Top extends Fragment {
                     switch(checkedId)
                     {
                         case R.id.flowing:
-                            new ConsultaTopFollowed().execute(new Parametro("consulta", "getTopPlantasQueSigo"), new Parametro("myID", myId));
+                            toast.setText("Consulta no implementada :( ");
+                            toast.show();
                             break;
                         case R.id.mitipo:
-                            new ConsultaTopMiTipo().execute(new Parametro("consulta", "getTopPlantasComoLasMias"),new Parametro("numeroDePlantas", "8") ,new Parametro("myID", myId));
+                            toast.setText("Consulta no implementada :( ");
+                            toast.show();
                             break;
                         case R.id.todas:
-                            new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "8"));
+                            new ConsultaTop().execute(new Parametro("consulta", "getTopPlantas"), new Parametro("numeroDePlantas", "5"));
                             break;
                     }
                 }
@@ -130,94 +129,6 @@ public class Top extends Fragment {
         index = listView.getFirstVisiblePosition();
         View v = listView.getChildAt(0);
         top = (v == null) ? 0 : (v.getTop() - listView.getPaddingTop());
-    }
-
-
-    public class ConsultaTopFollowed extends AsyncTask<Parametro, Void, Planta[]>
-    {
-
-        protected void onPreExecute() {
-
-
-            progDailog.setMessage("Cargando...");
-            progDailog.setIndeterminate(false);
-            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progDailog.setCancelable(true);
-            progDailog.show();
-        }
-
-        @Override
-        protected Planta[] doInBackground(Parametro... params) {
-            String respuestaJSON = Consultas.hacerConsulta(params);
-
-            Planta[] respuestaParseada = Consultas.parsearPlantas(respuestaJSON);
-
-            return respuestaParseada;
-
-        }
-
-        @Override
-        protected void onPostExecute(Planta[] plantas) {
-            listaPlantas = plantas;
-            if (plantas.length>0) {
-                adapter.clear();
-                for (Planta planta : plantas)
-                    adapter.add(planta);
-            }else{
-                Context context = getActivity();
-                CharSequence text = "No sigues a ninguna planta";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-            progDailog.dismiss();
-        }
-    }
-
-
-    public class ConsultaTopMiTipo extends AsyncTask<Parametro, Void, Planta[]>
-    {
-
-        protected void onPreExecute() {
-
-
-            progDailog.setMessage("Cargando...");
-            progDailog.setIndeterminate(false);
-            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progDailog.setCancelable(true);
-            progDailog.show();
-        }
-
-        @Override
-        protected Planta[] doInBackground(Parametro... params) {
-            String respuestaJSON = Consultas.hacerConsulta(params);
-
-            Log.i("AlvaroDEBUG: ",respuestaJSON);
-
-            Planta[] respuestaParseada = Consultas.parsearPlantas(respuestaJSON);
-
-            return respuestaParseada;
-
-        }
-
-        @Override
-        protected void onPostExecute(Planta[] plantas) {
-            listaPlantas = plantas;
-            if (plantas.length>0) {
-                adapter.clear();
-                for (Planta planta : plantas)
-                    adapter.add(planta);
-            }else{
-                Context context = getActivity();
-                CharSequence text = "No se encuentran plantas de como la tuya";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-            progDailog.dismiss();
-        }
     }
 
 

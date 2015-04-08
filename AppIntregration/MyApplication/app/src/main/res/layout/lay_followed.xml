@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/textura_ultima">
@@ -7,32 +7,6 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listview_followed"
-        android:layout_below="@+id/radioGroup2"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/listview_followed"/>
 
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/radioGroup2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Flowing"
-            android:id="@+id/radioButtonFollowed"
-            android:checked="false" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Buscar usuario"
-            android:id="@+id/radioButtonBuscaUser"
-            android:checked="false" />
-
-    </RadioGroup>
-
-</RelativeLayout>
+</LinearLayout>

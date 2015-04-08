@@ -22,8 +22,8 @@
         android:text="test"
         android:textAlignment="textStart"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/icon"
-        android:layout_marginLeft="30dp" />
+        android:layout_alignEnd="@+id/ratingBarTop"
+        android:layout_marginTop="10dp" />
 
 
     <RatingBar
