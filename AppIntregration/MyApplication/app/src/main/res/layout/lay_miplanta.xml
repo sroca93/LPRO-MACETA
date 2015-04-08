@@ -70,16 +70,34 @@
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentEnd="true" />
 
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/imagenHumedad"
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/RelLayImage"
+                            android:visibility="gone"
+                            android:background="@drawable/ic_ventilation_icon" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Small Text"
                             android:id="@+id/diffHumedad"
-                            android:layout_below="@+id/textViewMenuPersonaNombre"
-                            android:layout_toEndOf="@+id/RelLayImage"
-                            android:layout_marginLeft="6dp"
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/imagenHumedad"
                             android:visibility="gone"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/imagenHS"
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/diffHumedad"
+                            android:layout_marginStart="3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/ic_humidity_button" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -88,9 +106,18 @@
                             android:text="Small Text"
                             android:id="@+id/diffHumedadSuelo"
                             android:layout_below="@+id/imageButton"
-                            android:layout_toEndOf="@+id/diffHumedad"
-                            android:layout_marginLeft="6dp"
+                            android:layout_toEndOf="@+id/imagenHS"
                             android:visibility="gone"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/imagenTemp"
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/diffHumedadSuelo"
+                            android:layout_marginStart="3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/ic_temperature" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -99,9 +126,18 @@
                             android:text="Small Text"
                             android:id="@+id/diffTemperatura"
                             android:layout_below="@+id/imageButton"
-                            android:layout_toEndOf="@+id/diffHumedadSuelo"
-                            android:layout_marginLeft="6dp"
+                            android:layout_toEndOf="@+id/imagenTemp"
                             android:visibility="gone"/>
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/imagenLuz"
+                            android:layout_below="@+id/imageButton"
+                            android:layout_toEndOf="@+id/diffTemperatura"
+                            android:layout_marginStart="3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/ic_device_brightness_low" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -110,8 +146,7 @@
                             android:text="Small Text"
                             android:id="@+id/diffLuminosidad"
                             android:layout_below="@+id/imageButton"
-                            android:layout_toEndOf="@+id/diffTemperatura"
-                            android:layout_marginLeft="6dp"
+                            android:layout_toEndOf="@+id/imagenLuz"
                             android:visibility="gone"/>
 
 
