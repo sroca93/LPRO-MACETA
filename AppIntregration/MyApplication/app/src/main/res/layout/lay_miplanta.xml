@@ -150,14 +150,14 @@
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:id="@+id/imageButtonEstadisticas"
-            android:background="@drawable/boton_estadisticas"
+            android:background="@drawable/boton_estadisticas2"
             android:adjustViewBounds="true" />
 
         <ImageButton
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:id="@+id/imageButtonVideo"
-            android:background="@drawable/boton_timelapse"
+            android:background="@drawable/boton_timelapse2"
             android:adjustViewBounds="true" />
 
         <ImageButton
@@ -171,14 +171,14 @@
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:id="@+id/imageButtonFlower"
-            android:background="@drawable/boton_make_flower"
+            android:background="@drawable/boton_make_flower_copia"
             android:adjustViewBounds="true" />
 
         <ImageButton
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:id="@+id/imageButton_metro"
-            android:background="@drawable/metro"
+            android:background="@drawable/boton_medida"
             android:adjustViewBounds="true" />
     </LinearLayout>
 
