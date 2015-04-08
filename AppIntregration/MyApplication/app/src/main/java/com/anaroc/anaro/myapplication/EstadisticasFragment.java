@@ -1,6 +1,7 @@
 package com.anaroc.anaro.myapplication;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -54,12 +56,14 @@ public class EstadisticasFragment extends Fragment {
     GraphView graphTemperatura;
 
     private int idPlanta;
+    private Context context;
 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
+        context=this.getActivity();
         rootView = inflater.inflate(R.layout.lay_estadisticas, container, false);
         textview1 = (TextView) rootView.findViewById(R.id.textViewPlot1);
         textview1.setText("Humedad");
@@ -79,21 +83,31 @@ public class EstadisticasFragment extends Fragment {
         np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                graphHumedad.removeAllSeries();
-                graphLuminosidad.removeAllSeries();
-                graphTemperatura.removeAllSeries();
 
-                BarGraphSeries<DataPoint> seriesH =new BarGraphSeries<DataPoint>(datosHumedad.subList(0,newVal).toArray(new DataPoint[]{}));
-                LineGraphSeries<DataPoint> seriesL =new LineGraphSeries<DataPoint>(datosLuminosidad.subList(0,newVal).toArray(new DataPoint[]{}));
-                LineGraphSeries<DataPoint> seriesT =new LineGraphSeries<DataPoint>(datosTemperatura.subList(0,newVal).toArray(new DataPoint[]{}));
+                if(datosHumedad.size()>=newVal) {
 
-                seriesH.setColor(Color.parseColor("#ffba0070"));
-                seriesL.setColor(Color.YELLOW);
-                seriesT.setColor(Color.BLUE);
+                    graphHumedad.removeAllSeries();
+                    graphLuminosidad.removeAllSeries();
+                    graphTemperatura.removeAllSeries();
 
-                graphHumedad.addSeries(seriesH);
-                graphLuminosidad.addSeries(seriesL);
-                graphTemperatura.addSeries(seriesT);
+                    BarGraphSeries<DataPoint> seriesH = new BarGraphSeries<DataPoint>(datosHumedad.subList(0, newVal).toArray(new DataPoint[]{}));
+                    LineGraphSeries<DataPoint> seriesL = new LineGraphSeries<DataPoint>(datosLuminosidad.subList(0, newVal).toArray(new DataPoint[]{}));
+                    LineGraphSeries<DataPoint> seriesT = new LineGraphSeries<DataPoint>(datosTemperatura.subList(0, newVal).toArray(new DataPoint[]{}));
+
+                    seriesH.setColor(Color.parseColor("#ffba0070"));
+                    seriesL.setColor(Color.YELLOW);
+                    seriesT.setColor(Color.BLUE);
+
+                    graphHumedad.addSeries(seriesH);
+                    graphLuminosidad.addSeries(seriesL);
+                    graphTemperatura.addSeries(seriesT);
+                }
+                else
+                {
+                    Toast toast = Toast.makeText(context, "No hay suficientes medidas", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                }
             }
         });
 
