@@ -63,12 +63,16 @@
 
                         <Button
                             style="?android:attr/buttonStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Comenta"
+                            android:layout_width="50dp"
+                            android:layout_height="25dp"
                             android:id="@+id/buttonComent"
                             android:layout_alignParentBottom="true"
-                            android:layout_alignParentEnd="true" />
+                            android:layout_alignParentEnd="true"
+                            android:text="Comenta"
+                            android:background="@drawable/comment_icon3"
+                            android:textColor="#e4fffbfb"
+                            android:textSize="9dp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:layout_width="30dp"
