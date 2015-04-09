@@ -184,6 +184,8 @@ public class Perfil extends Fragment{
                 final EditText nameET = new EditText(getActivity());
                 final EditText typeET = new EditText(getActivity());
                 //final EditText colorET = new EditText(getActivity());
+                nameET.setHint("Nombre");
+                typeET.setHint("Especie");
                 final Spinner colorSP= new Spinner(getActivity());
                 LinearLayout ll = new LinearLayout(getActivity());
                 String[] arraySpinner = new String[] {"ninguno", "rojo", "lila","rosa","amarillo","naranja","azul", "blanco"};
