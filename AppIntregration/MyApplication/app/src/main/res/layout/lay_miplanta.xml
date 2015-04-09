@@ -87,7 +87,8 @@
                             android:id="@+id/diffHumedad"
                             android:layout_below="@+id/imageButton"
                             android:layout_toEndOf="@+id/imagenHumedad"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            android:textSize="10sp" />
 
                         <ImageView
                             android:layout_width="30dp"
@@ -95,7 +96,7 @@
                             android:id="@+id/imagenHS"
                             android:layout_below="@+id/imageButton"
                             android:layout_toEndOf="@+id/diffHumedad"
-                            android:layout_marginStart="3dp"
+                            android:layout_marginStart="2dp"
                             android:visibility="gone"
                             android:background="@drawable/ic_humidity_button" />
 
@@ -107,7 +108,8 @@
                             android:id="@+id/diffHumedadSuelo"
                             android:layout_below="@+id/imageButton"
                             android:layout_toEndOf="@+id/imagenHS"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            android:textSize="10sp" />
 
                         <ImageView
                             android:layout_width="30dp"
@@ -115,7 +117,7 @@
                             android:id="@+id/imagenTemp"
                             android:layout_below="@+id/imageButton"
                             android:layout_toEndOf="@+id/diffHumedadSuelo"
-                            android:layout_marginStart="3dp"
+                            android:layout_marginStart="2dp"
                             android:visibility="gone"
                             android:background="@drawable/ic_temperature" />
 
@@ -127,7 +129,8 @@
                             android:id="@+id/diffTemperatura"
                             android:layout_below="@+id/imageButton"
                             android:layout_toEndOf="@+id/imagenTemp"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            android:textSize="10sp" />
 
                         <ImageView
                             android:layout_width="30dp"
@@ -135,19 +138,20 @@
                             android:id="@+id/imagenLuz"
                             android:layout_below="@+id/imageButton"
                             android:layout_toEndOf="@+id/diffTemperatura"
-                            android:layout_marginStart="3dp"
+                            android:layout_marginStart="2dp"
                             android:visibility="gone"
                             android:background="@drawable/ic_device_brightness_low" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:text="Small Text"
                             android:id="@+id/diffLuminosidad"
                             android:layout_below="@+id/imageButton"
                             android:layout_toEndOf="@+id/imagenLuz"
-                            android:visibility="gone"/>
+                            android:visibility="gone"
+                            android:textSize="10sp" />
 
 
                     </RelativeLayout>

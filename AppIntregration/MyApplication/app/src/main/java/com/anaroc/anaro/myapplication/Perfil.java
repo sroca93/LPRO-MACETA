@@ -581,7 +581,7 @@ public class Perfil extends Fragment{
             indexPlanta += index;
             plantaPerfil = listaPlantas[indexPlanta];
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
-            textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
+            textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno()); // + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
             numItems=0;
             customAdapter.clear();
@@ -702,7 +702,7 @@ public class Perfil extends Fragment{
                 indexPlanta = 0;
                 plantaPerfil = planta[0];
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
-                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
+                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno()); // + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
                 ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
                 //
                 //if no es planta mia
