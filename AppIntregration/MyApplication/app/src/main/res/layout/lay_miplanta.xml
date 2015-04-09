@@ -153,6 +153,15 @@
                             android:visibility="gone"
                             android:textSize="10sp" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="Small Text"
+                            android:id="@+id/textViewCrecimiento"
+                            android:layout_alignTop="@+id/ratingBarPerfil"
+                            android:layout_toStartOf="@+id/buttonComent" />
+
 
                     </RelativeLayout>
 

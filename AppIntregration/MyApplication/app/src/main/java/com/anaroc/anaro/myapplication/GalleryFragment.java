@@ -89,6 +89,7 @@ public class GalleryFragment extends Fragment {
         gallery = (Gallery) rootView.findViewById(R.id.gallery);
         gallery.setAdapter(new GalleryAdapter(this.getActivity(), imagenes));
         //al seleccionar una imagen, la mostramos en el centro de la pantalla a mayor tamaÃ±o
+        if (!imagenes.isEmpty()) imagen(1, imagenes);
 
         //con este listener, sÃ³lo se mostrarÃ­an las imÃ¡genes sobre las que se pulsa
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -96,24 +97,28 @@ public class GalleryFragment extends Fragment {
             public void onItemClick(AdapterView parent, View v, int position, long id)
             {
                 Log.d("hola", "gallery");
-                ContentResolver cr = getActivity().getContentResolver();
-                InputStream in = null;
-                try {
-                    in = cr.openInputStream(Uri.parse(imagenes.get(position)));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 3;
-                Bitmap bitmap = BitmapFactory.decodeStream(in,null,options);
-
-                imagenSeleccionada.setImageBitmap(bitmap);
+                imagen(position, imagenes);
 
             }
 
         });
 
         return rootView;
+    }
+
+    private void imagen(int position, ArrayList<String> imagenes) {
+        ContentResolver cr = getActivity().getContentResolver();
+        InputStream in = null;
+        try {
+            in = cr.openInputStream(Uri.parse(imagenes.get(position)));
+         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 3;
+        Bitmap bitmap = BitmapFactory.decodeStream(in,null,options);
+
+        imagenSeleccionada.setImageBitmap(bitmap);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

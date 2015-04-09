@@ -68,7 +68,7 @@ public class Perfil extends Fragment{
     private Planta plantaPerfil=new Planta();
     private final ImageDownloader imageDownloader = new ImageDownloader();
     private ImageView imagenplanta;
-    private TextView textview;
+    private TextView textview, textViewCrecimiento;
     private View rootView;
     private ProgressDialog progDailog;
     private CustomListViewAdapter adapter;
@@ -114,6 +114,7 @@ public class Perfil extends Fragment{
         ratingBarPerfil= (RatingBar) rootView.findViewById(R.id.ratingBarPerfil);
         botonFoto = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
         botonVideo = (ImageButton) rootView.findViewById(R.id.imageButtonVideo);
+        textViewCrecimiento = (TextView) rootView.findViewById((R.id.textViewCrecimiento));
         context = this.getActivity();
 
         myId = PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
@@ -387,6 +388,7 @@ public class Perfil extends Fragment{
             String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
             Log.d("MONDEBUG ", currentUser + " vs "+ this.plantaPerfil.getDueno());
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+            textViewCrecimiento.setText("Crece: " + String.valueOf(plantaPerfil.getPorcentaje()*100) + "%" );
 
             if (plantaPerfil.getDueno()!=null ){
                 if (this.plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
@@ -585,6 +587,7 @@ public class Perfil extends Fragment{
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
             textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno()); // + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+            textViewCrecimiento.setText("Crece: " + String.valueOf(plantaPerfil.getPorcentaje()*100) + "%" );
             numItems=0;
             customAdapter.clear();
             additems();
@@ -644,6 +647,7 @@ public class Perfil extends Fragment{
             if (listaPlantas.length <= 0) {
                 textview.setText("No tienes ninguna planta");
                 ratingBarPerfil.setVisibility(View.GONE);
+                textViewCrecimiento.setVisibility(View.GONE);
                 imagenplanta.setVisibility(View.GONE);
                 botonComent.setVisibility(View.GONE);
                 botonVideo.setVisibility(View.GONE);
@@ -696,6 +700,8 @@ public class Perfil extends Fragment{
                 ImageButton button = (ImageButton) rootView.findViewById(R.id.imageButtonCamara);
                 button.setVisibility(View.GONE);
                 botonSeguir.setVisibility(View.GONE);
+                textViewCrecimiento.setVisibility(View.GONE);
+
 
                 return;
             }
@@ -706,6 +712,8 @@ public class Perfil extends Fragment{
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
                 textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno()); // + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
                 ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
+                textViewCrecimiento.setText("Crece: " + String.valueOf(plantaPerfil.getPorcentaje()*100) + "%" );
+
                 //
                 //if no es planta mia
                 //checksilasigo

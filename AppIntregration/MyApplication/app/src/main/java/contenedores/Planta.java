@@ -15,7 +15,7 @@ public class Planta implements Serializable {
 
     //Pendientes de pactar en el diagrama de clases
     private String nombrePlanta;
-    private float ValoracionMedia;
+    private float ValoracionMedia, Porcentaje;
     private String Tipo;
 
     public String getThumbnail() {
@@ -36,7 +36,13 @@ public class Planta implements Serializable {
         Tipo = tipo;
     }
 
+    public float getPorcentaje() {
+        return Porcentaje;
+    }
 
+    public void setPorcentaje(float porcentaje) {
+        Porcentaje = porcentaje;
+    }
 
     public String getNombrePlanta() {
         return nombrePlanta;
@@ -98,6 +104,7 @@ public class Planta implements Serializable {
                 ", ValoracionMedia=" + ValoracionMedia +
                 ", Tipo='" + Tipo + '\'' +
                 ", Thumbnail='" + Thumbnail + '\'' +
+                ", Porcentaje='" + Porcentaje + '\''+
                 '}';
     }
 }
