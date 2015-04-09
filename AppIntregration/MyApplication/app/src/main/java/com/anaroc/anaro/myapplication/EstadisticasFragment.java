@@ -112,7 +112,7 @@ public class EstadisticasFragment extends Fragment {
         });
 
         new ConsultaEstadistica().execute(new Parametro("consulta", "obtenerMediciones"),
-                new Parametro("plantID", Integer.toString(idPlanta)), new Parametro("numero", Integer.toString(40)));
+                new Parametro("plantID", "1"), new Parametro("numero", Integer.toString(40)));
 
         return rootView;
     }
