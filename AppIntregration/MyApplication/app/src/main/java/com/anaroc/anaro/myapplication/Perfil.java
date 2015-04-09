@@ -413,6 +413,11 @@ public class Perfil extends Fragment{
                     rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
                     rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
 
+                    rootView.findViewById(R.id.imagenHumedad).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.imagenHS).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.imagenLuz).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.imagenTemp).setVisibility(View.GONE);
+
 
 
                 }
@@ -578,7 +583,7 @@ public class Perfil extends Fragment{
             indexPlanta += index;
             plantaPerfil = listaPlantas[indexPlanta];
             imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
-            textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
+            textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno()); // + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
             ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
             numItems=0;
             customAdapter.clear();
@@ -604,6 +609,11 @@ public class Perfil extends Fragment{
                     rootView.findViewById(R.id.diffLuminosidad).setVisibility(View.GONE);
                     rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
                     rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
+
+                    rootView.findViewById(R.id.imagenHumedad).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.imagenHS).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.imagenLuz).setVisibility(View.GONE);
+                    rootView.findViewById(R.id.imagenTemp).setVisibility(View.GONE);
                 }
             } else {
                 //botonSeguir.setVisibility(View.VISIBLE);
@@ -621,6 +631,11 @@ public class Perfil extends Fragment{
                 rootView.findViewById(R.id.diffLuminosidad).setVisibility(View.GONE);
                 rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
                 rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
+
+                rootView.findViewById(R.id.imagenHumedad).setVisibility(View.GONE);
+                rootView.findViewById(R.id.imagenHS).setVisibility(View.GONE);
+                rootView.findViewById(R.id.imagenLuz).setVisibility(View.GONE);
+                rootView.findViewById(R.id.imagenTemp).setVisibility(View.GONE);
 
             }
 
@@ -689,7 +704,7 @@ public class Perfil extends Fragment{
                 indexPlanta = 0;
                 plantaPerfil = planta[0];
                 imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url=" + plantaPerfil.getThumbnail(), imagenplanta);
-                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno() + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
+                textview.setText(plantaPerfil.getTipo() +" de "+plantaPerfil.getDueno()); // + " - "+ (indexPlanta+1) + " de "+ listaPlantas.length);
                 ratingBarPerfil.setRating(plantaPerfil.getValoracionMedia());
                 //
                 //if no es planta mia
@@ -712,6 +727,11 @@ public class Perfil extends Fragment{
                         rootView.findViewById(R.id.diffLuminosidad).setVisibility(View.GONE);
                         rootView.findViewById(R.id.diffHumedad).setVisibility(View.GONE);
                         rootView.findViewById(R.id.diffHumedadSuelo).setVisibility(View.GONE);
+
+                        rootView.findViewById(R.id.imagenHumedad).setVisibility(View.GONE);
+                        rootView.findViewById(R.id.imagenHS).setVisibility(View.GONE);
+                        rootView.findViewById(R.id.imagenLuz).setVisibility(View.GONE);
+                        rootView.findViewById(R.id.imagenTemp).setVisibility(View.GONE);
                     }
                 }else{
                     //botonSeguir.setVisibility(View.VISIBLE);
@@ -950,10 +970,20 @@ public class Perfil extends Fragment{
             TextView textDiffHum = (TextView) rootView.findViewById(R.id.diffHumedad);
             TextView textDiffHumSuelo = (TextView) rootView.findViewById(R.id.diffHumedadSuelo);
 
+            ImageView imageTemp = (ImageView) rootView.findViewById(R.id.imagenTemp);
+            ImageView imageLuz = (ImageView) rootView.findViewById(R.id.imagenLuz);
+            ImageView imageHS = (ImageView) rootView.findViewById(R.id.imagenHS);
+            ImageView imageHum = (ImageView) rootView.findViewById(R.id.imagenHumedad);
+
             textDiffTemp.setVisibility(View.VISIBLE);
             textDiffLum.setVisibility(View.VISIBLE);
             textDiffHum.setVisibility(View.VISIBLE);
             textDiffHumSuelo.setVisibility(View.VISIBLE);
+
+            imageTemp.setVisibility(View.VISIBLE);
+            imageLuz.setVisibility(View.VISIBLE);
+            imageHum.setVisibility(View.VISIBLE);
+            imageHS.setVisibility(View.VISIBLE);
 
 
             Log.d(">>> Hinteligencia", respuesta);
@@ -969,10 +999,10 @@ public class Perfil extends Fragment{
                 DecimalFormat myFormatter = new DecimalFormat("##%");
 
 
-                textDiffTemp.setText("T: " + myFormatter.format(diffTemp));
-                textDiffLum.setText("L: " + myFormatter.format(diffLum));
-                textDiffHum.setText("H: " + myFormatter.format(diffHum));
-                textDiffHumSuelo.setText("HS: " + myFormatter.format(diffHumSuelo));
+                textDiffTemp.setText(myFormatter.format(diffTemp));
+                textDiffLum.setText(myFormatter.format(diffLum));
+                textDiffHum.setText(myFormatter.format(diffHum));
+                textDiffHumSuelo.setText(myFormatter.format(diffHumSuelo));
 
                 if (Math.abs(diffTemp) > 1)
                     textDiffTemp.setTextColor(Color.RED);
