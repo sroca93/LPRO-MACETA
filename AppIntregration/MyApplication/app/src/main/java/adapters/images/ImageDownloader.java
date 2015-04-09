@@ -271,7 +271,7 @@ public class ImageDownloader {
             // Change bitmap only if this process is still associated with it
             // Or if we don't use any bitmap to task association (NO_DOWNLOADED_DRAWABLE mode)
             if ((this == bitmapDownloaderTask) || (mode != Mode.CORRECT)) {
-                if(bitmap != null) {
+                if(bitmap != null && imageView != null) {
                     imageView.setImageBitmap(bitmap);
                 }else{
                     
