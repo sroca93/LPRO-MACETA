@@ -52,7 +52,7 @@ public class CustomListViewAdapter extends ArrayAdapter<Planta> {
             holder = (ViewHolder) convertView.getTag();
 
         holder.txtDesc.setRating(rowItem.getValoracionMedia());
-        holder.txtTitle.setText( (position+1) + ". " + rowItem.getNombrePlanta());
+        holder.txtTitle.setText( (position+1) + ". " + rowItem.getTipo() + " de " + rowItem.getDueno());
         //holder.imageView.setImageResource(R.drawable.imagen_planta_uno);//rowItem.getImageId());
         //LINEA EN LA QUE SE LLAMA A LA FUNCION QUE DESCARGA LOS THUMBNAIL
         imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFoto&url="+rowItem.getThumbnail(), holder.imageView);
