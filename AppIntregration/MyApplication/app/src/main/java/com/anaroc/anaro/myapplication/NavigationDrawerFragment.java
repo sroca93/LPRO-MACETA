@@ -125,7 +125,8 @@ public class NavigationDrawerFragment extends Fragment {
 
 
         imagenDrawer = (CircleImageView) drawerView.findViewById(R.id.imagenDrawer);
-        imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID="+PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "").trim() + ".jpg", imagenDrawer);
+        imagenDrawer.setImageResource(R.drawable.logo_final);
+        //imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID="+PrefUtils.getFromPrefs(this.getActivity(), "PREFS_LOGIN_USERNAME_KEY", "").trim() + ".jpg", imagenDrawer);
         TextView textViewDrawer = (TextView)  drawerView.findViewById(R.id.textViewDrawer);
 
         String nombreUsuario = PrefUtils.getFromPrefs(this.getActivity(), "ACTUAL_USERNAME","");
