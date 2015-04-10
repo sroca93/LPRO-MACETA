@@ -605,7 +605,7 @@ public class Perfil extends Fragment{
             String currentUserID = PrefUtils.getFromPrefs(getActivity(), "PREFS_LOGIN_USERNAME_KEY", "");
             Log.d("MONDEBUG ", currentUser + " vs " + plantaPerfil.getDueno());
             if (plantaPerfil.getDueno().equalsIgnoreCase(currentUser)) {
-                if (plantaPerfil.getTipo().trim().equals("Rosa"))
+                if (plantaPerfil.getTipo().trim().equals("Buganvilla"))
                     new consultaDiffOptimo().execute(new Parametro("consulta", "sonMisParametrosBuenos"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())));
                 else {
                     rootView.findViewById(R.id.diffTemperatura).setVisibility(View.GONE);
@@ -728,7 +728,7 @@ public class Perfil extends Fragment{
                 String currentUserID = PrefUtils.getFromPrefs(getActivity(),"PREFS_LOGIN_USERNAME_KEY","");
                 Log.d("MONDEBUG ", currentUser + " vs "+ plantaPerfil.getDueno());
                 if(plantaPerfil.getDueno().equalsIgnoreCase(currentUser)){
-                    if (plantaPerfil.getTipo().trim().equals("Rosa"))
+                    if (plantaPerfil.getTipo().trim().equals("Buganvilla"))
                         new consultaDiffOptimo().execute(new Parametro("consulta", "sonMisParametrosBuenos"), new Parametro("plantID", Integer.toString(plantaPerfil.getIdPlanta())));
                     else {
                         rootView.findViewById(R.id.diffTemperatura).setVisibility(View.GONE);
