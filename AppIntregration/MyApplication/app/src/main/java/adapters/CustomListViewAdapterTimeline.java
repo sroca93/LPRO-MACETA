@@ -67,7 +67,8 @@ public class CustomListViewAdapterTimeline extends ArrayAdapter<TimelineObject>{
                 viewHolder.texto=(TextView) convertView.findViewById(R.id.textViewTextoComent);
                 viewHolder.titulo=(TextView) convertView.findViewById(R.id.textViewTituloComent);
                 viewHolder.Img=(ImageView) convertView.findViewById(R.id.imageViewComent);
-                imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail(), viewHolder.Img);
+                viewHolder.Img.setImageResource(R.drawable.logo_final);
+                //imageDownloader.download("http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail(), viewHolder.Img);
                 Log.d("ConsultaFotaza", "http://193.146.210.69/consultas.php?consulta=getFotoPerfil&userID=" + listViewItem.getThumbnail());
                 viewHolder.texto.setText("Mensaje: " + listViewItem.getTexto());
                 String timestamp=listViewItem.getTimestamp();
