@@ -1109,11 +1109,13 @@ public class Perfil extends Fragment{
         ContentValues nuevoRegistro = new ContentValues();
         Log.d("fileuri", String.valueOf(fileUri));
         nuevoRegistro.put("path", String.valueOf(fileUri));
+        nuevoRegistro.put("userID", String.valueOf(myId));
 
 
         //Insertamos el registro en la base de datos
         db.insert("Imagenes", null, nuevoRegistro);
         db.close();
     }
+
 
 }

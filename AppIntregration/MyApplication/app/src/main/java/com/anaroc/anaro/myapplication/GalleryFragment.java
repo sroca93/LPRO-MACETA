@@ -89,7 +89,7 @@ public class GalleryFragment extends Fragment {
         gallery = (Gallery) rootView.findViewById(R.id.gallery);
         gallery.setAdapter(new GalleryAdapter(this.getActivity(), imagenes));
         //al seleccionar una imagen, la mostramos en el centro de la pantalla a mayor tamaÃ±o
-        if (!imagenes.isEmpty()) imagen(1, imagenes);
+        if (!imagenes.isEmpty()) imagen(0, imagenes);
 
         //con este listener, sÃ³lo se mostrarÃ­an las imÃ¡genes sobre las que se pulsa
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener()
